@@ -38,11 +38,11 @@
 {
 	if( (self=[super init])) {
 		
-		// ask director for the window size
+		// ask director for the window size test
 		CGSize size = [[CCDirector sharedDirector] winSize];
 		
 		CCSprite *background;
-		
+			
 		if( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ) {
 			background = [CCSprite spriteWithFile:@"Default.png"];
 			background.rotation = 90;
