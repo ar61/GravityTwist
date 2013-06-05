@@ -1,6 +1,6 @@
 //
 //  HelloWorldLayer.mm
-//  GravityTwist
+//  GravityTwist - An awesome game!! :P
 //
 //  Created by Abhinav Rathod on 6/4/13.
 //  Copyright 526 2013. All rights reserved.
