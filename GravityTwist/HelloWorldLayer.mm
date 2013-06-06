@@ -25,6 +25,10 @@ enum {
 //Comment by AB
 
 @interface HelloWorldLayer()
+{
+    CCPhysicsSprite *player;
+    CGSize s;
+}
 -(void) initPhysics;
 -(void) addNewSpriteAtPosition:(CGPoint)p;
 -(void) createMenu;
@@ -55,13 +59,13 @@ enum {
 		
 		self.touchEnabled = YES;
 		self.accelerometerEnabled = YES;
-		CGSize s = [CCDirector sharedDirector].winSize;
+		s = [CCDirector sharedDirector].winSize;
 		
 		// init physics
 		[self initPhysics];
 		
 		// create reset button
-		[self createMenu];
+		//[self createMenu];
 		
 		//Set up sprite
 		
@@ -77,21 +81,89 @@ enum {
 		[self addChild:parent z:0 tag:kTagParentNode];
 		
 		
-		[self addNewSpriteAtPosition:ccp(s.width/2, s.height/2)];
-		
-		CCLabelTTF *label = [CCLabelTTF labelWithString:@"Tap screen" fontName:@"Marker Felt" fontSize:32];
+		//[self addNewSpriteAtPosition:ccp(s.width/2, s.height/2)];
+        
+        //CCLOG(@"Add sprite %0.2f x %02.f",s.width/2,s.height/2);
+        // Define the dynamic body.
+        //Set up a 1m squared box in the physics world
+        b2BodyDef bodyDef;
+        bodyDef.type = b2_dynamicBody;
+        bodyDef.position.Set(s.width/PTM_RATIO, s.height/PTM_RATIO);
+        b2Body *body = world->CreateBody(&bodyDef);
+        
+        // Define another box shape for our dynamic body.
+        b2PolygonShape dynamicBox;
+        dynamicBox.SetAsBox(.5f, .5f);//These are mid points for our 1m box
+        
+        // Define the dynamic body fixture.
+        b2FixtureDef fixtureDef;
+        fixtureDef.shape = &dynamicBox;
+        fixtureDef.density = 1.0f;
+        fixtureDef.friction = 0.3f;
+        body->CreateFixture(&fixtureDef);
+        
+        
+        CCNode *parent1 = [self getChildByTag:kTagParentNode];
+        
+        //We have a 64x64 sprite sheet with 4 different 32x32 images.  The following code is
+        //just randomly picking one of the images
+       // int idx = (CCRANDOM_0_1() > .5 ? 0:1);
+        //int idy = (CCRANDOM_0_1() > .5 ? 0:1);
+        player = [CCPhysicsSprite spriteWithTexture:spriteTexture_ rect:CGRectMake(32 * 1,32 * 1,32,32)];
+        [parent1 addChild:player];
+        
+        [player setPTMRatio:PTM_RATIO];
+        [player setB2Body:body];
+        [player setPosition: ccp( s.width, s.height)];
+        
+        
+		//adding buttons
+        CCMenuItemImage *item1 = [CCMenuItemImage itemFromNormalImage:@"Icon-Small@2x.png" selectedImage:@"Icon-Small@2x.png" target:self selector:@selector(moveLeft)];
+        CCMenu *menu = [CCMenu menuWithItems:item1,nil];
+        menu.position = ccp(50,40);
+        [self addChild:menu];
+        
+        CCMenuItemImage *item2 = [CCMenuItemImage itemFromNormalImage:@"Icon-Small@2x.png" selectedImage:@"Icon-Small@2x.png" target:self selector:@selector(moveRight)];
+        CCMenu *menu2 = [CCMenu menuWithItems:item2,nil];
+        menu2.position = ccp(120,40);
+        [self addChild:menu2];
+        
+        
+		/*CCLabelTTF *label = [CCLabelTTF labelWithString:@"Tap screen" fontName:@"Marker Felt" fontSize:32];
 		[self addChild:label z:0];
 		[label setColor:ccc3(0,0,255)];
-		label.position = ccp( s.width/2, s.height-50);
+		label.position = ccp( s.width/2, s.height-50);*/
 		
 		[self scheduleUpdate];
 	}
 	return self;
 }
 
+-(void)moveLeft
+{
+    if(player.position.x > 0)
+    {
+        [player runAction:[CCMoveBy actionWithDuration:.3 position:ccp(-50,0)]];
+    }
+}
+
+-(void)moveRight
+{
+    if(player.position.x < s.width)
+    {
+        [player runAction:[CCMoveBy actionWithDuration:.3 position:ccp(50,0)]];
+    }
+}
+
+-(void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [player runAction: [CCJumpTo actionWithDuration:1.0f position: player.position height: 50 jumps:1]];
+    
+}
+
 -(void) dealloc
 {
-	delete world;
+	delete world;	
 	world = NULL;
 	
 	delete m_debugDraw;
@@ -100,7 +172,7 @@ enum {
 	[super dealloc];
 }	
 
--(void) createMenu
+/*-(void) createMenu
 {
 	// Default font size will be 22 points.
 	[CCMenuItemFont setFontSize:22];
@@ -150,7 +222,7 @@ enum {
 	
 	
 	[self addChild: menu z:-1];	
-}
+}*/
 
 -(void) initPhysics
 {
@@ -227,7 +299,7 @@ enum {
 	kmGLPopMatrix();
 }
 
--(void) addNewSpriteAtPosition:(CGPoint)p
+/*-(void) addNewSpriteAtPosition:(CGPoint)p
 {
 	CCLOG(@"Add sprite %0.2f x %02.f",p.x,p.y);
 	// Define the dynamic body.
@@ -262,7 +334,7 @@ enum {
 	[sprite setB2Body:body];
 	[sprite setPosition: ccp( p.x, p.y)];
 
-}
+}*/
 
 -(void) update: (ccTime) dt
 {
@@ -279,7 +351,7 @@ enum {
 	world->Step(dt, velocityIterations, positionIterations);	
 }
 
-- (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+/*- (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
 	//Add a new body/atlas sprite at the touched location
 	for( UITouch *touch in touches ) {
@@ -287,9 +359,12 @@ enum {
 		
 		location = [[CCDirector sharedDirector] convertToGL: location];
 		
-		[self addNewSpriteAtPosition: location];
+        //move character
+        
+        
+		//[self addNewSpriteAtPosition: location];
 	}
-}
+}*/
 
 #pragma mark GameKit delegate
 
