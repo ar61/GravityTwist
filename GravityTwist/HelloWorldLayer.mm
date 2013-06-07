@@ -27,6 +27,7 @@ enum {
 @interface HelloWorldLayer()
 {
     CCPhysicsSprite *player;
+    b2Body *body;
     CGSize s;
 }
 -(void) initPhysics;
@@ -89,7 +90,7 @@ enum {
         b2BodyDef bodyDef;
         bodyDef.type = b2_dynamicBody;
         bodyDef.position.Set(s.width/PTM_RATIO, s.height/PTM_RATIO);
-        b2Body *body = world->CreateBody(&bodyDef);
+        body = world->CreateBody(&bodyDef);
         
         // Define another box shape for our dynamic body.
         b2PolygonShape dynamicBox;
@@ -416,7 +417,8 @@ enum {
 
 -(void) ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    [player runAction:[CCJumpTo actionWithDuration:1.0f position:player.position height:50 jumps:1]];
+    //[player runAction:[CCJumpTo actionWithDuration:1.0f position:player.position height:50 jumps:1]];
+    body->ApplyLinearImpulse(b2Vec2(0, 5), body->GetWorldCenter());
 }
 
 /*- (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
