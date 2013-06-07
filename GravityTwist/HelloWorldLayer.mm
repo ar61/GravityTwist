@@ -114,7 +114,7 @@ enum {
         
         [player setPTMRatio:PTM_RATIO];
         [player setB2Body:body];
-        [player setPosition: ccp( s.width, s.height)];
+        [player setPosition: ccp( s.width/2, s.height/2)];
         
         
 		//adding buttons
@@ -135,7 +135,7 @@ enum {
 
 -(void)moveLeft
 {
-    if(player.position.x > 0)
+    if((player.position.x - 50) > 0)
     {
         [player runAction:[CCMoveBy actionWithDuration:.3 position:ccp(-50,0)]];
     }
@@ -143,17 +143,12 @@ enum {
 
 -(void)moveRight
 {
-    if(player.position.x < s.width)
+    if((player.position.x + 50) < s.width)
     {
         [player runAction:[CCMoveBy actionWithDuration:.3 position:ccp(50,0)]];
     }
 }
 
--(void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    [player runAction: [CCJumpTo actionWithDuration:1.0f position: player.position height: 50 jumps:1]];
-    
-}
 
 -(void) dealloc
 {
@@ -253,7 +248,80 @@ enum {
 	
 	// Instruct the world to perform a single step of simulation. It is
 	// generally best to keep the time step and iterations fixed.
-	world->Step(dt, velocityIterations, positionIterations);	
+	world->Step(dt, velocityIterations, positionIterations);
+    
+    CGPoint pos = player.position;
+    
+    pos.x += playerVelocity.x;
+    pos.y += playerVelocity.y;
+    
+    CGSize screenSize = [CCDirector sharedDirector].winSize;
+    
+    float imageWidthHalved = player.texture.contentSize.width * 0.5f;
+    float imageHeightHalved = player.texture.contentSize.height * 0.5f;
+    
+    float leftBorderLimit = imageWidthHalved;
+    float rightBorderLimit = screenSize.width - imageWidthHalved;
+    
+    float topBorderLimit = imageHeightHalved;
+    float bottomBorderLimit = screenSize.height - imageHeightHalved;
+    
+    if(pos.x < leftBorderLimit)
+    {
+        pos.x = leftBorderLimit;
+        playerVelocity.x = 0;
+    }
+    else if(pos.x > rightBorderLimit)
+    {
+        pos.x = rightBorderLimit;
+        playerVelocity.x = 0;
+    }
+    
+    if(pos.x < topBorderLimit)
+    {
+        pos.x = leftBorderLimit;
+        playerVelocity.x = 0;
+    }
+    else if(pos.x > rightBorderLimit)
+    {
+        pos.x = bottomBorderLimit;
+        playerVelocity.x = 0;
+    }
+    
+    player.position = pos;
+
+}
+
+-(void) accelerometer:(UIAccelerometer *)accelerometer didAccelerate:(UIAcceleration *)acceleration
+{
+    float deceleration = 1.0f;
+    float maxVelocity = 2;
+    
+    playerVelocity.x = playerVelocity.x * deceleration + acceleration.x;
+    playerVelocity.y = playerVelocity.y * deceleration + acceleration.y;
+    
+    if(playerVelocity.x > maxVelocity)
+    {
+        playerVelocity.x = maxVelocity;
+    }
+    else if (playerVelocity.x < -maxVelocity)
+    {
+        playerVelocity.x = -maxVelocity;
+    }
+    
+    if(playerVelocity.y > maxVelocity)
+    {
+        playerVelocity.y = maxVelocity;
+    }
+    else if (playerVelocity.y < -maxVelocity)
+    {
+        playerVelocity.y = -maxVelocity;
+    }
+}
+
+-(void) ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [player runAction:[CCJumpTo actionWithDuration:1.0f position:player.position height:50 jumps:1]];
 }
 
 
