@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3F0493CA1762C1F1008B1A78 /* Tilesheet.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F0493C91762C1F1008B1A78 /* Tilesheet.png */; };
 		3F0493CE1762C3C2008B1A78 /* lvl1.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 3F0493CD1762C3C2008B1A78 /* lvl1.tmx */; };
+		3F0495671762EA8C008B1A78 /* HelloWorldLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3F0495661762EA8C008B1A78 /* HelloWorldLayer.mm */; };
 		C3D9BD17175DD688005BE61F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3D9BD16175DD688005BE61F /* QuartzCore.framework */; };
 		C3D9BD19175DD688005BE61F /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3D9BD18175DD688005BE61F /* OpenGLES.framework */; };
 		C3D9BD1B175DD688005BE61F /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3D9BD1A175DD688005BE61F /* OpenAL.framework */; };
@@ -184,7 +185,6 @@
 		C3D9BF42175DD690005BE61F /* b2Rope.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C3D9BF41175DD690005BE61F /* b2Rope.cpp */; };
 		C3D9BF48175DD690005BE61F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C3D9BF47175DD690005BE61F /* main.m */; };
 		C3D9BF4B175DD690005BE61F /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = C3D9BF4A175DD690005BE61F /* AppDelegate.mm */; };
-		C3D9BF4E175DD690005BE61F /* HelloWorldLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = C3D9BF4D175DD690005BE61F /* HelloWorldLayer.mm */; };
 		C3D9BF51175DD690005BE61F /* IntroLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = C3D9BF50175DD690005BE61F /* IntroLayer.mm */; };
 		C3D9BF54175DD690005BE61F /* GLES-Render.mm in Sources */ = {isa = PBXBuildFile; fileRef = C3D9BF53175DD690005BE61F /* GLES-Render.mm */; };
 		C3D9BF56175DD690005BE61F /* blocks.png in Resources */ = {isa = PBXBuildFile; fileRef = C3D9BF55175DD690005BE61F /* blocks.png */; };
@@ -193,6 +193,7 @@
 /* Begin PBXFileReference section */
 		3F0493C91762C1F1008B1A78 /* Tilesheet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Tilesheet.png; path = Resources/Tilesheet.png; sourceTree = "<group>"; };
 		3F0493CD1762C3C2008B1A78 /* lvl1.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = lvl1.tmx; path = Resources/lvl1.tmx; sourceTree = "<group>"; };
+		3F0495661762EA8C008B1A78 /* HelloWorldLayer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HelloWorldLayer.mm; sourceTree = "<group>"; };
 		C3D9BD12175DD688005BE61F /* GravityTwist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GravityTwist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3D9BD16175DD688005BE61F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		C3D9BD18175DD688005BE61F /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -562,7 +563,6 @@
 		C3D9BF49175DD690005BE61F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		C3D9BF4A175DD690005BE61F /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
 		C3D9BF4C175DD690005BE61F /* HelloWorldLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HelloWorldLayer.h; sourceTree = "<group>"; };
-		C3D9BF4D175DD690005BE61F /* HelloWorldLayer.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = HelloWorldLayer.mm; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		C3D9BF4F175DD690005BE61F /* IntroLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IntroLayer.h; sourceTree = "<group>"; };
 		C3D9BF50175DD690005BE61F /* IntroLayer.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = IntroLayer.mm; sourceTree = "<group>"; };
 		C3D9BF52175DD690005BE61F /* GLES-Render.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GLES-Render.h"; sourceTree = "<group>"; };
@@ -629,7 +629,7 @@
 				C3D9BF49175DD690005BE61F /* AppDelegate.h */,
 				C3D9BF4A175DD690005BE61F /* AppDelegate.mm */,
 				C3D9BF4C175DD690005BE61F /* HelloWorldLayer.h */,
-				C3D9BF4D175DD690005BE61F /* HelloWorldLayer.mm */,
+				3F0495661762EA8C008B1A78 /* HelloWorldLayer.mm */,
 				C3D9BF4F175DD690005BE61F /* IntroLayer.h */,
 				C3D9BF50175DD690005BE61F /* IntroLayer.mm */,
 				C3D9BF52175DD690005BE61F /* GLES-Render.h */,
@@ -1411,9 +1411,9 @@
 				C3D9BF42175DD690005BE61F /* b2Rope.cpp in Sources */,
 				C3D9BF48175DD690005BE61F /* main.m in Sources */,
 				C3D9BF4B175DD690005BE61F /* AppDelegate.mm in Sources */,
-				C3D9BF4E175DD690005BE61F /* HelloWorldLayer.mm in Sources */,
 				C3D9BF51175DD690005BE61F /* IntroLayer.mm in Sources */,
 				C3D9BF54175DD690005BE61F /* GLES-Render.mm in Sources */,
+				3F0495671762EA8C008B1A78 /* HelloWorldLayer.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
