@@ -57,8 +57,6 @@ enum {
 		
 		// enable events
 		
-<<<<<<< HEAD
-=======
         tile = [tiledMap layerNamed:@"tiles"];
         //meta = [tiledMap layerNamed:@"meta"];
         
@@ -69,7 +67,6 @@ enum {
         int x = [spawnPoint[@"x"] integerValue];
         int y = [spawnPoint[@"y"] integerValue];
         
->>>>>>> abhinav
 		self.touchEnabled = YES;
 		self.accelerometerEnabled = YES;
 		s = [CCDirector sharedDirector].winSize;
