@@ -9,9 +9,9 @@
   </data>
  </layer>
  <objectgroup name="objects" width="32" height="24">
-  <object name="SpawnPoint" x="47" y="616" width="42" height="42"/>
+  <object name="SpawnPoint" x="70" y="544" width="37" height="39"/>
  </objectgroup>
- <layer name="collisions" width="32" height="24" opacity="0.35">
+ <layer name="collisions" width="32" height="24" opacity="0">
   <data encoding="base64" compression="zlib">
    eJxjYBgFgwF4koGJ1T8YwEC7Y9T+UftHuv2DwQ2j9g9f+wd7HTQUAbntgaEEhos/hiIAACMoD7A=
   </data>

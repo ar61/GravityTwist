@@ -31,8 +31,7 @@ enum {
     CGSize s;
 }
 -(void) initPhysics;
--(void) addNewSpriteAtPosition:(CGPoint)p;
--(void) createMenu;
+
 @end
 
 @implementation HelloWorldLayer
@@ -66,6 +65,8 @@ enum {
         objects = [tiledMap objectGroupNamed:@"objects"];
         NSAssert(objects != nil, @"Tile map doesnt have a objects layer defined");
         
+        CCTMXLayer *collisions = [tiledMap layerNamed:@"collisions"];
+                
         NSDictionary *spawnPoint = [objects objectNamed:@"SpawnPoint"];
         int x = [spawnPoint[@"x"] integerValue];
         int y = [spawnPoint[@"y"] integerValue];
@@ -77,6 +78,9 @@ enum {
 		// init physics
 		[self initPhysics];
 		
+        //initialize collisions
+        [self createFixtures: collisions];
+        
 		// create reset button
 		//[self createMenu];
 		
@@ -129,14 +133,13 @@ enum {
         [player setB2Body:body];
         [player setPosition: ccp(x,y)];
         
-        
 		//adding buttons
-        CCMenuItemImage *item1 = [CCMenuItemImage itemFromNormalImage:@"Icon-Small@2x.png" selectedImage:@"Icon-Small@2x.png" target:self selector:@selector(moveLeft)];
+        CCMenuItemImage *item1 = [CCMenuItemImage itemWithNormalImage:@"Icon-Small@2x.png" selectedImage:@"Icon-Small@2x.png" disabledImage:@"Icon-Small@2x.png" target:self selector:@selector(moveLeft)];
         CCMenu *menu = [CCMenu menuWithItems:item1,nil];
         menu.position = ccp(50,40);
         [self addChild:menu];
         
-        CCMenuItemImage *item2 = [CCMenuItemImage itemFromNormalImage:@"Icon-Small@2x.png" selectedImage:@"Icon-Small@2x.png" target:self selector:@selector(moveRight)];
+        CCMenuItemImage *item2 = [CCMenuItemImage itemWithNormalImage:@"Icon-Small@2x.png" selectedImage:@"Icon-Small@2x.png" disabledImage:@"Icon-Small@2x.png" target:self selector:@selector(moveRight)];
         CCMenu *menu2 = [CCMenu menuWithItems:item2,nil];
         menu2.position = ccp(120,40);
         [self addChild:menu2];
@@ -148,6 +151,45 @@ enum {
 	return self;
 }
 
+-(void)createFixtures: (CCTMXLayer*) layer
+{
+    CGSize size = [layer layerSize];
+    for(int i=0; i<size.width; i++)
+    {
+        for(int j=0; j<size.height; j++)
+        {
+            CCSprite *t = [layer tileAt: ccp(i,j)];
+            if(t != nil)
+            {
+                [self createRectangleFixtures: layer x:i y:j w:1.0f h:1.0f];
+            }
+        }
+    }
+}
+
+-(void)createRectangleFixtures: (CCTMXLayer*) layer x:(int)x y:(int)y w:(float)width h:(float)height
+{
+    CGPoint p = [layer positionAt: ccp(x,y)];
+    CGSize size = [tiledMap tileSize];
+    
+    b2BodyDef bDef;
+    bDef.type = b2_staticBody;
+    bDef.position.Set((p.x + size.width)/PTM_RATIO, (p.y + size.height)/PTM_RATIO );
+    b2Body *b = world->CreateBody(&bDef);
+    
+    b2PolygonShape shape;
+    shape.SetAsBox(size.width/PTM_RATIO * width, size.height/PTM_RATIO * height);
+    
+    b2FixtureDef fDef;
+    fDef.shape = &shape;
+    fDef.density = 1.0f;
+    fDef.friction = 0.3f;
+    fDef.restitution = 0.0f;
+    fDef.filter.categoryBits = KFilterCategoryBits;
+    fDef.filter.maskBits = 0xffff;
+    b->CreateFixture(&fDef);
+}
+
 -(void)moveLeft
 {
     /*
@@ -157,7 +199,7 @@ enum {
     }
     */
     
-    body->ApplyForceToCenter(b2Vec2(-80,0));
+    body->ApplyForceToCenter(b2Vec2(-30,0));
 }
 
 -(void)moveRight
@@ -168,7 +210,7 @@ enum {
         [player runAction:[CCMoveBy actionWithDuration:.3 position:ccp(50,0)]];
     }
     */
-    body->ApplyForceToCenter(b2Vec2(80,0));
+    body->ApplyForceToCenter(b2Vec2(30,0));
 }
 
 
@@ -186,7 +228,7 @@ enum {
 -(void) initPhysics
 {
 	
-	CGSize s = [[CCDirector sharedDirector] winSize];
+	CGSize size = [[CCDirector sharedDirector] winSize];
 	
 	b2Vec2 gravity;
 	gravity.Set(0.0f, -10.0f);
@@ -224,19 +266,19 @@ enum {
 	
 	// bottom
 	
-	groundBox.Set(b2Vec2(0,0), b2Vec2(s.width/PTM_RATIO,0));
+	groundBox.Set(b2Vec2(0,0), b2Vec2(size.width/PTM_RATIO,0));
 	groundBody->CreateFixture(&groundBox,0);
 	
 	// top
-	groundBox.Set(b2Vec2(0,s.height/PTM_RATIO), b2Vec2(s.width/PTM_RATIO,s.height/PTM_RATIO));
+	groundBox.Set(b2Vec2(0,size.height/PTM_RATIO), b2Vec2(size.width/PTM_RATIO,size.height/PTM_RATIO));
 	groundBody->CreateFixture(&groundBox,0);
 	
 	// left
-	groundBox.Set(b2Vec2(0,s.height/PTM_RATIO), b2Vec2(0,0));
+	groundBox.Set(b2Vec2(0,size.height/PTM_RATIO), b2Vec2(0,0));
 	groundBody->CreateFixture(&groundBox,0);
 	
 	// right
-	groundBox.Set(b2Vec2(s.width/PTM_RATIO,s.height/PTM_RATIO), b2Vec2(s.width/PTM_RATIO,0));
+	groundBox.Set(b2Vec2(size.width/PTM_RATIO,size.height/PTM_RATIO), b2Vec2(size.width/PTM_RATIO,0));
 	groundBody->CreateFixture(&groundBox,0);
 }
 
@@ -257,43 +299,6 @@ enum {
 	
 	kmGLPopMatrix();
 }
-
-/*-(void) addNewSpriteAtPosition:(CGPoint)p
-{
-	CCLOG(@"Add sprite %0.2f x %02.f",p.x,p.y);
-	// Define the dynamic body.
-	//Set up a 1m squared box in the physics world
-	b2BodyDef bodyDef;
-	bodyDef.type = b2_dynamicBody;
-	bodyDef.position.Set(p.x/PTM_RATIO, p.y/PTM_RATIO);
-	b2Body *body = world->CreateBody(&bodyDef);
-	
-	// Define another box shape for our dynamic body.
-	b2PolygonShape dynamicBox;
-	dynamicBox.SetAsBox(.5f, .5f);//These are mid points for our 1m box
-	
-	// Define the dynamic body fixture.
-	b2FixtureDef fixtureDef;
-	fixtureDef.shape = &dynamicBox;	
-	fixtureDef.density = 1.0f;
-	fixtureDef.friction = 0.3f;
-	body->CreateFixture(&fixtureDef);
-	
-
-	CCNode *parent = [self getChildByTag:kTagParentNode];
-	
-	//We have a 64x64 sprite sheet with 4 different 32x32 images.  The following code is
-	//just randomly picking one of the images
-	int idx = (CCRANDOM_0_1() > .5 ? 0:1);
-	int idy = (CCRANDOM_0_1() > .5 ? 0:1);
-	CCPhysicsSprite *sprite = [CCPhysicsSprite spriteWithTexture:spriteTexture_ rect:CGRectMake(32 * idx,32 * idy,32,32)];
-	[parent addChild:sprite];
-	
-	[sprite setPTMRatio:PTM_RATIO];
-	[sprite setB2Body:body];
-	[sprite setPosition: ccp( p.x, p.y)];
-
-}*/
 
 -(void) update: (ccTime) dt
 {
@@ -378,45 +383,17 @@ enum {
     }
 }
 
--(void) ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+-(void) ccTouchesEnded:(UITouch *)touches withEvent:(UIEvent *)event
 {
     //[player runAction:[CCJumpTo actionWithDuration:1.0f position:player.position height:50 jumps:1]];
     // check if the player is not moving on the y axis already
     CGFloat yvel = body->GetLinearVelocity().y;
-    if (yvel == 0.0f) {
-        body->ApplyLinearImpulse(b2Vec2(0, 5), body->GetWorldCenter());
+    if (yvel <= 0.0f) {
+        body->ApplyLinearImpulse(b2Vec2(0, 8), body->GetWorldCenter());
     } else {
         printf("%f\n",yvel);
     }
 }
 
-/*- (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
-{
-	//Add a new body/atlas sprite at the touched location
-	for( UITouch *touch in touches ) {
-		CGPoint location = [touch locationInView: [touch view]];
-		
-		location = [[CCDirector sharedDirector] convertToGL: location];
-		
-        //move character
-        
-        
-		//[self addNewSpriteAtPosition: location];
-	}
-}*/
-
-#pragma mark GameKit delegate
-
--(void) achievementViewControllerDidFinish:(GKAchievementViewController *)viewController
-{
-	AppController *app = (AppController*) [[UIApplication sharedApplication] delegate];
-	[[app navController] dismissModalViewControllerAnimated:YES];
-}
-
--(void) leaderboardViewControllerDidFinish:(GKLeaderboardViewController *)viewController
-{
-	AppController *app = (AppController*) [[UIApplication sharedApplication] delegate];
-	[[app navController] dismissModalViewControllerAnimated:YES];
-}
 
 @end
