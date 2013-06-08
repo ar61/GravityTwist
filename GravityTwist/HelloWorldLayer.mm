@@ -56,7 +56,19 @@ enum {
 	if( (self=[super init])) {
 		
 		// enable events
+        
+        tiledMap = [CCTMXTiledMap tiledMapWithTMXFile:@"lvl1.tmx"];
 		
+        tile = [tiledMap layerNamed:@"tiles"];
+        //meta = [tiledMap layerNamed:@"meta"];
+        
+        objects = [tiledMap objectGroupNamed:@"Objects"];
+        NSAssert(objects != nil, @"Tile map doesnt have a objects layer defined");
+        
+        NSDictionary *spawnPoint = [objects objectNamed:@"SpawnPoint"];
+        int x = [spawnPoint[@"x"] integerValue];
+        int y = [spawnPoint[@"y"] integerValue];
+        
 		self.touchEnabled = YES;
 		self.accelerometerEnabled = YES;
 		s = [CCDirector sharedDirector].winSize;
@@ -114,7 +126,7 @@ enum {
         
         [player setPTMRatio:PTM_RATIO];
         [player setB2Body:body];
-        [player setPosition: ccp( s.width/2, s.height/2)];
+        [player setPosition: ccp(x,y)];
         
         
 		//adding buttons
@@ -128,12 +140,8 @@ enum {
         menu2.position = ccp(120,40);
         [self addChild:menu2];
         
-        
-		/*CCLabelTTF *label = [CCLabelTTF labelWithString:@"Tap screen" fontName:@"Marker Felt" fontSize:32];
-		[self addChild:label z:0];
-		[label setColor:ccc3(0,0,255)];
-		label.position = ccp( s.width/2, s.height-50);*/
 		
+        [self addChild:tiledMap z:-1];
 		[self scheduleUpdate];
 	}
 	return self;
@@ -166,58 +174,6 @@ enum {
 	
 	[super dealloc];
 }	
-
-/*-(void) createMenu
-{
-	// Default font size will be 22 points.
-	[CCMenuItemFont setFontSize:22];
-	
-	// Reset Button
-	CCMenuItemLabel *reset = [CCMenuItemFont itemWithString:@"Reset" block:^(id sender){
-		[[CCDirector sharedDirector] replaceScene: [HelloWorldLayer scene]];
-	}];
-
-	// to avoid a retain-cycle with the menuitem and blocks
-	__block id copy_self = self;
-
-	// Achievement Menu Item using blocks
-	CCMenuItem *itemAchievement = [CCMenuItemFont itemWithString:@"Achievements" block:^(id sender) {
-		
-		
-		GKAchievementViewController *achivementViewController = [[GKAchievementViewController alloc] init];
-		achivementViewController.achievementDelegate = copy_self;
-		
-		AppController *app = (AppController*) [[UIApplication sharedApplication] delegate];
-		
-		[[app navController] presentModalViewController:achivementViewController animated:YES];
-		
-		[achivementViewController release];
-	}];
-	
-	// Leaderboard Menu Item using blocks
-	CCMenuItem *itemLeaderboard = [CCMenuItemFont itemWithString:@"Leaderboard" block:^(id sender) {
-		
-		
-		GKLeaderboardViewController *leaderboardViewController = [[GKLeaderboardViewController alloc] init];
-		leaderboardViewController.leaderboardDelegate = copy_self;
-		
-		AppController *app = (AppController*) [[UIApplication sharedApplication] delegate];
-		
-		[[app navController] presentModalViewController:leaderboardViewController animated:YES];
-		
-		[leaderboardViewController release];
-	}];
-	
-	CCMenu *menu = [CCMenu menuWithItems:itemAchievement, itemLeaderboard, reset, nil];
-	
-	[menu alignItemsVertically];
-	
-	CGSize size = [[CCDirector sharedDirector] winSize];
-	[menu setPosition:ccp( size.width/2, size.height/2)];
-	
-	
-	[self addChild: menu z:-1];	
-}*/
 
 -(void) initPhysics
 {
