@@ -62,7 +62,7 @@ enum {
         tile = [tiledMap layerNamed:@"tiles"];
         //meta = [tiledMap layerNamed:@"meta"];
         
-        objects = [tiledMap objectGroupNamed:@"Objects"];
+        objects = [tiledMap objectGroupNamed:@"objects"];
         NSAssert(objects != nil, @"Tile map doesnt have a objects layer defined");
         
         NSDictionary *spawnPoint = [objects objectNamed:@"SpawnPoint"];
