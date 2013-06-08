@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="32" height="24" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="Tilesheet" tilewidth="32" tileheight="32">
+  <image source="Tilesheet.png" width="512" height="256"/>
+ </tileset>
+ <layer name="tiles" width="32" height="24">
+  <data encoding="base64" compression="zlib">
+   eJztlTkSwjAMRVVBbgCFe9KyzEAbYOhZLsByUI7Gc4/H+cEgChevs/Rky5aD2TM4MjKzitlhAH3j1Vo29GUt9iYXo9TRkmcm+nMxin9Knonoz8Uo/oY8Y9GfixlyD0pS/f7+f6ih+j+Hdx7fu5ufORfn3dv8KUqeI3M+znu3PvLPxf/uZ3emL17nkWIOC1jCSthjKX8HW9jB3mH/RzjBGS6JNeGLXOEGd3gk1rwAPtBPlQ==
+  </data>
+ </layer>
+ <objectgroup name="objects" width="32" height="24">
+  <object name="SpawnPoint" x="47" y="616" width="42" height="42"/>
+ </objectgroup>
+ <layer name="collisions" width="32" height="24" opacity="0.35">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFgwF4koGJ1T8YwEC7Y9T+UftHuv2DwQ2j9g9f+wd7HTQUAbntgaEEhos/hiIAACMoD7A=
+  </data>
+ </layer>
+ <layer name="collectibles" width="32" height="24">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo4Aw0GFgODDQbhgFo2AoAp2BdsAoGAWjgGIwmo9HwXADALy2AUU=
+  </data>
+ </layer>
+</map>
