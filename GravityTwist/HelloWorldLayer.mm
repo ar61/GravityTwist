@@ -174,11 +174,11 @@ enum {
     
     b2BodyDef bDef;
     bDef.type = b2_staticBody;
-    bDef.position.Set((p.x + size.width)/PTM_RATIO, (p.y + size.height)/PTM_RATIO );
+    bDef.position.Set((p.x + size.width/2.0f)/PTM_RATIO, (p.y + size.height/2.0f)/PTM_RATIO );
     b2Body *b = world->CreateBody(&bDef);
     
     b2PolygonShape shape;
-    shape.SetAsBox(size.width/PTM_RATIO * width, size.height/PTM_RATIO * height);
+    shape.SetAsBox(size.width/PTM_RATIO * 0.5 * width, size.height/PTM_RATIO * 0.5 * height);
     
     b2FixtureDef fDef;
     fDef.shape = &shape;
@@ -289,7 +289,7 @@ enum {
 	// This is only for debug purposes
 	// It is recommend to disable it
 	//
-	[super draw];
+	/*[super draw];
 	
 	ccGLEnableVertexAttribs( kCCVertexAttribFlag_Position );
 	
@@ -297,7 +297,7 @@ enum {
 	
 	world->DrawDebugData();	
 	
-	kmGLPopMatrix();
+	kmGLPopMatrix();*/
 }
 
 -(void) update: (ccTime) dt
