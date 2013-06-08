@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3F0493CA1762C1F1008B1A78 /* Tilesheet.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F0493C91762C1F1008B1A78 /* Tilesheet.png */; };
+		3F0493CE1762C3C2008B1A78 /* lvl1.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 3F0493CD1762C3C2008B1A78 /* lvl1.tmx */; };
 		C3D9BD17175DD688005BE61F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3D9BD16175DD688005BE61F /* QuartzCore.framework */; };
 		C3D9BD19175DD688005BE61F /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3D9BD18175DD688005BE61F /* OpenGLES.framework */; };
 		C3D9BD1B175DD688005BE61F /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3D9BD1A175DD688005BE61F /* OpenAL.framework */; };
@@ -189,6 +191,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3F0493C91762C1F1008B1A78 /* Tilesheet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Tilesheet.png; path = Resources/Tilesheet.png; sourceTree = "<group>"; };
+		3F0493CD1762C3C2008B1A78 /* lvl1.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = lvl1.tmx; path = Resources/lvl1.tmx; sourceTree = "<group>"; };
 		C3D9BD12175DD688005BE61F /* GravityTwist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GravityTwist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3D9BD16175DD688005BE61F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		C3D9BD18175DD688005BE61F /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -640,6 +644,8 @@
 		C3D9BD29175DD689005BE61F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				3F0493CD1762C3C2008B1A78 /* lvl1.tmx */,
+				3F0493C91762C1F1008B1A78 /* Tilesheet.png */,
 				C3D9BD2A175DD689005BE61F /* Default.png */,
 				C3D9BD2C175DD689005BE61F /* Default@2x.png */,
 				C3D9BD2E175DD689005BE61F /* Default-568h@2x.png */,
@@ -1239,6 +1245,8 @@
 				C3D9BD40175DD689005BE61F /* iTunesArtwork in Resources */,
 				C3D9BE96175DD68D005BE61F /* ChangeLog in Resources */,
 				C3D9BF56175DD690005BE61F /* blocks.png in Resources */,
+				3F0493CA1762C1F1008B1A78 /* Tilesheet.png in Resources */,
+				3F0493CE1762C3C2008B1A78 /* lvl1.tmx in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

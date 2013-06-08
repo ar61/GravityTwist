@@ -27,6 +27,10 @@
 	b2World* world;					// strong ref
 	GLESDebugDraw *m_debugDraw;		// strong ref
     CGPoint playerVelocity;
+    CCTMXTiledMap *tiledMap;
+    CCTMXLayer *tile;
+    CCTMXLayer *meta;
+    CCTMXObjectGroup *objects;
 }
 
 // returns a CCScene that contains the HelloWorldLayer as the only child
