@@ -1475,7 +1475,7 @@
 				);
 				HEADER_SEARCH_PATHS = "\"GravityTwist/libs/kazmath/include\"";
 				INFOPLIST_FILE = GravityTwist/Resources/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_LDFLAGS = (
 					"-lz",
 					"-lsqlite3",
@@ -1502,7 +1502,7 @@
 				);
 				HEADER_SEARCH_PATHS = "\"GravityTwist/libs/kazmath/include\"";
 				INFOPLIST_FILE = GravityTwist/Resources/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_LDFLAGS = (
 					"-lz",
 					"-lsqlite3",
