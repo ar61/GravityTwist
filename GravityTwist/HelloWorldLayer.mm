@@ -27,6 +27,7 @@ enum {
 @interface HelloWorldLayer()
 {
     CCPhysicsSprite *player;
+    b2Body *body;
     CGSize s;
 }
 -(void) initPhysics;
@@ -101,7 +102,7 @@ enum {
         b2BodyDef bodyDef;
         bodyDef.type = b2_dynamicBody;
         bodyDef.position.Set(s.width/PTM_RATIO, s.height/PTM_RATIO);
-        b2Body *body = world->CreateBody(&bodyDef);
+        body = world->CreateBody(&bodyDef);
         
         // Define another box shape for our dynamic body.
         b2PolygonShape dynamicBox;
@@ -149,18 +150,25 @@ enum {
 
 -(void)moveLeft
 {
+    /*
     if((player.position.x - 50) > 0)
     {
         [player runAction:[CCMoveBy actionWithDuration:.3 position:ccp(-50,0)]];
     }
+    */
+    
+    body->ApplyForceToCenter(b2Vec2(-80,0));
 }
 
 -(void)moveRight
 {
+    /*
     if((player.position.x + 50) < s.width)
     {
         [player runAction:[CCMoveBy actionWithDuration:.3 position:ccp(50,0)]];
     }
+    */
+    body->ApplyForceToCenter(b2Vec2(80,0));
 }
 
 
@@ -372,7 +380,14 @@ enum {
 
 -(void) ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    [player runAction:[CCJumpTo actionWithDuration:1.0f position:player.position height:50 jumps:1]];
+    //[player runAction:[CCJumpTo actionWithDuration:1.0f position:player.position height:50 jumps:1]];
+    // check if the player is not moving on the y axis already
+    CGFloat yvel = body->GetLinearVelocity().y;
+    if (yvel == 0.0f) {
+        body->ApplyLinearImpulse(b2Vec2(0, 5), body->GetWorldCenter());
+    } else {
+        printf("%f\n",yvel);
+    }
 }
 
 /*- (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
