@@ -11,14 +11,14 @@
  <objectgroup name="objects" width="32" height="24">
   <object name="SpawnPoint" x="70" y="544" width="37" height="39"/>
  </objectgroup>
- <layer name="collisions" width="32" height="24" opacity="0">
+ <layer name="collisions" width="32" height="24" opacity="0.53">
   <data encoding="base64" compression="zlib">
    eJxjYBgFgwF4koGJ1T8YwEC7Y9T+UftHuv2DwQ2j9g9f+wd7HTQUAbntgaEEhos/hiIAACMoD7A=
   </data>
  </layer>
  <layer name="collectibles" width="32" height="24">
   <data encoding="base64" compression="zlib">
-   eJztwQEBAAAAgiD/r25IQAEAAC8GDAAAAQ==
+   eJxjYBgFowA/0KGx+lEwCmgJRtPjKBhpYDTNUx+MhukoGG4AANPLAN0=
   </data>
  </layer>
 </map>

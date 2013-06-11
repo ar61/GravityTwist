@@ -10,6 +10,7 @@
 		3F0493CA1762C1F1008B1A78 /* Tilesheet.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F0493C91762C1F1008B1A78 /* Tilesheet.png */; };
 		3F0493CE1762C3C2008B1A78 /* lvl1.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 3F0493CD1762C3C2008B1A78 /* lvl1.tmx */; };
 		C394D7B01763C8420095EFC7 /* GLES-Render.mm in Sources */ = {isa = PBXBuildFile; fileRef = C394D7AF1763C8420095EFC7 /* GLES-Render.mm */; };
+		C39AC4E317650F7C00B648B6 /* MyContactListener.mm in Sources */ = {isa = PBXBuildFile; fileRef = C39AC4E217650F7C00B648B6 /* MyContactListener.mm */; };
 		C3D9BD17175DD688005BE61F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3D9BD16175DD688005BE61F /* QuartzCore.framework */; };
 		C3D9BD19175DD688005BE61F /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3D9BD18175DD688005BE61F /* OpenGLES.framework */; };
 		C3D9BD1B175DD688005BE61F /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3D9BD1A175DD688005BE61F /* OpenAL.framework */; };
@@ -195,6 +196,8 @@
 		3F0493CD1762C3C2008B1A78 /* lvl1.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = lvl1.tmx; path = Resources/lvl1.tmx; sourceTree = "<group>"; };
 		C394D7AE1763C8420095EFC7 /* GLES-Render.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GLES-Render.h"; sourceTree = "<group>"; };
 		C394D7AF1763C8420095EFC7 /* GLES-Render.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "GLES-Render.mm"; sourceTree = "<group>"; };
+		C39AC4E117650F7C00B648B6 /* MyContactListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyContactListener.h; sourceTree = "<group>"; };
+		C39AC4E217650F7C00B648B6 /* MyContactListener.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MyContactListener.mm; sourceTree = "<group>"; };
 		C3D9BD12175DD688005BE61F /* GravityTwist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GravityTwist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3D9BD16175DD688005BE61F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		C3D9BD18175DD688005BE61F /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -637,6 +640,8 @@
 				C3D9BD29175DD689005BE61F /* Resources */,
 				C3D9BD41175DD689005BE61F /* libs */,
 				C3D9BF45175DD690005BE61F /* Supporting Files */,
+				C39AC4E117650F7C00B648B6 /* MyContactListener.h */,
+				C39AC4E217650F7C00B648B6 /* MyContactListener.mm */,
 			);
 			path = GravityTwist;
 			sourceTree = "<group>";
@@ -1414,6 +1419,7 @@
 				C3D9BF4E175DD690005BE61F /* HelloWorldLayer.mm in Sources */,
 				C3D9BF51175DD690005BE61F /* IntroLayer.mm in Sources */,
 				C394D7B01763C8420095EFC7 /* GLES-Render.mm in Sources */,
+				C39AC4E317650F7C00B648B6 /* MyContactListener.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1482,7 +1488,7 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = 2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "\"GravityTwist/libs\"";
 				WRAPPER_EXTENSION = app;
 			};
@@ -1509,7 +1515,7 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = 2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "\"GravityTwist/libs\"";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;

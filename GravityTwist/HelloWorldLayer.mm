@@ -63,13 +63,17 @@ enum {
         //meta = [tiledMap layerNamed:@"meta"];
         
         objects = [tiledMap objectGroupNamed:@"objects"];
-        NSAssert(objects != nil, @"Tile map doesnt have a objects layer defined");
+        NSAssert(objects != nil, @"Tile map doesnt have an objects layer defined");
         
-        CCTMXLayer *collisions = [tiledMap layerNamed:@"collisions"];
-                
         NSDictionary *spawnPoint = [objects objectNamed:@"SpawnPoint"];
         int x = [spawnPoint[@"x"] integerValue];
         int y = [spawnPoint[@"y"] integerValue];
+        
+        CCTMXLayer *collisions = [tiledMap layerNamed:@"collisions"];
+        collisions.visible = NO;
+        
+        collectibles = [tiledMap layerNamed:@"collectibles"];
+        collectedCount = 0;
         
 		self.touchEnabled = YES;
 		self.accelerometerEnabled = YES;
@@ -79,28 +83,19 @@ enum {
 		[self initPhysics];
 		
         //initialize collisions
-        [self createFixtures: collisions];
+        [self createFixtures: collisions type:1];
+        // initialize collectibles
+        [self createFixtures: collectibles type:2];
         
-		// create reset button
-		//[self createMenu];
-		
+        contactListener = new MyContactListener();
+        world->SetContactListener(contactListener);
+        
 		//Set up sprite
-		
-#if 1
 		// Use batch node. Faster
 		CCSpriteBatchNode *parent = [CCSpriteBatchNode batchNodeWithFile:@"blocks.png" capacity:100];
 		spriteTexture_ = [parent texture];
-#else
-		// doesn't use batch node. Slower
-		spriteTexture_ = [[CCTextureCache sharedTextureCache] addImage:@"blocks.png"];
-		CCNode *parent = [CCNode node];
-#endif
 		[self addChild:parent z:0 tag:kTagParentNode];
-		
-		
-		//[self addNewSpriteAtPosition:ccp(s.width/2, s.height/2)];
-        
-        //CCLOG(@"Add sprite %0.2f x %02.f",s.width/2,s.height/2);
+				
         // Define the dynamic body.
         //Set up a 1m squared box in the physics world
         b2BodyDef bodyDef;
@@ -118,8 +113,7 @@ enum {
         fixtureDef.density = 1.0f;
         fixtureDef.friction = 0.3f;
         body->CreateFixture(&fixtureDef);
-        
-        
+                
         CCNode *parent1 = [self getChildByTag:kTagParentNode];
         
         //We have a 64x64 sprite sheet with 4 different 32x32 images.  The following code is
@@ -151,7 +145,7 @@ enum {
 	return self;
 }
 
--(void)createFixtures: (CCTMXLayer*) layer
+-(void)createFixtures: (CCTMXLayer*) layer type:(int) ty
 {
     CGSize size = [layer layerSize];
     for(int i=0; i<size.width; i++)
@@ -161,13 +155,13 @@ enum {
             CCSprite *t = [layer tileAt: ccp(i,j)];
             if(t != nil)
             {
-                [self createRectangleFixtures: layer x:i y:j w:1.0f h:1.0f];
+                [self createRectangleFixtures: layer x:i y:j w:1.0f h:1.0f ty:ty];
             }
         }
     }
 }
 
--(void)createRectangleFixtures: (CCTMXLayer*) layer x:(int)x y:(int)y w:(float)width h:(float)height
+-(void)createRectangleFixtures: (CCTMXLayer*) layer x:(int)x y:(int)y w:(float)width h:(float)height ty:(int) t
 {
     CGPoint p = [layer positionAt: ccp(x,y)];
     CGSize size = [tiledMap tileSize];
@@ -183,11 +177,25 @@ enum {
     b2FixtureDef fDef;
     fDef.shape = &shape;
     fDef.density = 1.0f;
-    fDef.friction = 0.3f;
+    fDef.friction = 0.2f;
     fDef.restitution = 0.0f;
-    fDef.filter.categoryBits = KFilterCategoryBits;
+    if(t == 2)
+    {
+        fDef.filter.categoryBits = kFilterCategoryNonSolidObjects;
+    }
+    else
+    {
+        fDef.filter.categoryBits = KFilterCategoryBits;
+    }
+    
     fDef.filter.maskBits = 0xffff;
     b->CreateFixture(&fDef);
+}
+
+- (CGPoint)tileCoordForPosition:(CGPoint)position {
+    int x = position.x / tiledMap.tileSize.width;
+    int y = ((tiledMap.mapSize.height * tiledMap.tileSize.height) - position.y) / tiledMap.tileSize.height;
+    return ccp(x, y);
 }
 
 -(void)moveLeft
@@ -199,7 +207,10 @@ enum {
     }
     */
     
-    body->ApplyForceToCenter(b2Vec2(-30,0));
+    body->ApplyForceToCenter(b2Vec2(-50,0));
+    
+    
+    
 }
 
 -(void)moveRight
@@ -210,7 +221,8 @@ enum {
         [player runAction:[CCMoveBy actionWithDuration:.3 position:ccp(50,0)]];
     }
     */
-    body->ApplyForceToCenter(b2Vec2(30,0));
+    body->ApplyForceToCenter(b2Vec2(50,0));
+    
 }
 
 
@@ -221,6 +233,8 @@ enum {
 	
 	delete m_debugDraw;
 	m_debugDraw = NULL;
+    
+    delete contactListener;
 	
 	[super dealloc];
 }	
@@ -232,6 +246,7 @@ enum {
 	
 	b2Vec2 gravity;
 	gravity.Set(0.0f, -10.0f);
+    
 	world = new b2World(gravity);
 	
 	
@@ -314,7 +329,23 @@ enum {
 	// generally best to keep the time step and iterations fixed.
 	world->Step(dt, velocityIterations, positionIterations);
     
-    CGPoint pos = player.position;
+    std::vector<MyContact>::iterator pos;
+    for(pos = contactListener->_contacts.begin();
+        pos != contactListener->_contacts.end(); ++pos)
+    {
+        MyContact contact = *pos;
+        
+        
+    }
+    
+    /*CGPoint pos = [self tileCoordForPosition:ccp(player.position.x, player.position.y)];
+    int tileGUID = [collectibles tileGIDAt: pos];
+    if(tileGUID){
+        NSLog(@"im in");
+        [collectibles removeTileAt:pos];
+    }*/
+    
+    /*CGPoint pos = player.position;
     
     pos.x += playerVelocity.x;
     pos.y += playerVelocity.y;
@@ -328,9 +359,9 @@ enum {
     float rightBorderLimit = screenSize.width - imageWidthHalved;
     
     float topBorderLimit = imageHeightHalved;
-    float bottomBorderLimit = screenSize.height - imageHeightHalved;
+    float bottomBorderLimit = screenSize.height - imageHeightHalved;*/
     
-    if(pos.x < leftBorderLimit)
+    /*if(pos.x < leftBorderLimit)
     {
         pos.x = leftBorderLimit;
         playerVelocity.x = 0;
@@ -350,19 +381,21 @@ enum {
     {
         pos.x = bottomBorderLimit;
         playerVelocity.x = 0;
-    }
+    }*/
     
-    player.position = pos;
+    //body->ApplyForceToCenter(b2Vec2(playerVelocity.y,0));
+    
+    //player.position = pos;
 
 }
 
 -(void) accelerometer:(UIAccelerometer *)accelerometer didAccelerate:(UIAcceleration *)acceleration
 {
     float deceleration = 1.0f;
-    float maxVelocity = 2;
+    float maxVelocity = 10;
     
     playerVelocity.x = playerVelocity.x * deceleration + acceleration.x;
-    playerVelocity.y = playerVelocity.y * deceleration + acceleration.y;
+    playerVelocity.y = playerVelocity.y * deceleration + acceleration.y;    
     
     if(playerVelocity.x > maxVelocity)
     {
