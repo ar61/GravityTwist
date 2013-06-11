@@ -2,10 +2,22 @@
 <map version="1.0" orientation="orthogonal" width="32" height="24" tilewidth="32" tileheight="32">
  <tileset firstgid="1" name="Tilesheet" tilewidth="32" tileheight="32">
   <image source="Tilesheet.png" width="512" height="256"/>
+  <terraintypes>
+   <terrain name="New Terrain" tile="-1"/>
+  </terraintypes>
+  <tile id="6" terrain="0,0,0,0"/>
+  <tile id="7" terrain="0,0,0,0"/>
+  <tile id="22" terrain="0,0,0,0"/>
+  <tile id="23" terrain="0,0,0,0"/>
+  <tile id="28" terrain="0,0,0,0"/>
+  <tile id="38" terrain="0,0,0,0"/>
+  <tile id="39" terrain="0,0,0,0"/>
+  <tile id="54" terrain="0,0,0,0"/>
+  <tile id="55" terrain="0,0,0,0"/>
  </tileset>
  <layer name="tiles" width="32" height="24">
   <data encoding="base64" compression="zlib">
-   eJztlTkSwjAMRVVBbgCFe9KyzEAbYOhZLsByUI7Gc4/H+cEgChevs/Rky5aD2TM4MjKzitlhAH3j1Vo29GUt9iYXo9TRkmcm+nMxin9Knonoz8Uo/oY8Y9GfixlyD0pS/f7+f6ih+j+Hdx7fu5ufORfn3dv8KUqeI3M+znu3PvLPxf/uZ3emL17nkWIOC1jCSthjKX8HW9jB3mH/RzjBGS6JNeGLXOEGd3gk1rwAPtBPlQ==
+   eJxLZ2BgSB9gHDlAeDDZ70YGRjaLWHXE+N+CgeGAORCT4hdCerxJsF8DaI46ifYT0kOK/RJAc8RJtJ+QHmzxgMt+DqA57CTaT0gPKfbTAo/aP/D2o7uB3uXfSLcfvQwi135gPgfl9wGzH1jOgco7rOFLSh1Erv3Ach5U3lMcH+TaD6znQPUdXewntz1AS/+Tkt6QMS77KfUHsfZTK/1T2/6BxACpURLP
   </data>
  </layer>
  <objectgroup name="objects" width="32" height="24">
@@ -13,12 +25,17 @@
  </objectgroup>
  <layer name="collisions" width="32" height="24" opacity="0.53">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFgwF4koGJ1T8YwEC7Y9T+UftHuv2DwQ2j9g9f+wd7HTQUAbntgaEEhos/hiIAACMoD7A=
+   eJxLZ2BgSB9gPFBgMNlPabiRE76Dyf/D3X5s9ozaT5n9sgNsPylgMNiPq8ygFxjp9qOD4WY/qXXQcPM/LeynZTtqsPh/oNqDg9X/9MQANSBAFw==
   </data>
  </layer>
  <layer name="collectibles" width="32" height="24">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFowA/0KGx+lEwCmgJRtPjKBhpYDTNUx+MhukoGG4AANPLAN0=
+   eJxjYBgFowA/kKSx+lEwCmgJRtPjKBhpYDTNUx+MhukoGG4AAFTNAH4=
+  </data>
+ </layer>
+ <layer name="Exit" width="32" height="24">
+  <data encoding="base64" compression="zlib">
+   eJztzTERACAQxMBvwAE4AAePf2mcizTZmdSpkiRJYow0wf9KG/yfdMF/pwf+xfg73gDt
   </data>
  </layer>
 </map>

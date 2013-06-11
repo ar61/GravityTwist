@@ -27,7 +27,7 @@
 #define GRAVITY 9.8f
 
 // HelloWorldLayer
-@interface HelloWorldLayer : CCLayer 
+@interface HelloWorldLayer : CCLayerColor
 {
 	CCTexture2D *spriteTexture_;	// weak ref
 	b2World* world;					// strong ref
@@ -35,11 +35,15 @@
     CGPoint playerVelocity;
     CCTMXTiledMap *tiledMap;
     CCTMXLayer *tile;
-    CCTMXLayer *meta;
+    CCTMXLayer *door;
+    CCTMXLayer *collisions;
     CCTMXLayer *collectibles;
     int collectedCount;
+    int dirOfTilt;  // 0: left, 1: top, 2: right, 3: bottom
+    NSDictionary *exitPoint;
     CCTMXObjectGroup *objects;
     MyContactListener *contactListener;
+    CCLabelTTF *coinsLabel;
 }
 
 // returns a CCScene that contains the HelloWorldLayer as the only child

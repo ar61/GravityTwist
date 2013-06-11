@@ -53,14 +53,15 @@ enum {
 
 -(id) init
 {
-	if( (self=[super init])) {
+	if( (self = [super init])) {
 		
-		// enable events
         
         tiledMap = [CCTMXTiledMap tiledMapWithTMXFile:@"lvl1.tmx"];
 		
         tile = [tiledMap layerNamed:@"tiles"];
-        //meta = [tiledMap layerNamed:@"meta"];
+        
+        door = [tiledMap layerNamed:@"Exit"];
+        door.visible = NO;
         
         objects = [tiledMap objectGroupNamed:@"objects"];
         NSAssert(objects != nil, @"Tile map doesnt have an objects layer defined");
@@ -69,7 +70,9 @@ enum {
         int x = [spawnPoint[@"x"] integerValue];
         int y = [spawnPoint[@"y"] integerValue];
         
-        CCTMXLayer *collisions = [tiledMap layerNamed:@"collisions"];
+        exitPoint = [objects objectNamed:@"Exit"];
+        
+        collisions = [tiledMap layerNamed:@"collisions"];
         collisions.visible = NO;
         
         collectibles = [tiledMap layerNamed:@"collectibles"];
@@ -141,7 +144,12 @@ enum {
         menu2.position = ccp(120,40);
         [self addChild:menu2];
         
+        coinsLabel = [CCLabelTTF labelWithString:@"coins: 0" fontName:@"Arial" fontSize:20];
+        coinsLabel.position = ccp(s.width * 0.85,s.height * 0.9);
 		
+        [coinsLabel setColor: ccBLACK];
+        
+        [self addChild:coinsLabel z:1];
         [self addChild:tiledMap z:-1];
 		[self schedule:@selector(update:)];
 	}
@@ -307,7 +315,7 @@ enum {
 	// This is only for debug purposes
 	// It is recommend to disable it
 	//
-/*	[super draw];
+	/*[super draw];
 	
 	ccGLEnableVertexAttribs( kCCVertexAttribFlag_Position );
 	
@@ -315,7 +323,7 @@ enum {
 	
 	world->DrawDebugData();	
 	
-	kmGLPopMatrix(); */
+	kmGLPopMatrix();*/
 }
 
 -(void) update: (ccTime) dt
@@ -356,6 +364,14 @@ enum {
                     y = tiledMap.mapSize.height - y;
                     [collectibles removeTileAt:ccp(x,y)];
                     bodyA->DestroyFixture(fDef);
+                    collectedCount++;
+                    coinsLabel.string = [NSString stringWithFormat:@"coins: %d", collectedCount];
+                    if(collectedCount == 5)
+                    {
+                        door.visible = YES;
+                        
+                        //[self createFixtures:door type: 1];
+                    }
                     break;
                 }
             }
@@ -399,16 +415,31 @@ enum {
         pos.x = bottomBorderLimit;
         playerVelocity.x = 0;
     }
-    
+    b2Vec2 pv;
+    if(dirOfTilt == 0 || dirOfTilt == 2)
+    {
+        pv.x = 0;
+        pv.y = playerVelocity.y;
+    }
+    else
+    {
+        pv.x = playerVelocity.x;
+        pv.y = 0;
+    }
+    b2Vec2 dir;
+    dir.x = pos.x;
+    dir.y = pos.y;
     //body->ApplyForceToCenter(b2Vec2(playerVelocity.x,0));
-    
-    player.position = pos;
+    //body->ApplyForce(pv, dir);
+    //player.position = pos;
 
 }
 
 -(void) accelerometer:(UIAccelerometer *)accelerometer didAccelerate:(UIAcceleration *)acceleration
 {
     float THRESHOLD = 0.1f;
+    //float deceleration = 0.4f;
+    //float sensitivity = 6.0f;
     
     if(acceleration.x >= THRESHOLD || acceleration.x <= -THRESHOLD ||
        acceleration.y >= THRESHOLD || acceleration.y <= -THRESHOLD ||
@@ -422,29 +453,37 @@ enum {
         
         if (angle >= -45 && angle <= 45 ) {
             world->SetGravity(b2Vec2 (0, GRAVITY));
+            dirOfTilt = 3;
         }
         else if (angle > 45 && angle < 135) {
             world->SetGravity(b2Vec2 (-GRAVITY, 0));
+            dirOfTilt = 0;
         }
         else if (angle > -135 && angle < -45) {
             world->SetGravity(b2Vec2 (GRAVITY, 0));
+            dirOfTilt = 2;
         }
         else {
             world->SetGravity(b2Vec2 (0, -GRAVITY));
+            dirOfTilt = 1;
         }
+    }
+    else
+    {
+        //playerVelocity.x = playerVelocity.x * deceleration + acceleration.x * sensitivity;
+        //playerVelocity.y = playerVelocity.y * deceleration + acceleration.y * sensitivity;
     }
 }
 
--(void) ccTouchesEnded:(UITouch *)touches withEvent:(UIEvent *)event
+-(void) ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
     b2Vec2 worldGravity;
     float gravityRemovalFactor = 50.0f;
     
-	//Add a new body/atlas sprite at the touched location
-	for( UITouch *touch in touches ) {
-		CGPoint location = [touch locationInView: [touch view]];
-		location = [[CCDirector sharedDirector] convertToGL: location];
-		
+    for(NSSet* touch in touches){
+        CGPoint location = [touch locationInView: [touch view]];
+        location = [[CCDirector sharedDirector] convertToGL: location];
+        
         worldGravity = world->GetGravity();
         b2Vec2 playerVel = body->GetLinearVelocity();
         
@@ -458,8 +497,7 @@ enum {
             else if (worldGravity.x < 0.0f && worldGravity.y == 0.0f)
                 body->ApplyForceToCenter(b2Vec2 (body->GetMass()*GRAVITY*gravityRemovalFactor, 0));
         }
-		//[self addNewSpriteAtPosition: location];
-	}
+    }
 }
 
 
