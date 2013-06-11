@@ -23,6 +23,8 @@
 #define KFilterCategoryBits 0x01
 #define kFilterCategoryNonSolidObjects 0x02
 #define kFilterCategorySolidObject 0x04
+//Define a constant for gravity of world
+#define GRAVITY 9.8f
 
 // HelloWorldLayer
 @interface HelloWorldLayer : CCLayer 

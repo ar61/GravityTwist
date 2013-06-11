@@ -102,6 +102,8 @@ enum {
         b2BodyDef bodyDef;
         bodyDef.type = b2_dynamicBody;
         bodyDef.position.Set(s.width/PTM_RATIO, s.height/PTM_RATIO);
+        bodyDef.fixedRotation = YES;
+        
         body = world->CreateBody(&bodyDef);
         
         // Define another box shape for our dynamic body.
@@ -330,56 +332,37 @@ enum {
 	// generally best to keep the time step and iterations fixed.
 	world->Step(dt, velocityIterations, positionIterations);
     
-    std::vector<MyContact>::iterator pos;
-    for(pos = contactListener->_contacts.begin();
-        pos != contactListener->_contacts.end(); ++pos)
+    std::vector<MyContact>::iterator position;
+    for(position = contactListener->_contacts.begin();
+        position != contactListener->_contacts.end(); ++position)
     {
-        MyContact contact = *pos;
+        MyContact contact = *position;
         
         if(contact.fixtureA != NULL && contact.fixtureB != NULL)
         {
             b2Body *bodyA = contact.fixtureA->GetBody();
             b2Body *bodyB = contact.fixtureB->GetBody();
-            
-            //NSLog(@" bodyA: %d");
-            
+                        
             if(bodyA->GetType() == b2_staticBody && bodyB->GetType() == b2_dynamicBody)
-            {
-                CCSprite *sprite = (CCSprite *) bodyB->GetUserData();
-                
+            {                
                 b2Fixture *fDef = bodyA->GetFixtureList();
                 b2Filter filter = fDef->GetFilterData();
                 
-                //NSLog(@" categoryBits:%d ", filter.categoryBits);
-                
-                if(filter.categoryBits == kFilterCategoryNonSolidObjects)// && sprite.tag == 1)
+                if(filter.categoryBits == kFilterCategoryNonSolidObjects)
                 {
                     b2Vec2 v = bodyA->GetPosition();
-                    //CGPoint c;
-                    //c.x = v.x/tiledMap.tileSize.width;
-                    //c.y = ((tiledMap.mapSize.height * tiledMap.tileSize.height) - v.y)/tiledMap.tileSize.height;
                     int x = v.x;
                     int y = ceil(v.y);
                     y = tiledMap.mapSize.height - y;
                     [collectibles removeTileAt:ccp(x,y)];
                     bodyA->DestroyFixture(fDef);
                     break;
-                    //int tileGUID = [collectibles tileGIDAt:c];
-                    //NSLog(@" tGID: %d ", tileGUID);
-                    //NSLog(@" c: %d, y: %d", x, y);
                 }
             }
         }
     }
-    
-    /*CGPoint pos = [self tileCoordForPosition:ccp(player.position.x, player.position.y)];
-    int tileGUID = [collectibles tileGIDAt: pos];
-    if(tileGUID){
-        NSLog(@"im in");
-        [collectibles removeTileAt:pos];
-    }*/
-    
-    /*CGPoint pos = player.position;
+        
+    CGPoint pos = player.position;
     
     pos.x += playerVelocity.x;
     pos.y += playerVelocity.y;
@@ -393,9 +376,9 @@ enum {
     float rightBorderLimit = screenSize.width - imageWidthHalved;
     
     float topBorderLimit = imageHeightHalved;
-    float bottomBorderLimit = screenSize.height - imageHeightHalved;*/
+    float bottomBorderLimit = screenSize.height - imageHeightHalved;
     
-    /*if(pos.x < leftBorderLimit)
+    if(pos.x < leftBorderLimit)
     {
         pos.x = leftBorderLimit;
         playerVelocity.x = 0;
@@ -415,51 +398,68 @@ enum {
     {
         pos.x = bottomBorderLimit;
         playerVelocity.x = 0;
-    }*/
+    }
     
-    //body->ApplyForceToCenter(b2Vec2(playerVelocity.y,0));
+    //body->ApplyForceToCenter(b2Vec2(playerVelocity.x,0));
     
-    //player.position = pos;
+    player.position = pos;
 
 }
 
 -(void) accelerometer:(UIAccelerometer *)accelerometer didAccelerate:(UIAcceleration *)acceleration
 {
-    float deceleration = 1.0f;
-    float maxVelocity = 10;
+    float THRESHOLD = 0.1f;
     
-    playerVelocity.x = playerVelocity.x * deceleration + acceleration.x;
-    playerVelocity.y = playerVelocity.y * deceleration + acceleration.y;    
-    
-    if(playerVelocity.x > maxVelocity)
+    if(acceleration.x >= THRESHOLD || acceleration.x <= -THRESHOLD ||
+       acceleration.y >= THRESHOLD || acceleration.y <= -THRESHOLD ||
+       acceleration.z >= THRESHOLD || acceleration.z <= -THRESHOLD)
     {
-        playerVelocity.x = maxVelocity;
-    }
-    else if (playerVelocity.x < -maxVelocity)
-    {
-        playerVelocity.x = -maxVelocity;
-    }
-    
-    if(playerVelocity.y > maxVelocity)
-    {
-        playerVelocity.y = maxVelocity;
-    }
-    else if (playerVelocity.y < -maxVelocity)
-    {
-        playerVelocity.y = -maxVelocity;
+        
+        body->SetAwake(true);
+        
+        float angle = atan2f(acceleration.y, acceleration.x);
+        angle *= 180.0/3.14159;
+        
+        if (angle >= -45 && angle <= 45 ) {
+            world->SetGravity(b2Vec2 (0, GRAVITY));
+        }
+        else if (angle > 45 && angle < 135) {
+            world->SetGravity(b2Vec2 (-GRAVITY, 0));
+        }
+        else if (angle > -135 && angle < -45) {
+            world->SetGravity(b2Vec2 (GRAVITY, 0));
+        }
+        else {
+            world->SetGravity(b2Vec2 (0, -GRAVITY));
+        }
     }
 }
 
 -(void) ccTouchesEnded:(UITouch *)touches withEvent:(UIEvent *)event
 {
-    //[player runAction:[CCJumpTo actionWithDuration:1.0f position:player.position height:50 jumps:1]];
-    // check if the player is not moving on the y axis already
-    CGFloat yvel = body->GetLinearVelocity().y;
-    if (yvel <= 0.0f) {
-        body->ApplyLinearImpulse(b2Vec2(0, 8), body->GetWorldCenter());
-    } else {
-        printf("%f\n",yvel);
-    }
+    b2Vec2 worldGravity;
+    float gravityRemovalFactor = 50.0f;
+    
+	//Add a new body/atlas sprite at the touched location
+	for( UITouch *touch in touches ) {
+		CGPoint location = [touch locationInView: [touch view]];
+		location = [[CCDirector sharedDirector] convertToGL: location];
+		
+        worldGravity = world->GetGravity();
+        b2Vec2 playerVel = body->GetLinearVelocity();
+        
+        if (playerVel.y >= -1.0f && playerVel.y <= 0.1f ) {
+            if (worldGravity.x == 0.0f && worldGravity.y > 0.0f)
+                body->ApplyForceToCenter(b2Vec2 (0, -body->GetMass()*GRAVITY*gravityRemovalFactor));
+            else if (worldGravity.x == 0.0f && worldGravity.y < 0.0f)
+                body->ApplyForceToCenter(b2Vec2 (0, body->GetMass()*GRAVITY*gravityRemovalFactor));
+            else if (worldGravity.x > 0.0f && worldGravity.y == 0.0f)
+                body->ApplyForceToCenter(b2Vec2 (-body->GetMass()*GRAVITY*gravityRemovalFactor, 0));
+            else if (worldGravity.x < 0.0f && worldGravity.y == 0.0f)
+                body->ApplyForceToCenter(b2Vec2 (body->GetMass()*GRAVITY*gravityRemovalFactor, 0));
+        }
+		//[self addNewSpriteAtPosition: location];
+	}
 }
 
 
