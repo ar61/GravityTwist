@@ -73,6 +73,7 @@ enum {
         collisions.visible = NO;
         
         collectibles = [tiledMap layerNamed:@"collectibles"];
+        collectibles.tag = 1;
         collectedCount = 0;
         
 		self.touchEnabled = YES;
@@ -140,7 +141,7 @@ enum {
         
 		
         [self addChild:tiledMap z:-1];
-		[self scheduleUpdate];
+		[self schedule:@selector(update:)];
 	}
 	return self;
 }
@@ -304,7 +305,7 @@ enum {
 	// This is only for debug purposes
 	// It is recommend to disable it
 	//
-	/*[super draw];
+/*	[super draw];
 	
 	ccGLEnableVertexAttribs( kCCVertexAttribFlag_Position );
 	
@@ -312,7 +313,7 @@ enum {
 	
 	world->DrawDebugData();	
 	
-	kmGLPopMatrix();*/
+	kmGLPopMatrix(); */
 }
 
 -(void) update: (ccTime) dt
@@ -335,7 +336,40 @@ enum {
     {
         MyContact contact = *pos;
         
-        
+        if(contact.fixtureA != NULL && contact.fixtureB != NULL)
+        {
+            b2Body *bodyA = contact.fixtureA->GetBody();
+            b2Body *bodyB = contact.fixtureB->GetBody();
+            
+            //NSLog(@" bodyA: %d");
+            
+            if(bodyA->GetType() == b2_staticBody && bodyB->GetType() == b2_dynamicBody)
+            {
+                CCSprite *sprite = (CCSprite *) bodyB->GetUserData();
+                
+                b2Fixture *fDef = bodyA->GetFixtureList();
+                b2Filter filter = fDef->GetFilterData();
+                
+                //NSLog(@" categoryBits:%d ", filter.categoryBits);
+                
+                if(filter.categoryBits == kFilterCategoryNonSolidObjects)// && sprite.tag == 1)
+                {
+                    b2Vec2 v = bodyA->GetPosition();
+                    //CGPoint c;
+                    //c.x = v.x/tiledMap.tileSize.width;
+                    //c.y = ((tiledMap.mapSize.height * tiledMap.tileSize.height) - v.y)/tiledMap.tileSize.height;
+                    int x = v.x;
+                    int y = ceil(v.y);
+                    y = tiledMap.mapSize.height - y;
+                    [collectibles removeTileAt:ccp(x,y)];
+                    bodyA->DestroyFixture(fDef);
+                    break;
+                    //int tileGUID = [collectibles tileGIDAt:c];
+                    //NSLog(@" tGID: %d ", tileGUID);
+                    //NSLog(@" c: %d, y: %d", x, y);
+                }
+            }
+        }
     }
     
     /*CGPoint pos = [self tileCoordForPosition:ccp(player.position.x, player.position.y)];
