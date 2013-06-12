@@ -29,6 +29,9 @@ enum {
     CCPhysicsSprite *player;
     b2Body *body;
     CGSize s;
+    BOOL isPlayerInAir;
+    BOOL isPlayerOnGround;
+    
 }
 -(void) initPhysics;
 
@@ -55,7 +58,7 @@ enum {
 {
 	if( (self = [super init])) {
 		
-        
+        isPlayerOnGround = true;
         tiledMap = [CCTMXTiledMap tiledMapWithTMXFile:@"lvl1.tmx"];
 		
         tile = [tiledMap layerNamed:@"tiles"];
@@ -132,6 +135,7 @@ enum {
         [player setPTMRatio:PTM_RATIO];
         [player setB2Body:body];
         [player setPosition: ccp(x,y)];
+        world->SetGravity(b2Vec2(0,-GRAVITY));
         
 		//adding buttons
         CCMenuItemImage *item1 = [CCMenuItemImage itemWithNormalImage:@"Icon-Small@2x.png" selectedImage:@"Icon-Small@2x.png" disabledImage:@"Icon-Small@2x.png" target:self selector:@selector(moveLeft)];
@@ -437,18 +441,141 @@ enum {
 
 -(void) accelerometer:(UIAccelerometer *)accelerometer didAccelerate:(UIAcceleration *)acceleration
 {
-    float THRESHOLD = 0.1f;
+    float THRESHOLD = 0.01f;
     //float deceleration = 0.4f;
     //float sensitivity = 6.0f;
-    
+    body->SetAwake(true);
+    b2Vec2 worldGravity = world->GetGravity();
+   
+    if(isPlayerOnGround && !isPlayerInAir){
+    if(worldGravity.x == 0 && worldGravity.y < 0){
+        
+        if(acceleration.y >= THRESHOLD)
+        {
+            b2Vec2 impulse = b2Vec2(-1.0f,0.0f);
+            body->ApplyLinearImpulse(impulse, body->GetWorldCenter());
+        }
+        else if(acceleration.y <= -THRESHOLD)
+        {
+            b2Vec2 impulse = b2Vec2(1.0f,0.0f);
+            body->ApplyLinearImpulse(impulse, body->GetWorldCenter());
+        }
+        
+    }
+    else if((worldGravity.x == 0 && worldGravity.y > 0)){
+        
+        if(acceleration.y >= THRESHOLD)
+        {
+          b2Vec2 impulse = b2Vec2(-1.0f,0.0f);
+          body->ApplyLinearImpulse(impulse, body->GetWorldCenter());
+        }
+        if(acceleration.y <= -THRESHOLD)
+        {
+          b2Vec2 impulse = b2Vec2(1.0f,0.0f);
+          body->ApplyLinearImpulse(impulse, body->GetWorldCenter());
+        }
+    }
+    else if(worldGravity.x < 0 && worldGravity.y == 0){
+        
+        if(acceleration.x >= THRESHOLD)
+        {
+            b2Vec2 impulse = b2Vec2(0.0f,1.0f);
+            body->ApplyLinearImpulse(impulse, body->GetWorldCenter());
+        }
+        if(acceleration.x <= -THRESHOLD)
+        {
+            b2Vec2 impulse = b2Vec2(0.0f,-1.0f);
+            body->ApplyLinearImpulse(impulse, body->GetWorldCenter());
+        }
+        
+    }
+    else if(worldGravity.x > 0 && worldGravity.y == 0){
+        
+        if(acceleration.x >= THRESHOLD)
+        {
+            b2Vec2 impulse = b2Vec2(0.0f,1.0f);
+            body->ApplyLinearImpulse(impulse, body->GetWorldCenter());
+        }
+        if(acceleration.x <= -THRESHOLD)
+        {
+            b2Vec2 impulse = b2Vec2(0.0f,-1.0f);
+            body->ApplyLinearImpulse(impulse, body->GetWorldCenter());
+        }
+        
+    }
+    }
+    else if(isPlayerInAir){
     if(acceleration.x >= THRESHOLD || acceleration.x <= -THRESHOLD ||
        acceleration.y >= THRESHOLD || acceleration.y <= -THRESHOLD ||
        acceleration.z >= THRESHOLD || acceleration.z <= -THRESHOLD)
     {
         
-        body->SetAwake(true);
         
-        float angle = atan2f(acceleration.y, acceleration.x);
+        if(worldGravity.x == 0 && worldGravity.y < 0)
+        {
+            float angle = atan2f(acceleration.y,acceleration.x);
+            angle *= 180.0/3.14159;
+            NSLog(@"In -Y angle: %f", angle);
+            if (angle > 135 && angle < -135)
+            { }
+            else if(angle >= -135 && angle <= -45)
+            {
+                world->SetGravity(b2Vec2(GRAVITY,0));
+            }
+            else if(angle >= 45 && angle <= 135)
+            {
+                world->SetGravity(b2Vec2(-GRAVITY,0));
+            }
+        }
+        else if(worldGravity.x == 0 && worldGravity.y > 0)
+        {
+            float angle = atan2f(acceleration.y,acceleration.x);
+            angle *= 180.0/3.14159;
+            NSLog(@"In +Y angle: %f", angle);
+            if (angle > -45 && angle < 45) { }
+            else if(angle >= 45 and angle <= 135)
+            {
+                world->SetGravity(b2Vec2(-GRAVITY,0));
+            }
+            else if(angle >= -135 && angle <= -45)
+            {
+                world->SetGravity(b2Vec2(GRAVITY,0));
+            }
+
+        }
+        else if(worldGravity.x > 0 && worldGravity.y == 0)
+        {
+            float angle = atan2f(acceleration.y,acceleration.x);
+            angle *= 180.0/3.14159;
+            NSLog(@"In +X angle: %f", angle);
+            if (angle > -135 && angle < -45) { }
+            else if(angle >= -45 and angle <= 45)
+            {
+                world->SetGravity(b2Vec2(0,GRAVITY));
+            }
+            else if(angle>= -45 && angle <= -135)
+            {
+                world->SetGravity(b2Vec2(0,-GRAVITY));
+            }
+
+        }
+        else if(worldGravity.x < 0 && worldGravity.y == 0)
+        {
+            float angle = atan2f(acceleration.y,acceleration.x);
+            angle *= 180.0/3.14159;
+            NSLog(@"In -X angle: %f", angle);
+            if (angle > 45 && angle < 135) { }
+            else if((angle >= 135 && angle <= 180) || (angle <= -135 && angle>=-180) )
+            {
+                world->SetGravity(b2Vec2(0,-GRAVITY));
+            }
+            else if(angle >= -45 && angle <= 45)
+            {
+                world->SetGravity(b2Vec2(0,GRAVITY));
+            }
+
+        }
+        /*float angle = atan2f(acceleration.y, acceleration.x);
         angle *= 180.0/3.14159;
         
         if (angle >= -45 && angle <= 45 ) {
@@ -466,16 +593,52 @@ enum {
         else {
             world->SetGravity(b2Vec2 (0, -GRAVITY));
             dirOfTilt = 1;
-        }
+        }*/
     }
     else
     {
         //playerVelocity.x = playerVelocity.x * deceleration + acceleration.x * sensitivity;
         //playerVelocity.y = playerVelocity.y * deceleration + acceleration.y * sensitivity;
     }
+    }
+}
+-(void) ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    b2Vec2 worldGravity;
+    float gravityRemovalFactor = 1.0f;
+    for(NSSet* touch in touches){
+        CGPoint location = [touch locationInView: [touch view]];
+        location = [[CCDirector sharedDirector] convertToGL: location];
+        
+        worldGravity = world->GetGravity();
+        b2Vec2 playerVel = body->GetLinearVelocity();
+        
+        if (playerVel.y >= -1.0f && playerVel.y <= 0.1f ) {
+            isPlayerInAir = YES;
+            if (worldGravity.x == 0.0f && worldGravity.y > 0.0f)
+                body->ApplyLinearImpulse(b2Vec2 (0, -body->GetMass()*GRAVITY*gravityRemovalFactor), body->GetWorldCenter());
+            //body->ApplyForceToCenter(b2Vec2 (0, -body->GetMass()*GRAVITY*gravityRemovalFactor));
+            else if (worldGravity.x == 0.0f && worldGravity.y < 0.0f)
+                body->ApplyLinearImpulse(b2Vec2 (0, body->GetMass()*GRAVITY*gravityRemovalFactor), body->GetWorldCenter());
+            //body->ApplyForceToCenter(b2Vec2 (0, body->GetMass()*GRAVITY*gravityRemovalFactor));
+            else if (worldGravity.x > 0.0f && worldGravity.y == 0.0f)
+                body->ApplyLinearImpulse(b2Vec2 (-body->GetMass()*GRAVITY*gravityRemovalFactor, 0), body->GetWorldCenter());
+            //body->ApplyForceToCenter(b2Vec2 (-body->GetMass()*GRAVITY*gravityRemovalFactor, 0));
+            else if (worldGravity.x < 0.0f && worldGravity.y == 0.0f)
+                body->ApplyLinearImpulse(b2Vec2 (body->GetMass()*GRAVITY*gravityRemovalFactor, 0), body->GetWorldCenter());
+            //body->ApplyForceToCenter(b2Vec2 (body->GetMass()*GRAVITY*gravityRemovalFactor, 0));
+        }
+    }
+
+    
+}
+-(void) ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+        isPlayerInAir = NO;
+    isPlayerOnGround = YES;
 }
 
--(void) ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+/*-(void) ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
     b2Vec2 worldGravity;
     float gravityRemovalFactor = 50.0f;
@@ -498,7 +661,7 @@ enum {
                 body->ApplyForceToCenter(b2Vec2 (body->GetMass()*GRAVITY*gravityRemovalFactor, 0));
         }
     }
-}
+}*/
 
 
 @end
