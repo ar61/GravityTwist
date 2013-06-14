@@ -135,7 +135,7 @@ enum {
         [player setPTMRatio:PTM_RATIO];
         [player setB2Body:body];
         [player setPosition: ccp(x,y)];
-        world->SetGravity(b2Vec2(0,-GRAVITY));
+        //world->SetGravity(b2Vec2(GRAVITY,0));
         
 		//adding buttons
         CCMenuItemImage *item1 = [CCMenuItemImage itemWithNormalImage:@"Icon-Small@2x.png" selectedImage:@"Icon-Small@2x.png" disabledImage:@"Icon-Small@2x.png" target:self selector:@selector(moveLeft)];
@@ -449,29 +449,38 @@ enum {
    
     if(isPlayerOnGround && !isPlayerInAir){
     if(worldGravity.x == 0 && worldGravity.y < 0){
+        float angle = atan2f(acceleration.x,acceleration.y);
+        angle *= 180.0/3.14159;
+        NSLog(@"Rotation angle: %f", angle);
+        //NSLog(@"Y-Acceleration: %f",acceleration.y);
         
         if(acceleration.y >= THRESHOLD)
         {
-            b2Vec2 impulse = b2Vec2(-1.0f,0.0f);
+            b2Vec2 impulse = b2Vec2(-0.7f,0.0f);
             body->ApplyLinearImpulse(impulse, body->GetWorldCenter());
         }
         else if(acceleration.y <= -THRESHOLD)
         {
-            b2Vec2 impulse = b2Vec2(1.0f,0.0f);
+            b2Vec2 impulse = b2Vec2(0.7f,0.0f);
             body->ApplyLinearImpulse(impulse, body->GetWorldCenter());
         }
         
     }
     else if((worldGravity.x == 0 && worldGravity.y > 0)){
         
+        float angle = atan2f(acceleration.x,acceleration.y);
+        angle *= 180.0/3.14159;
+        NSLog(@"Rotation angle: %f", angle);
+        //NSLog(@"Y-Acceleration: %f",acceleration.y);
+        
         if(acceleration.y >= THRESHOLD)
         {
-          b2Vec2 impulse = b2Vec2(-1.0f,0.0f);
+          b2Vec2 impulse = b2Vec2(-0.7f,0.0f);
           body->ApplyLinearImpulse(impulse, body->GetWorldCenter());
         }
         if(acceleration.y <= -THRESHOLD)
         {
-          b2Vec2 impulse = b2Vec2(1.0f,0.0f);
+          b2Vec2 impulse = b2Vec2(0.7f,0.0f);
           body->ApplyLinearImpulse(impulse, body->GetWorldCenter());
         }
     }
@@ -479,98 +488,107 @@ enum {
         
         if(acceleration.x >= THRESHOLD)
         {
-            b2Vec2 impulse = b2Vec2(0.0f,1.0f);
+            b2Vec2 impulse = b2Vec2(0.0f,0.7f);
             body->ApplyLinearImpulse(impulse, body->GetWorldCenter());
         }
         if(acceleration.x <= -THRESHOLD)
         {
-            b2Vec2 impulse = b2Vec2(0.0f,-1.0f);
+            b2Vec2 impulse = b2Vec2(0.0f,-0.7f);
             body->ApplyLinearImpulse(impulse, body->GetWorldCenter());
         }
         
     }
     else if(worldGravity.x > 0 && worldGravity.y == 0){
         
+        float angle = atan2f(acceleration.y,acceleration.x);
+        angle *= 180.0/3.14159;
+        NSLog(@"Rotation angle: %f", angle);
+        //NSLog(@"Y-Acceleration: %f",acceleration.y);
+
         if(acceleration.x >= THRESHOLD)
         {
-            b2Vec2 impulse = b2Vec2(0.0f,1.0f);
+            b2Vec2 impulse = b2Vec2(0.0f,0.7f);
             body->ApplyLinearImpulse(impulse, body->GetWorldCenter());
         }
         if(acceleration.x <= -THRESHOLD)
         {
-            b2Vec2 impulse = b2Vec2(0.0f,-1.0f);
+            b2Vec2 impulse = b2Vec2(0.0f,-0.7f);
             body->ApplyLinearImpulse(impulse, body->GetWorldCenter());
         }
         
     }
     }
-    else if(isPlayerInAir){
-    if(acceleration.x >= THRESHOLD || acceleration.x <= -THRESHOLD ||
-       acceleration.y >= THRESHOLD || acceleration.y <= -THRESHOLD ||
-       acceleration.z >= THRESHOLD || acceleration.z <= -THRESHOLD)
+    else if(isPlayerInAir && !isPlayerOnGround){
+    if(/*acceleration.x >= THRESHOLD || acceleration.x <= -THRESHOLD ||
+       acceleration.y >= THRESHOLD || acceleration.y <= -THRESHOLD*/1)
     {
         
         
         if(worldGravity.x == 0 && worldGravity.y < 0)
         {
-            float angle = atan2f(acceleration.y,acceleration.x);
-            angle *= 180.0/3.14159;
-            NSLog(@"In -Y angle: %f", angle);
-            if (angle > 135 && angle < -135)
-            { }
-            else if(angle >= -135 && angle <= -45)
+            float angle = atan2f(acceleration.x,acceleration.y);
+            angle = CC_RADIANS_TO_DEGREES(angle);
+            NSLog(@"Rotation angle: %f", angle);
+            if(angle <= -100)
             {
+                body->ApplyLinearImpulse(b2Vec2 (body->GetMass()*GRAVITY,0), body->GetWorldCenter());
                 world->SetGravity(b2Vec2(GRAVITY,0));
             }
-            else if(angle >= 45 && angle <= 135)
+            if(angle >= -60)
             {
+                body->ApplyLinearImpulse(b2Vec2 (-body->GetMass()*GRAVITY,0), body->GetWorldCenter());
                 world->SetGravity(b2Vec2(-GRAVITY,0));
             }
         }
-        else if(worldGravity.x == 0 && worldGravity.y > 0)
+        if(worldGravity.x == 0 && worldGravity.y > 0)
         {
-            float angle = atan2f(acceleration.y,acceleration.x);
-            angle *= 180.0/3.14159;
-            NSLog(@"In +Y angle: %f", angle);
-            if (angle > -45 && angle < 45) { }
-            else if(angle >= 45 and angle <= 135)
+            float angle = atan2f(acceleration.x,acceleration.y);
+            angle = CC_RADIANS_TO_DEGREES(angle);
+            NSLog(@"Rotation angle: %f", angle);
+            if(angle >= 100)
             {
-                world->SetGravity(b2Vec2(-GRAVITY,0));
-            }
-            else if(angle >= -135 && angle <= -45)
-            {
+                body->ApplyLinearImpulse(b2Vec2 (body->GetMass()*GRAVITY,0), body->GetWorldCenter());
                 world->SetGravity(b2Vec2(GRAVITY,0));
+            }
+            if(angle <= 60)
+            {
+                body->ApplyLinearImpulse(b2Vec2 (-body->GetMass()*GRAVITY,0), body->GetWorldCenter());
+                world->SetGravity(b2Vec2(-GRAVITY,0));
             }
 
         }
-        else if(worldGravity.x > 0 && worldGravity.y == 0)
+        if(worldGravity.x > 0 && worldGravity.y == 0)
         {
             float angle = atan2f(acceleration.y,acceleration.x);
             angle *= 180.0/3.14159;
-            NSLog(@"In +X angle: %f", angle);
-            if (angle > -135 && angle < -45) { }
-            else if(angle >= -45 and angle <= 45)
+            angle = CC_RADIANS_TO_DEGREES(angle);
+            NSLog(@"Rotation angle: %f", angle);
+           if(angle <= -115)
             {
+                body->ApplyLinearImpulse(b2Vec2 (0,-body->GetMass()*GRAVITY), body->GetWorldCenter());
+                world->SetGravity(b2Vec2(0,-GRAVITY));
+            }
+            if(angle >= -60)
+            {
+                body->ApplyLinearImpulse(b2Vec2 (0,body->GetMass()*GRAVITY), body->GetWorldCenter());
                 world->SetGravity(b2Vec2(0,GRAVITY));
             }
-            else if(angle>= -45 && angle <= -135)
-            {
-                world->SetGravity(b2Vec2(0,-GRAVITY));
-            }
 
         }
-        else if(worldGravity.x < 0 && worldGravity.y == 0)
+       if(worldGravity.x < 0 && worldGravity.y == 0)
         {
             float angle = atan2f(acceleration.y,acceleration.x);
             angle *= 180.0/3.14159;
-            NSLog(@"In -X angle: %f", angle);
-            if (angle > 45 && angle < 135) { }
-            else if((angle >= 135 && angle <= 180) || (angle <= -135 && angle>=-180) )
+            angle = CC_RADIANS_TO_DEGREES(angle);
+            NSLog(@"Rotation angle: %f", angle);
+            if(angle >= 115)
             {
+                body->ApplyLinearImpulse(b2Vec2 (0,-body->GetMass()*GRAVITY), body->GetWorldCenter());
                 world->SetGravity(b2Vec2(0,-GRAVITY));
             }
-            else if(angle >= -45 && angle <= 45)
+            if(angle >= 60)
             {
+                body->ApplyLinearImpulse(b2Vec2 (0,body->GetMass()*GRAVITY), body->GetWorldCenter());
                 world->SetGravity(b2Vec2(0,GRAVITY));
             }
 
@@ -615,6 +633,7 @@ enum {
         
         if (playerVel.y >= -1.0f && playerVel.y <= 0.1f ) {
             isPlayerInAir = YES;
+            isPlayerOnGround = NO;
             if (worldGravity.x == 0.0f && worldGravity.y > 0.0f)
                 body->ApplyLinearImpulse(b2Vec2 (0, -body->GetMass()*GRAVITY*gravityRemovalFactor), body->GetWorldCenter());
             //body->ApplyForceToCenter(b2Vec2 (0, -body->GetMass()*GRAVITY*gravityRemovalFactor));
