@@ -524,7 +524,7 @@ enum {
     {
         
         
-        if(worldGravity.x == 0 && worldGravity.y < 0)
+        /*if(worldGravity.x == 0 && worldGravity.y < 0)
         {
             float angle = atan2f(acceleration.x,acceleration.y);
             angle = CC_RADIANS_TO_DEGREES(angle);
@@ -592,8 +592,8 @@ enum {
                 world->SetGravity(b2Vec2(0,GRAVITY));
             }
 
-        }
-        /*float angle = atan2f(acceleration.y, acceleration.x);
+        }*/
+        float angle = atan2f(acceleration.y, acceleration.x);
         angle *= 180.0/3.14159;
         
         if (angle >= -45 && angle <= 45 ) {
@@ -608,10 +608,10 @@ enum {
             world->SetGravity(b2Vec2 (GRAVITY, 0));
             dirOfTilt = 2;
         }
-        else {
+        else if ((angle < -135 && angle > -180)||(angle>135 && angle <=180)){
             world->SetGravity(b2Vec2 (0, -GRAVITY));
             dirOfTilt = 1;
-        }*/
+        }
     }
     else
     {
@@ -631,22 +631,22 @@ enum {
         worldGravity = world->GetGravity();
         b2Vec2 playerVel = body->GetLinearVelocity();
         
-        if (playerVel.y >= -1.0f && playerVel.y <= 0.1f ) {
+        //if (playerVel.y >= -1.0f && playerVel.y <= 0.1f ) {
             isPlayerInAir = YES;
             isPlayerOnGround = NO;
             if (worldGravity.x == 0.0f && worldGravity.y > 0.0f)
                 body->ApplyLinearImpulse(b2Vec2 (0, -body->GetMass()*GRAVITY*gravityRemovalFactor), body->GetWorldCenter());
-            //body->ApplyForceToCenter(b2Vec2 (0, -body->GetMass()*GRAVITY*gravityRemovalFactor));
+           // body->ApplyForceToCenter(b2Vec2 (0, -body->GetMass()*GRAVITY*gravityRemovalFactor));
             else if (worldGravity.x == 0.0f && worldGravity.y < 0.0f)
                 body->ApplyLinearImpulse(b2Vec2 (0, body->GetMass()*GRAVITY*gravityRemovalFactor), body->GetWorldCenter());
-            //body->ApplyForceToCenter(b2Vec2 (0, body->GetMass()*GRAVITY*gravityRemovalFactor));
+           // body->ApplyForceToCenter(b2Vec2 (0,body->GetMass()*GRAVITY*gravityRemovalFactor));
             else if (worldGravity.x > 0.0f && worldGravity.y == 0.0f)
                 body->ApplyLinearImpulse(b2Vec2 (-body->GetMass()*GRAVITY*gravityRemovalFactor, 0), body->GetWorldCenter());
-            //body->ApplyForceToCenter(b2Vec2 (-body->GetMass()*GRAVITY*gravityRemovalFactor, 0));
+          //  body->ApplyForceToCenter(b2Vec2 (-body->GetMass()*GRAVITY*gravityRemovalFactor, 0));
             else if (worldGravity.x < 0.0f && worldGravity.y == 0.0f)
                 body->ApplyLinearImpulse(b2Vec2 (body->GetMass()*GRAVITY*gravityRemovalFactor, 0), body->GetWorldCenter());
-            //body->ApplyForceToCenter(b2Vec2 (body->GetMass()*GRAVITY*gravityRemovalFactor, 0));
-        }
+           // body->ApplyForceToCenter(b2Vec2 (body->GetMass()*GRAVITY*gravityRemovalFactor, 0));
+       // }
     }
 
     
