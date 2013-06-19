@@ -42,6 +42,8 @@
     int dirOfTilt;  // 0: left, 1: top, 2: right, 3: bottom
     NSDictionary *exitPoint;
     CCTMXObjectGroup *objects;
+    CCTMXObjectGroup *collisionObjects;
+    CCTMXObjectGroup *collectibleObjects;
     MyContactListener *contactListener;
     CCLabelTTF *coinsLabel;
 }

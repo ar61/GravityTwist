@@ -59,7 +59,7 @@ enum {
 	if( (self = [super init])) {
 		
         isPlayerOnGround = true;
-        tiledMap = [CCTMXTiledMap tiledMapWithTMXFile:@"lvl1.tmx"];
+        tiledMap = [CCTMXTiledMap tiledMapWithTMXFile:@"One.tmx"];
 		
         tile = [tiledMap layerNamed:@"tiles"];
         
@@ -78,6 +78,10 @@ enum {
         collisions = [tiledMap layerNamed:@"collisions"];
         collisions.visible = NO;
         
+        collisionObjects = [tiledMap objectGroupNamed:@"collisions"];
+        
+        collectibleObjects = [tiledMap objectGroupNamed:@"collectibles"];
+        
         collectibles = [tiledMap layerNamed:@"collectibles"];
         collectibles.tag = 1;
         collectedCount = 0;
@@ -90,9 +94,11 @@ enum {
 		[self initPhysics];
 		
         //initialize collisions
-        [self createFixtures: collisions type:1];
+        //[self createFixtures: collisions type:1];
+        [self createPlatformObjects: collisionObjects withType:1];
         // initialize collectibles
-        [self createFixtures: collectibles type:2];
+        //[self createFixtures: collectibles type:2];
+        [self createPlatformObjects: collectibleObjects withType:2];
         
         contactListener = new MyContactListener();
         world->SetContactListener(contactListener);
@@ -158,6 +164,51 @@ enum {
 		[self schedule:@selector(update:)];
 	}
 	return self;
+}
+
+-(void)createPlatformObjects: (CCTMXObjectGroup*) layer withType:(int) type
+{
+    NSMutableDictionary *objPoints;
+    
+    int x,y,w,h;
+    for(objPoints in [layer objects])
+    {
+        x = [[objPoints valueForKey:@"x"] intValue];
+        y = [[objPoints valueForKey:@"y"] intValue];
+        w = [[objPoints valueForKey:@"width"] intValue];
+        h = [[objPoints valueForKey:@"height"] intValue];
+        
+        CGPoint _point = ccp(x+w/2, y+h/2);
+        CGPoint _size = ccp(w,h);
+        
+        [self createCollisionTiles: _point withSize: _size withType: type];
+    }
+}
+
+-(void)createCollisionTiles: (CGPoint)p withSize: (CGPoint) size withType: (int) type
+{
+    b2BodyDef bDef;
+    bDef.type = b2_staticBody;
+    bDef.position.Set(p.x/PTM_RATIO, p.y/PTM_RATIO);
+    b2Body *b = world->CreateBody(&bDef);
+    
+    b2PolygonShape shape;
+    shape.SetAsBox(size.x/2.0/PTM_RATIO, size.y/2.0/PTM_RATIO);
+    
+    b2FixtureDef fDef;
+    fDef.shape = &shape;
+    fDef.density = 1.0f;
+    fDef.friction = 0.2f;
+    fDef.restitution = 0.0f;
+    if(type == 2)
+    {
+        fDef.filter.categoryBits = kFilterCategoryNonSolidObjects;
+    }
+    else
+    {
+        fDef.filter.categoryBits = KFilterCategoryBits;
+    }
+    b->CreateFixture(&fDef);
 }
 
 -(void)createFixtures: (CCTMXLayer*) layer type:(int) ty

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="32" height="24" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="Tilesheet" tilewidth="32" tileheight="32">
+  <image source="Tilesheet.png" width="512" height="256"/>
+  <terraintypes>
+   <terrain name="New Terrain" tile="-1"/>
+  </terraintypes>
+  <tile id="6" terrain="0,0,0,0"/>
+  <tile id="7" terrain="0,0,0,0"/>
+  <tile id="22" terrain="0,0,0,0"/>
+  <tile id="23" terrain="0,0,0,0"/>
+  <tile id="28" terrain="0,0,0,0"/>
+  <tile id="38" terrain="0,0,0,0"/>
+  <tile id="39" terrain="0,0,0,0"/>
+  <tile id="54" terrain="0,0,0,0"/>
+  <tile id="55" terrain="0,0,0,0"/>
+ </tileset>
+ <layer name="tiles" width="32" height="24">
+  <data encoding="base64" compression="zlib">
+   eJxLZ2BgSB9gHDlAeDDZ70YGRjaLWHXE+N+CgeGAORCT4hdCerxJsF8DaI46ifYT0kOK/RJAc8RJtJ+QHmzxgMt+DqA57CTaT0gPKfbTAo/aP/D2o7uB3uXfSLcfvQwi135gPgfl9wGzH1jOgco7rOFLSh1Erv3Ach5U3lMcH+TaD6znQPUdXewntz1AS/+Tkt6QMS77KfUHsfZTK/1T2/6BxACpURLP
+  </data>
+ </layer>
+ <objectgroup name="objects" width="32" height="24">
+  <object name="SpawnPoint" x="70" y="544" width="37" height="39"/>
+ </objectgroup>
+ <layer name="collisions" width="32" height="24" visible="0" opacity="0.53">
+  <data encoding="base64" compression="zlib">
+   eJxLZ2BgSB9gPFBgMNlPabiRE76Dyf/D3X5s9ozaT5n9sgNsPylgMNiPq8ygFxjp9qOD4WY/qXXQcPM/LeynZTtqsPh/oNqDg9X/9MQANSBAFw==
+  </data>
+ </layer>
+ <layer name="collectibles" width="32" height="24">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFowA/kKSx+lEwCmgJRtPjKBhpYDTNUx+MhukoGG4AAFTNAH4=
+  </data>
+ </layer>
+ <layer name="Exit" width="32" height="24">
+  <data encoding="base64" compression="zlib">
+   eJztzTERACAQxMBvwAE4AAePf2mcizTZmdSpkiRJYow0wf9KG/yfdMF/pwf+xfg73gDt
+  </data>
+ </layer>
+ <objectgroup name="collisions" width="32" height="24">
+  <object x="257" y="610" width="351" height="27"/>
+  <object x="609" y="513" width="222" height="30"/>
+  <object x="833" y="195" width="29" height="187"/>
+  <object x="865" y="355" width="28" height="89"/>
+  <object x="577" y="98" width="221" height="28"/>
+  <object x="65" y="98" width="413" height="29"/>
+  <object x="32" y="673" width="127" height="29"/>
+  <object x="5" y="3" width="1012" height="29"/>
+  <object x="7" y="32" width="23" height="727"/>
+  <object x="21" y="739" width="992" height="20"/>
+  <object x="991" y="29" width="28" height="711"/>
+ </objectgroup>
+ <objectgroup name="collectibles" width="32" height="24">
+  <object x="353" y="577" width="29" height="32"/>
+  <object x="704" y="480" width="30" height="31"/>
+  <object x="801" y="289" width="31" height="30"/>
+  <object x="672" y="128" width="31" height="31"/>
+  <object x="289" y="129" width="30" height="30"/>
+ </objectgroup>
+</map>
