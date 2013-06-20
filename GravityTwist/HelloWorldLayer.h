@@ -22,7 +22,8 @@
 #define PTM_RATIO 32
 #define KFilterCategoryBits 0x01
 #define kFilterCategoryNonSolidObjects 0x02
-#define kFilterCategorySolidObject 0x04
+#define kFilterCategoryHarmfulObjects 0x04
+#define kFilterCategorySolidObject 0x03
 //Define a constant for gravity of world
 #define GRAVITY 9.8f
 
@@ -46,6 +47,14 @@
     CCTMXObjectGroup *collectibleObjects;
     MyContactListener *contactListener;
     CCLabelTTF *coinsLabel;
+    enum tileTypes{
+        HARMFUL,
+        PLATFORM,
+        MOVING_PLATFORM,
+        COLLECTIBLE
+    }tiles;
+    
+    BOOL playerDead;
 }
 
 // returns a CCScene that contains the HelloWorldLayer as the only child

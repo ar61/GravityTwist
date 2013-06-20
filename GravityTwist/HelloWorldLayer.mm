@@ -59,7 +59,8 @@ enum {
 	if( (self = [super init])) {
 		
         isPlayerOnGround = true;
-        tiledMap = [CCTMXTiledMap tiledMapWithTMXFile:@"One.tmx"];
+        playerDead = false;
+        tiledMap = [CCTMXTiledMap tiledMapWithTMXFile:@"Spikes.tmx"];
 		
         tile = [tiledMap layerNamed:@"tiles"];
         
@@ -171,6 +172,9 @@ enum {
     NSMutableDictionary *objPoints;
     
     int x,y,w,h;
+    BOOL spikes;
+    //int z = [[layer valueForKeyPath:@"spike.hurtful"] integerValue];
+
     for(objPoints in [layer objects])
     {
         x = [[objPoints valueForKey:@"x"] intValue];
@@ -181,7 +185,26 @@ enum {
         CGPoint _point = ccp(x+w/2, y+h/2);
         CGPoint _size = ccp(w,h);
         
-        [self createCollisionTiles: _point withSize: _size withType: type];
+        
+        if([objPoints valueForKey:@"name"] == NULL)
+        {
+            spikes = false;
+        }
+        else
+        {
+            [[layer objects] valueForKey:@"hurtful"];
+            NSString *named = [NSString stringWithFormat:@"%@", [objPoints objectForKey:@"name"]];
+            spikes = [named compare:@"spikes"];
+        }
+        
+        if(!spikes)
+        {
+            [self createCollisionTiles: _point withSize: _size withType: type];
+        }
+        else
+        {
+            [self createCollisionTiles: _point withSize: _size withType: 4];
+        }
     }
 }
 
@@ -202,66 +225,19 @@ enum {
     fDef.restitution = 0.0f;
     if(type == 2)
     {
+        //for collectibles
         fDef.filter.categoryBits = kFilterCategoryNonSolidObjects;
+    }
+    else if(type == 4)
+    {
+        fDef.filter.categoryBits = kFilterCategoryHarmfulObjects;
     }
     else
     {
+        //for remaining objects
         fDef.filter.categoryBits = KFilterCategoryBits;
     }
     b->CreateFixture(&fDef);
-}
-
--(void)createFixtures: (CCTMXLayer*) layer type:(int) ty
-{
-    CGSize size = [layer layerSize];
-    for(int i=0; i<size.width; i++)
-    {
-        for(int j=0; j<size.height; j++)
-        {
-            CCSprite *t = [layer tileAt: ccp(i,j)];
-            if(t != nil)
-            {
-                [self createRectangleFixtures: layer x:i y:j w:1.0f h:1.0f ty:ty];
-            }
-        }
-    }
-}
-
--(void)createRectangleFixtures: (CCTMXLayer*) layer x:(int)x y:(int)y w:(float)width h:(float)height ty:(int) t
-{
-    CGPoint p = [layer positionAt: ccp(x,y)];
-    CGSize size = [tiledMap tileSize];
-    
-    b2BodyDef bDef;
-    bDef.type = b2_staticBody;
-    bDef.position.Set((p.x + size.width/2.0f)/PTM_RATIO, (p.y + size.height/2.0f)/PTM_RATIO );
-    b2Body *b = world->CreateBody(&bDef);
-    
-    b2PolygonShape shape;
-    shape.SetAsBox(size.width/PTM_RATIO * 0.5 * width, size.height/PTM_RATIO * 0.5 * height);
-    
-    b2FixtureDef fDef;
-    fDef.shape = &shape;
-    fDef.density = 1.0f;
-    fDef.friction = 0.2f;
-    fDef.restitution = 0.0f;
-    if(t == 2)
-    {
-        fDef.filter.categoryBits = kFilterCategoryNonSolidObjects;
-    }
-    else
-    {
-        fDef.filter.categoryBits = KFilterCategoryBits;
-    }
-    
-    fDef.filter.maskBits = 0xffff;
-    b->CreateFixture(&fDef);
-}
-
-- (CGPoint)tileCoordForPosition:(CGPoint)position {
-    int x = position.x / tiledMap.tileSize.width;
-    int y = ((tiledMap.mapSize.height * tiledMap.tileSize.height) - position.y) / tiledMap.tileSize.height;
-    return ccp(x, y);
 }
 
 -(void)moveLeft
@@ -405,299 +381,168 @@ enum {
         {
             b2Body *bodyA = contact.fixtureA->GetBody();
             b2Body *bodyB = contact.fixtureB->GetBody();
-                        
-            if(bodyA->GetType() == b2_staticBody && bodyB->GetType() == b2_dynamicBody)
-            {                
-                b2Fixture *fDef = bodyA->GetFixtureList();
-                b2Filter filter = fDef->GetFilterData();
-                
-                if(filter.categoryBits == kFilterCategoryNonSolidObjects)
-                {
-                    b2Vec2 v = bodyA->GetPosition();
-                    int x = v.x;
-                    int y = ceil(v.y);
-                    y = tiledMap.mapSize.height - y;
-                    [collectibles removeTileAt:ccp(x,y)];
-                    bodyA->DestroyFixture(fDef);
-                    collectedCount++;
-                    coinsLabel.string = [NSString stringWithFormat:@"coins: %d", collectedCount];
-                    if(collectedCount == 5)
+            
+            //if(bodyA != nil || bodyB != nil)
+            {
+                if(bodyA->GetType() == b2_staticBody && bodyB->GetType() == b2_dynamicBody)
+                {                
+                    b2Fixture *fDef = bodyA->GetFixtureList();
+                    b2Filter filter = fDef->GetFilterData();
+                    
+                    if(filter.categoryBits == kFilterCategoryNonSolidObjects)
                     {
-                        door.visible = YES;
-                        
-                        //[self createFixtures:door type: 1];
+                        b2Vec2 v = bodyA->GetPosition();
+                        int x = v.x;
+                        int y = ceil(v.y);
+                        y = tiledMap.mapSize.height - y;
+                        [collectibles removeTileAt:ccp(x,y)];
+                        bodyA->DestroyFixture(fDef);
+                        collectedCount++;
+                        coinsLabel.string = [NSString stringWithFormat:@"coins: %d", collectedCount];
+                        if(collectedCount == 5)
+                        {
+                            door.visible = YES;
+                            
+                            //[self createFixtures:door type: 1];
+                        }
+                        break;
                     }
-                    break;
+                    else if (filter.categoryBits == kFilterCategoryHarmfulObjects)
+                    {
+                        //remove player fixture
+                        bodyB->DestroyFixture(bodyB->GetFixtureList());
+                        [self removeChild:_parent];
+                        playerDead = true;
+                        break;
+                    }
                 }
             }
         }
     }
-        
-    CGPoint pos = player.position;
-    
-    pos.x += playerVelocity.x;
-    pos.y += playerVelocity.y;
-    
-    CGSize screenSize = [CCDirector sharedDirector].winSize;
-    
-    float imageWidthHalved = player.texture.contentSize.width * 0.5f;
-    float imageHeightHalved = player.texture.contentSize.height * 0.5f;
-    
-    float leftBorderLimit = imageWidthHalved;
-    float rightBorderLimit = screenSize.width - imageWidthHalved;
-    
-    float topBorderLimit = imageHeightHalved;
-    float bottomBorderLimit = screenSize.height - imageHeightHalved;
-    
-    if(pos.x < leftBorderLimit)
-    {
-        pos.x = leftBorderLimit;
-        playerVelocity.x = 0;
-    }
-    else if(pos.x > rightBorderLimit)
-    {
-        pos.x = rightBorderLimit;
-        playerVelocity.x = 0;
-    }
-    
-    if(pos.x < topBorderLimit)
-    {
-        pos.x = leftBorderLimit;
-        playerVelocity.x = 0;
-    }
-    else if(pos.x > rightBorderLimit)
-    {
-        pos.x = bottomBorderLimit;
-        playerVelocity.x = 0;
-    }
-    b2Vec2 pv;
-    if(dirOfTilt == 0 || dirOfTilt == 2)
-    {
-        pv.x = 0;
-        pv.y = playerVelocity.y;
-    }
-    else
-    {
-        pv.x = playerVelocity.x;
-        pv.y = 0;
-    }
-    b2Vec2 dir;
-    dir.x = pos.x;
-    dir.y = pos.y;
-    //body->ApplyForceToCenter(b2Vec2(playerVelocity.x,0));
-    //body->ApplyForce(pv, dir);
-    //player.position = pos;
 
 }
 
 -(void) accelerometer:(UIAccelerometer *)accelerometer didAccelerate:(UIAcceleration *)acceleration
 {
-    float THRESHOLD = 0.01f;
-    //float deceleration = 0.4f;
-    //float sensitivity = 6.0f;
-    body->SetAwake(true);
-    b2Vec2 worldGravity = world->GetGravity();
-   
-    if(isPlayerOnGround && !isPlayerInAir){
-    if(worldGravity.x == 0 && worldGravity.y < 0){
-        float angle = atan2f(acceleration.x,acceleration.y);
-        angle *= 180.0/3.14159;
-        NSLog(@"Rotation angle: %f", angle);
-        //NSLog(@"Y-Acceleration: %f",acceleration.y);
-        
-        if(acceleration.y >= THRESHOLD)
-        {
-            b2Vec2 impulse = b2Vec2(-0.7f,0.0f);
-            body->ApplyLinearImpulse(impulse, body->GetWorldCenter());
-        }
-        else if(acceleration.y <= -THRESHOLD)
-        {
-            b2Vec2 impulse = b2Vec2(0.7f,0.0f);
-            body->ApplyLinearImpulse(impulse, body->GetWorldCenter());
-        }
-        
-    }
-    else if((worldGravity.x == 0 && worldGravity.y > 0)){
-        
-        float angle = atan2f(acceleration.x,acceleration.y);
-        angle *= 180.0/3.14159;
-        NSLog(@"Rotation angle: %f", angle);
-        //NSLog(@"Y-Acceleration: %f",acceleration.y);
-        
-        if(acceleration.y >= THRESHOLD)
-        {
-          b2Vec2 impulse = b2Vec2(-0.7f,0.0f);
-          body->ApplyLinearImpulse(impulse, body->GetWorldCenter());
-        }
-        if(acceleration.y <= -THRESHOLD)
-        {
-          b2Vec2 impulse = b2Vec2(0.7f,0.0f);
-          body->ApplyLinearImpulse(impulse, body->GetWorldCenter());
-        }
-    }
-    else if(worldGravity.x < 0 && worldGravity.y == 0){
-        
-        if(acceleration.x >= THRESHOLD)
-        {
-            b2Vec2 impulse = b2Vec2(0.0f,0.7f);
-            body->ApplyLinearImpulse(impulse, body->GetWorldCenter());
-        }
-        if(acceleration.x <= -THRESHOLD)
-        {
-            b2Vec2 impulse = b2Vec2(0.0f,-0.7f);
-            body->ApplyLinearImpulse(impulse, body->GetWorldCenter());
-        }
-        
-    }
-    else if(worldGravity.x > 0 && worldGravity.y == 0){
-        
-        float angle = atan2f(acceleration.y,acceleration.x);
-        angle *= 180.0/3.14159;
-        NSLog(@"Rotation angle: %f", angle);
-        //NSLog(@"Y-Acceleration: %f",acceleration.y);
-
-        if(acceleration.x >= THRESHOLD)
-        {
-            b2Vec2 impulse = b2Vec2(0.0f,0.7f);
-            body->ApplyLinearImpulse(impulse, body->GetWorldCenter());
-        }
-        if(acceleration.x <= -THRESHOLD)
-        {
-            b2Vec2 impulse = b2Vec2(0.0f,-0.7f);
-            body->ApplyLinearImpulse(impulse, body->GetWorldCenter());
-        }
-        
-    }
-    }
-    else if(isPlayerInAir && !isPlayerOnGround){
-    if(/*acceleration.x >= THRESHOLD || acceleration.x <= -THRESHOLD ||
-       acceleration.y >= THRESHOLD || acceleration.y <= -THRESHOLD*/1)
+    if(!playerDead)
     {
-        
-        
-        /*if(worldGravity.x == 0 && worldGravity.y < 0)
-        {
+        float THRESHOLD = 0.01f;
+        //float deceleration = 0.4f;
+        //float sensitivity = 6.0f;
+        body->SetAwake(true);
+        b2Vec2 worldGravity = world->GetGravity();
+       
+        if(isPlayerOnGround && !isPlayerInAir){
+        if(worldGravity.x == 0 && worldGravity.y < 0){
             float angle = atan2f(acceleration.x,acceleration.y);
-            angle = CC_RADIANS_TO_DEGREES(angle);
-            NSLog(@"Rotation angle: %f", angle);
-            if(angle <= -100)
+            angle *= 180.0/3.14159;
+            
+            if(acceleration.y >= THRESHOLD)
             {
-                body->ApplyLinearImpulse(b2Vec2 (body->GetMass()*GRAVITY,0), body->GetWorldCenter());
-                world->SetGravity(b2Vec2(GRAVITY,0));
+                b2Vec2 impulse = b2Vec2(-0.7f,0.0f);
+                body->ApplyLinearImpulse(impulse, body->GetWorldCenter());
             }
-            if(angle >= -60)
+            else if(acceleration.y <= -THRESHOLD)
             {
-                body->ApplyLinearImpulse(b2Vec2 (-body->GetMass()*GRAVITY,0), body->GetWorldCenter());
-                world->SetGravity(b2Vec2(-GRAVITY,0));
+                b2Vec2 impulse = b2Vec2(0.7f,0.0f);
+                body->ApplyLinearImpulse(impulse, body->GetWorldCenter());
+            }
+            
+        }
+        else if((worldGravity.x == 0 && worldGravity.y > 0)){
+            
+            float angle = atan2f(acceleration.x,acceleration.y);
+            angle *= 180.0/3.14159;
+            
+            if(acceleration.y >= THRESHOLD)
+            {
+              b2Vec2 impulse = b2Vec2(-0.7f,0.0f);
+              body->ApplyLinearImpulse(impulse, body->GetWorldCenter());
+            }
+            if(acceleration.y <= -THRESHOLD)
+            {
+              b2Vec2 impulse = b2Vec2(0.7f,0.0f);
+              body->ApplyLinearImpulse(impulse, body->GetWorldCenter());
             }
         }
-        if(worldGravity.x == 0 && worldGravity.y > 0)
-        {
-            float angle = atan2f(acceleration.x,acceleration.y);
-            angle = CC_RADIANS_TO_DEGREES(angle);
-            NSLog(@"Rotation angle: %f", angle);
-            if(angle >= 100)
+        else if(worldGravity.x < 0 && worldGravity.y == 0){
+            
+            if(acceleration.x >= THRESHOLD)
             {
-                body->ApplyLinearImpulse(b2Vec2 (body->GetMass()*GRAVITY,0), body->GetWorldCenter());
-                world->SetGravity(b2Vec2(GRAVITY,0));
+                b2Vec2 impulse = b2Vec2(0.0f,0.7f);
+                body->ApplyLinearImpulse(impulse, body->GetWorldCenter());
             }
-            if(angle <= 60)
+            if(acceleration.x <= -THRESHOLD)
             {
-                body->ApplyLinearImpulse(b2Vec2 (-body->GetMass()*GRAVITY,0), body->GetWorldCenter());
-                world->SetGravity(b2Vec2(-GRAVITY,0));
+                b2Vec2 impulse = b2Vec2(0.0f,-0.7f);
+                body->ApplyLinearImpulse(impulse, body->GetWorldCenter());
             }
-
+            
         }
-        if(worldGravity.x > 0 && worldGravity.y == 0)
-        {
+        else if(worldGravity.x > 0 && worldGravity.y == 0){
+            
             float angle = atan2f(acceleration.y,acceleration.x);
             angle *= 180.0/3.14159;
-            angle = CC_RADIANS_TO_DEGREES(angle);
-            NSLog(@"Rotation angle: %f", angle);
-           if(angle <= -115)
+            if(acceleration.x >= THRESHOLD)
             {
-                body->ApplyLinearImpulse(b2Vec2 (0,-body->GetMass()*GRAVITY), body->GetWorldCenter());
-                world->SetGravity(b2Vec2(0,-GRAVITY));
+                b2Vec2 impulse = b2Vec2(0.0f,0.7f);
+                body->ApplyLinearImpulse(impulse, body->GetWorldCenter());
             }
-            if(angle >= -60)
+            if(acceleration.x <= -THRESHOLD)
             {
-                body->ApplyLinearImpulse(b2Vec2 (0,body->GetMass()*GRAVITY), body->GetWorldCenter());
-                world->SetGravity(b2Vec2(0,GRAVITY));
+                b2Vec2 impulse = b2Vec2(0.0f,-0.7f);
+                body->ApplyLinearImpulse(impulse, body->GetWorldCenter());
             }
-
+            
         }
-       if(worldGravity.x < 0 && worldGravity.y == 0)
-        {
-            float angle = atan2f(acceleration.y,acceleration.x);
+        }
+        else if(isPlayerInAir && !isPlayerOnGround){
+            float angle = atan2f(acceleration.y, acceleration.x);
             angle *= 180.0/3.14159;
-            angle = CC_RADIANS_TO_DEGREES(angle);
-            NSLog(@"Rotation angle: %f", angle);
-            if(angle >= 115)
-            {
-                body->ApplyLinearImpulse(b2Vec2 (0,-body->GetMass()*GRAVITY), body->GetWorldCenter());
-                world->SetGravity(b2Vec2(0,-GRAVITY));
+            
+            if (angle >= -45 && angle <= 45 ) {
+                world->SetGravity(b2Vec2 (0, GRAVITY));
+                dirOfTilt = 3;
             }
-            if(angle >= 60)
-            {
-                body->ApplyLinearImpulse(b2Vec2 (0,body->GetMass()*GRAVITY), body->GetWorldCenter());
-                world->SetGravity(b2Vec2(0,GRAVITY));
+            else if (angle > 45 && angle < 135) {
+                world->SetGravity(b2Vec2 (-GRAVITY, 0));
+                dirOfTilt = 0;
             }
-
-        }*/
-        float angle = atan2f(acceleration.y, acceleration.x);
-        angle *= 180.0/3.14159;
-        
-        if (angle >= -45 && angle <= 45 ) {
-            world->SetGravity(b2Vec2 (0, GRAVITY));
-            dirOfTilt = 3;
+            else if (angle > -135 && angle < -45) {
+                world->SetGravity(b2Vec2 (GRAVITY, 0));
+                dirOfTilt = 2;
+            }
+            else if ((angle < -135 && angle > -180)||(angle>135 && angle <=180)){
+                world->SetGravity(b2Vec2 (0, -GRAVITY));
+                dirOfTilt = 1;
+            }
         }
-        else if (angle > 45 && angle < 135) {
-            world->SetGravity(b2Vec2 (-GRAVITY, 0));
-            dirOfTilt = 0;
-        }
-        else if (angle > -135 && angle < -45) {
-            world->SetGravity(b2Vec2 (GRAVITY, 0));
-            dirOfTilt = 2;
-        }
-        else if ((angle < -135 && angle > -180)||(angle>135 && angle <=180)){
-            world->SetGravity(b2Vec2 (0, -GRAVITY));
-            dirOfTilt = 1;
-        }
-    }
-    else
-    {
-        //playerVelocity.x = playerVelocity.x * deceleration + acceleration.x * sensitivity;
-        //playerVelocity.y = playerVelocity.y * deceleration + acceleration.y * sensitivity;
-    }
     }
 }
 -(void) ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    b2Vec2 worldGravity;
-    float gravityRemovalFactor = 1.0f;
-    for(NSSet* touch in touches){
-        CGPoint location = [touch locationInView: [touch view]];
-        location = [[CCDirector sharedDirector] convertToGL: location];
-        
-        worldGravity = world->GetGravity();
-        b2Vec2 playerVel = body->GetLinearVelocity();
-        
-        //if (playerVel.y >= -1.0f && playerVel.y <= 0.1f ) {
-            isPlayerInAir = YES;
-            isPlayerOnGround = NO;
-            if (worldGravity.x == 0.0f && worldGravity.y > 0.0f)
-                body->ApplyLinearImpulse(b2Vec2 (0, -body->GetMass()*GRAVITY*gravityRemovalFactor), body->GetWorldCenter());
-           // body->ApplyForceToCenter(b2Vec2 (0, -body->GetMass()*GRAVITY*gravityRemovalFactor));
-            else if (worldGravity.x == 0.0f && worldGravity.y < 0.0f)
-                body->ApplyLinearImpulse(b2Vec2 (0, body->GetMass()*GRAVITY*gravityRemovalFactor), body->GetWorldCenter());
-           // body->ApplyForceToCenter(b2Vec2 (0,body->GetMass()*GRAVITY*gravityRemovalFactor));
-            else if (worldGravity.x > 0.0f && worldGravity.y == 0.0f)
-                body->ApplyLinearImpulse(b2Vec2 (-body->GetMass()*GRAVITY*gravityRemovalFactor, 0), body->GetWorldCenter());
-          //  body->ApplyForceToCenter(b2Vec2 (-body->GetMass()*GRAVITY*gravityRemovalFactor, 0));
-            else if (worldGravity.x < 0.0f && worldGravity.y == 0.0f)
-                body->ApplyLinearImpulse(b2Vec2 (body->GetMass()*GRAVITY*gravityRemovalFactor, 0), body->GetWorldCenter());
-           // body->ApplyForceToCenter(b2Vec2 (body->GetMass()*GRAVITY*gravityRemovalFactor, 0));
-       // }
+    if(!playerDead)
+    {
+        b2Vec2 worldGravity;
+        float gravityRemovalFactor = 1.0f;
+        for(NSSet* touch in touches){
+            CGPoint location = [touch locationInView: [touch view]];
+            location = [[CCDirector sharedDirector] convertToGL: location];
+            
+            worldGravity = world->GetGravity();
+            b2Vec2 playerVel = body->GetLinearVelocity();
+            
+                isPlayerInAir = YES;
+                isPlayerOnGround = NO;
+                if (worldGravity.x == 0.0f && worldGravity.y > 0.0f)
+                    body->ApplyLinearImpulse(b2Vec2 (0, -body->GetMass()*GRAVITY*gravityRemovalFactor), body->GetWorldCenter());
+                else if (worldGravity.x == 0.0f && worldGravity.y < 0.0f)
+                    body->ApplyLinearImpulse(b2Vec2 (0, body->GetMass()*GRAVITY*gravityRemovalFactor), body->GetWorldCenter());
+                else if (worldGravity.x > 0.0f && worldGravity.y == 0.0f)
+                    body->ApplyLinearImpulse(b2Vec2 (-body->GetMass()*GRAVITY*gravityRemovalFactor, 0), body->GetWorldCenter());
+                else if (worldGravity.x < 0.0f && worldGravity.y == 0.0f)
+                    body->ApplyLinearImpulse(b2Vec2 (body->GetMass()*GRAVITY*gravityRemovalFactor, 0), body->GetWorldCenter());
+        }
     }
 
     
@@ -707,31 +552,6 @@ enum {
         isPlayerInAir = NO;
     isPlayerOnGround = YES;
 }
-
-/*-(void) ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    b2Vec2 worldGravity;
-    float gravityRemovalFactor = 50.0f;
-    
-    for(NSSet* touch in touches){
-        CGPoint location = [touch locationInView: [touch view]];
-        location = [[CCDirector sharedDirector] convertToGL: location];
-        
-        worldGravity = world->GetGravity();
-        b2Vec2 playerVel = body->GetLinearVelocity();
-        
-        if (playerVel.y >= -1.0f && playerVel.y <= 0.1f ) {
-            if (worldGravity.x == 0.0f && worldGravity.y > 0.0f)
-                body->ApplyForceToCenter(b2Vec2 (0, -body->GetMass()*GRAVITY*gravityRemovalFactor));
-            else if (worldGravity.x == 0.0f && worldGravity.y < 0.0f)
-                body->ApplyForceToCenter(b2Vec2 (0, body->GetMass()*GRAVITY*gravityRemovalFactor));
-            else if (worldGravity.x > 0.0f && worldGravity.y == 0.0f)
-                body->ApplyForceToCenter(b2Vec2 (-body->GetMass()*GRAVITY*gravityRemovalFactor, 0));
-            else if (worldGravity.x < 0.0f && worldGravity.y == 0.0f)
-                body->ApplyForceToCenter(b2Vec2 (body->GetMass()*GRAVITY*gravityRemovalFactor, 0));
-        }
-    }
-}*/
 
 
 @end
