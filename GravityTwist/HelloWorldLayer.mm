@@ -330,7 +330,7 @@ enum {
 	
 	
 	// Do we want to let bodies sleep?
-	world->SetAllowSleeping(true);
+	world->SetAllowSleeping(false);
 	
 	world->SetContinuousPhysics(true);
 	

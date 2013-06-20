@@ -10,7 +10,7 @@
  </layer>
  <layer name="collisions" width="32" height="24">
   <data encoding="base64" compression="zlib">
-   eJwTYWBgEKEAUwooMWPU/lH7R+0ftX/UfsrMILZMHy3/R+0ftX/U/lH7qWv/QLa/ASV4BpE=
+   eJwTYWBgEBlgTC6gRC9M/6j9o/aP2j9q/0i2n9jymJplN7J5lOgftX/U/lH7R+0fyvYPJAYAxMAKyQ==
   </data>
  </layer>
  <objectgroup name="objects" width="32" height="24">
@@ -30,5 +30,14 @@
     <property name="doorLayer" value="door1"/>
    </properties>
   </object>
+ </objectgroup>
+ <objectgroup name="collisions" width="32" height="24">
+  <object x="0" y="0" width="1024" height="32"/>
+  <object x="0" y="0" width="32" height="768"/>
+  <object x="0" y="736" width="1024" height="32"/>
+  <object x="992" y="0" width="32" height="768"/>
+  <object x="480" y="0" width="32" height="768"/>
+  <object x="0" y="384" width="160" height="32"/>
+  <object x="352" y="384" width="160" height="32"/>
  </objectgroup>
 </map>
