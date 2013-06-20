@@ -60,7 +60,7 @@ enum {
 		
         isPlayerOnGround = true;
         playerDead = false;
-        tiledMap = [CCTMXTiledMap tiledMapWithTMXFile:@"Spikes.tmx"];
+        tiledMap = [CCTMXTiledMap tiledMapWithTMXFile:@"boxbutton.tmx"];
 		
         tile = [tiledMap layerNamed:@"tiles"];
         
@@ -75,6 +75,13 @@ enum {
         int y = [spawnPoint[@"y"] integerValue];
         
         exitPoint = [objects objectNamed:@"Exit"];
+        
+        buttons = [tiledMap objectGroupNamed:@"buttons"];
+        boxes = [tiledMap objectGroupNamed:@"boxes"];
+        for (id button in [buttons objects]) {
+            NSLog(@"properties: %@", button);
+            [doors addObject:[tiledMap layerNamed:button[@"doorLayer"]]];
+        }
         
         collisions = [tiledMap layerNamed:@"collisions"];
         collisions.visible = NO;
@@ -131,6 +138,36 @@ enum {
         body->CreateFixture(&fixtureDef);
                 
         CCNode *parent1 = [self getChildByTag:kTagParentNode];
+        
+        // Put boxes in the level
+        b2BodyDef boxDef;
+        boxDef.type = b2_dynamicBody;
+        
+        b2FixtureDef boxFixtureDef;
+        fixtureDef.density = 1.0f;
+        fixtureDef.friction = 0.3f;
+        for (id box in [boxes objects]) {
+            CGFloat boxx = [box[@"x"] intValue] / PTM_RATIO;
+            CGFloat boxy = [box[@"y"] intValue] / PTM_RATIO;
+            CGFloat boxw = [box[@"width"] intValue] / PTM_RATIO;
+            CGFloat boxh = [box[@"height"] intValue] / PTM_RATIO;
+            
+            boxDef.position.Set(boxx + (boxw/2),boxy + (boxh/2));
+            //boxDef.position.Set(boxx, boxy);
+            b2Body *boxBody = world->CreateBody(&boxDef);
+            
+            b2PolygonShape boxDynamicBox;
+            //boxDynamicBox.SetAsBox(boxw/2, boxh/2);
+            boxDynamicBox.SetAsBox(boxw, boxh);
+            boxFixtureDef.shape = &boxDynamicBox;
+            
+            boxBody->CreateFixture(&boxFixtureDef);
+            CCPhysicsSprite *boxSprite = [CCPhysicsSprite spriteWithTexture:spriteTexture_ rect:CGRectMake(32, 0, 32, 32)];
+            [parent1 addChild:boxSprite];
+            [boxSprite setPTMRatio:PTM_RATIO];
+            [boxSprite setB2Body:boxBody];
+            [boxSprite setPosition:ccp(boxx*PTM_RATIO, boxy*PTM_RATIO - 30)];
+        }
         
         //We have a 64x64 sprite sheet with 4 different 32x32 images.  The following code is
         //just randomly picking one of the images

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3F0493CA1762C1F1008B1A78 /* Tilesheet.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F0493C91762C1F1008B1A78 /* Tilesheet.png */; };
 		3F0493CE1762C3C2008B1A78 /* lvl1.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 3F0493CD1762C3C2008B1A78 /* lvl1.tmx */; };
+		65DBD31E1773BA00007A1014 /* boxbutton.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 65DBD31D1773BA00007A1014 /* boxbutton.tmx */; };
 		C394D7B01763C8420095EFC7 /* GLES-Render.mm in Sources */ = {isa = PBXBuildFile; fileRef = C394D7AF1763C8420095EFC7 /* GLES-Render.mm */; };
 		C39AC4E317650F7C00B648B6 /* MyContactListener.mm in Sources */ = {isa = PBXBuildFile; fileRef = C39AC4E217650F7C00B648B6 /* MyContactListener.mm */; };
 		C3C248BB17726A0400B1D61B /* Spikes.tmx in Resources */ = {isa = PBXBuildFile; fileRef = C3C248BA17726A0300B1D61B /* Spikes.tmx */; };
@@ -196,6 +197,7 @@
 /* Begin PBXFileReference section */
 		3F0493C91762C1F1008B1A78 /* Tilesheet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Tilesheet.png; path = Resources/Tilesheet.png; sourceTree = "<group>"; };
 		3F0493CD1762C3C2008B1A78 /* lvl1.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = lvl1.tmx; path = Resources/lvl1.tmx; sourceTree = "<group>"; };
+		65DBD31D1773BA00007A1014 /* boxbutton.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = boxbutton.tmx; path = Resources/boxbutton.tmx; sourceTree = "<group>"; };
 		C394D7AE1763C8420095EFC7 /* GLES-Render.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GLES-Render.h"; sourceTree = "<group>"; };
 		C394D7AF1763C8420095EFC7 /* GLES-Render.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "GLES-Render.mm"; sourceTree = "<group>"; };
 		C39AC4E117650F7C00B648B6 /* MyContactListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyContactListener.h; sourceTree = "<group>"; };
@@ -653,6 +655,7 @@
 		C3D9BD29175DD689005BE61F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				65DBD31D1773BA00007A1014 /* boxbutton.tmx */,
 				C3C248BD17726A0E00B1D61B /* One.tmx */,
 				C3C248BA17726A0300B1D61B /* Spikes.tmx */,
 				3F0493CD1762C3C2008B1A78 /* lvl1.tmx */,
@@ -1260,6 +1263,7 @@
 				3F0493CE1762C3C2008B1A78 /* lvl1.tmx in Resources */,
 				C3C248BB17726A0400B1D61B /* Spikes.tmx in Resources */,
 				C3C248BE17726A0E00B1D61B /* One.tmx in Resources */,
+				65DBD31E1773BA00007A1014 /* boxbutton.tmx in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -39,6 +39,11 @@
     CCTMXLayer *door;
     CCTMXLayer *collisions;
     CCTMXLayer *collectibles;
+    
+    CCTMXObjectGroup *buttons;
+    CCTMXObjectGroup *boxes;
+    NSMutableArray *doors;
+    
     int collectedCount;
     int dirOfTilt;  // 0: left, 1: top, 2: right, 3: bottom
     NSDictionary *exitPoint;
