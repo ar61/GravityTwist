@@ -13,6 +13,8 @@
 #import "cocos2d.h"
 #import "Box2D.h"
 #import "GLES-Render.h"
+#import "GameObject.h"
+#import "MyContactListener.h"
 
 //Pixel to metres ratio. Box2D uses metres as the unit for measurement.
 //This ratio defines how many pixels correspond to 1 Box2D "metre"
@@ -23,21 +25,43 @@
 //Define a constant for gravity of world
 #define GRAVITY 9.8f
 
+#define KFilterCategoryBits 0x01
+#define kFilterCategoryNonSolidObjects 0x02
+#define kFilterCategoryHarmfulObjects 0x04
+#define kFilterCategorySolidObject 0x03
 
 // GameLayer
 @interface GameLayer : CCLayer
 {
-	CCTexture2D *spriteTexture_;	// weak ref
+    GameObject *player;
+    CGSize s;
+	NSString *spriteTextureName;	// weak ref
 	b2World* world;					// strong ref
 	GLESDebugDraw *m_debugDraw;		// strong ref
-    CGPoint playerVelocity;
     CCTMXTiledMap *tiledMap;
     CCTMXLayer *tile;
-    CCTMXLayer *meta;
+    CCTMXLayer *door;
+    CCTMXLayer *collisions;
+    CCTMXLayer *collectibles;
+    int collectedCount;
+    NSDictionary *exitPoint;
     CCTMXObjectGroup *objects;
+    CCTMXObjectGroup *collisionObjects;
+    CCTMXObjectGroup *collectibleObjects;
+    MyContactListener *contactListener;
+    CCLabelTTF *coinsLabel;
+    enum tileTypes{
+        HARMFUL,
+        PLATFORM,
+        MOVING_PLATFORM,
+        COLLECTIBLE
+    }tiles;
+    
+    BOOL playerDead;
 }
 
 // returns a CCScene that contains the HelloWorldLayer as the only child
 +(CCScene *) scene;
+-(void) initPhysics;
 
 @end

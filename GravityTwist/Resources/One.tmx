@@ -23,9 +23,9 @@
  <objectgroup name="objects" width="32" height="24">
   <object name="SpawnPoint" x="70" y="544" width="37" height="39"/>
  </objectgroup>
- <layer name="collisions" width="32" height="24" opacity="0.53">
+ <layer name="collisions" width="32" height="24" visible="0" opacity="0.53">
   <data encoding="base64" compression="zlib">
-   eJxLZ2BgSB9gPFBgMNlPabiRE76Dyf/D3X5s9ozaP2o/Pe3HVWbQC4x0+9HBcLOf1DpouPmfFvbTsh01WPw/UO3Bwep/emIAYl0/+g==
+   eJxLZ2BgSB9gPFBgMNlPabiRE76Dyf/D3X5s9ozaT5n9sgNsPylgMNiPq8ygFxjp9qOD4WY/qXXQcPM/LeynZTtqsPh/oNqDg9X/9MQANSBAFw==
   </data>
  </layer>
  <layer name="collectibles" width="32" height="24">
@@ -38,4 +38,24 @@
    eJztzTERACAQxMBvwAE4AAePf2mcizTZmdSpkiRJYow0wf9KG/yfdMF/pwf+xfg73gDt
   </data>
  </layer>
+ <objectgroup name="collisions" width="32" height="24">
+  <object x="257" y="610" width="351" height="27"/>
+  <object x="609" y="513" width="222" height="30"/>
+  <object x="833" y="195" width="29" height="187"/>
+  <object x="865" y="355" width="28" height="89"/>
+  <object x="577" y="98" width="221" height="28"/>
+  <object x="65" y="98" width="413" height="29"/>
+  <object x="32" y="673" width="127" height="29"/>
+  <object x="5" y="3" width="1012" height="29"/>
+  <object x="7" y="32" width="23" height="727"/>
+  <object x="21" y="739" width="992" height="20"/>
+  <object x="991" y="29" width="28" height="711"/>
+ </objectgroup>
+ <objectgroup name="collectibles" width="32" height="24">
+  <object x="353" y="577" width="29" height="32"/>
+  <object x="704" y="480" width="30" height="31"/>
+  <object x="801" y="289" width="31" height="30"/>
+  <object x="672" y="128" width="31" height="31"/>
+  <object x="289" y="129" width="30" height="30"/>
+ </objectgroup>
 </map>

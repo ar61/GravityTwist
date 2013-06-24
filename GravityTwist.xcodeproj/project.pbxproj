@@ -7,9 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3F0493CA1762C1F1008B1A78 /* Tilesheet.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F0493C91762C1F1008B1A78 /* Tilesheet.png */; };
 		3F0493CE1762C3C2008B1A78 /* lvl1.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 3F0493CD1762C3C2008B1A78 /* lvl1.tmx */; };
 		3F0495671762EA8C008B1A78 /* GameLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3F0495661762EA8C008B1A78 /* GameLayer.mm */; };
+		3F11E6181777ACD10060A7B3 /* GameObject.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3F11E6171777ACD10060A7B3 /* GameObject.mm */; };
+		3F11E61B1777BF090060A7B3 /* MyContactListener.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3F11E61A1777BF090060A7B3 /* MyContactListener.mm */; };
+		3F11E6211777C5E10060A7B3 /* level1.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 3F11E61C1777C5E10060A7B3 /* level1.tmx */; };
+		3F11E6221777C5E10060A7B3 /* LevelOne.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 3F11E61D1777C5E10060A7B3 /* LevelOne.tmx */; };
+		3F11E6231777C5E10060A7B3 /* lvl.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 3F11E61E1777C5E10060A7B3 /* lvl.tmx */; };
+		3F11E6241777C5E10060A7B3 /* One.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 3F11E61F1777C5E10060A7B3 /* One.tmx */; };
+		3F11E6251777C5E10060A7B3 /* Spikes.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 3F11E6201777C5E10060A7B3 /* Spikes.tmx */; };
+		3F11E6271777CF1A0060A7B3 /* Tilesheet.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F11E6261777CF1A0060A7B3 /* Tilesheet.png */; };
 		3FBAD9DA1766B02000CC4B4C /* MenuItemLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3FBAD9D91766B02000CC4B4C /* MenuItemLayer.mm */; };
 		C3D9BD17175DD688005BE61F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3D9BD16175DD688005BE61F /* QuartzCore.framework */; };
 		C3D9BD19175DD688005BE61F /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3D9BD18175DD688005BE61F /* OpenGLES.framework */; };
@@ -192,9 +199,18 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		3F0493C91762C1F1008B1A78 /* Tilesheet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Tilesheet.png; path = Resources/Tilesheet.png; sourceTree = "<group>"; };
 		3F0493CD1762C3C2008B1A78 /* lvl1.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = lvl1.tmx; path = Resources/lvl1.tmx; sourceTree = "<group>"; };
 		3F0495661762EA8C008B1A78 /* GameLayer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GameLayer.mm; sourceTree = "<group>"; };
+		3F11E6161777ACD10060A7B3 /* GameObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameObject.h; sourceTree = "<group>"; };
+		3F11E6171777ACD10060A7B3 /* GameObject.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GameObject.mm; sourceTree = "<group>"; };
+		3F11E6191777BF090060A7B3 /* MyContactListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyContactListener.h; sourceTree = "<group>"; };
+		3F11E61A1777BF090060A7B3 /* MyContactListener.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MyContactListener.mm; sourceTree = "<group>"; };
+		3F11E61C1777C5E10060A7B3 /* level1.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = level1.tmx; path = Resources/level1.tmx; sourceTree = "<group>"; };
+		3F11E61D1777C5E10060A7B3 /* LevelOne.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = LevelOne.tmx; path = Resources/LevelOne.tmx; sourceTree = "<group>"; };
+		3F11E61E1777C5E10060A7B3 /* lvl.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = lvl.tmx; path = Resources/lvl.tmx; sourceTree = "<group>"; };
+		3F11E61F1777C5E10060A7B3 /* One.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = One.tmx; path = Resources/One.tmx; sourceTree = "<group>"; };
+		3F11E6201777C5E10060A7B3 /* Spikes.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Spikes.tmx; path = Resources/Spikes.tmx; sourceTree = "<group>"; };
+		3F11E6261777CF1A0060A7B3 /* Tilesheet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Tilesheet.png; path = Resources/Tilesheet.png; sourceTree = "<group>"; };
 		3FBAD9D81766B02000CC4B4C /* MenuItemLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuItemLayer.h; sourceTree = "<group>"; };
 		3FBAD9D91766B02000CC4B4C /* MenuItemLayer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MenuItemLayer.mm; sourceTree = "<group>"; };
 		C3D9BD12175DD688005BE61F /* GravityTwist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GravityTwist.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -629,6 +645,10 @@
 		C3D9BD28175DD688005BE61F /* GravityTwist */ = {
 			isa = PBXGroup;
 			children = (
+				3F11E6191777BF090060A7B3 /* MyContactListener.h */,
+				3F11E61A1777BF090060A7B3 /* MyContactListener.mm */,
+				3F11E6161777ACD10060A7B3 /* GameObject.h */,
+				3F11E6171777ACD10060A7B3 /* GameObject.mm */,
 				C3D9BF49175DD690005BE61F /* AppDelegate.h */,
 				C3D9BF4A175DD690005BE61F /* AppDelegate.mm */,
 				C3D9BF4C175DD690005BE61F /* GameLayer.h */,
@@ -649,8 +669,13 @@
 		C3D9BD29175DD689005BE61F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				3F11E6261777CF1A0060A7B3 /* Tilesheet.png */,
+				3F11E61C1777C5E10060A7B3 /* level1.tmx */,
+				3F11E61D1777C5E10060A7B3 /* LevelOne.tmx */,
+				3F11E61E1777C5E10060A7B3 /* lvl.tmx */,
+				3F11E61F1777C5E10060A7B3 /* One.tmx */,
+				3F11E6201777C5E10060A7B3 /* Spikes.tmx */,
 				3F0493CD1762C3C2008B1A78 /* lvl1.tmx */,
-				3F0493C91762C1F1008B1A78 /* Tilesheet.png */,
 				C3D9BD2A175DD689005BE61F /* Default.png */,
 				C3D9BD2C175DD689005BE61F /* Default@2x.png */,
 				C3D9BD2E175DD689005BE61F /* Default-568h@2x.png */,
@@ -1250,8 +1275,13 @@
 				C3D9BD40175DD689005BE61F /* iTunesArtwork in Resources */,
 				C3D9BE96175DD68D005BE61F /* ChangeLog in Resources */,
 				C3D9BF56175DD690005BE61F /* blocks.png in Resources */,
-				3F0493CA1762C1F1008B1A78 /* Tilesheet.png in Resources */,
 				3F0493CE1762C3C2008B1A78 /* lvl1.tmx in Resources */,
+				3F11E6211777C5E10060A7B3 /* level1.tmx in Resources */,
+				3F11E6221777C5E10060A7B3 /* LevelOne.tmx in Resources */,
+				3F11E6231777C5E10060A7B3 /* lvl.tmx in Resources */,
+				3F11E6241777C5E10060A7B3 /* One.tmx in Resources */,
+				3F11E6251777C5E10060A7B3 /* Spikes.tmx in Resources */,
+				3F11E6271777CF1A0060A7B3 /* Tilesheet.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1420,6 +1450,8 @@
 				C3D9BF54175DD690005BE61F /* GLES-Render.mm in Sources */,
 				3F0495671762EA8C008B1A78 /* GameLayer.mm in Sources */,
 				3FBAD9DA1766B02000CC4B4C /* MenuItemLayer.mm in Sources */,
+				3F11E6181777ACD10060A7B3 /* GameObject.mm in Sources */,
+				3F11E61B1777BF090060A7B3 /* MyContactListener.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1441,7 +1473,7 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -1460,7 +1492,7 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

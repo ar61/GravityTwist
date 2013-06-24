@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="32" height="24" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="Tilesheet" tilewidth="32" tileheight="32">
+  <image source="Tilesheet.png" width="512" height="256"/>
+  <terraintypes>
+   <terrain name="New Terrain" tile="-1"/>
+  </terraintypes>
+  <tile id="6" terrain="0,0,0,0"/>
+  <tile id="7" terrain="0,0,0,0"/>
+  <tile id="22" terrain="0,0,0,0"/>
+  <tile id="23" terrain="0,0,0,0"/>
+  <tile id="24" terrain=",0,,0"/>
+  <tile id="28" terrain="0,0,0,0"/>
+  <tile id="38" terrain="0,0,0,0"/>
+  <tile id="39" terrain="0,0,0,0"/>
+  <tile id="54" terrain="0,0,0,0"/>
+  <tile id="55" terrain="0,0,0,0"/>
+ </tileset>
+ <layer name="tiles" width="32" height="24">
+  <data encoding="base64" compression="zlib">
+   eJzllT0OgkAQhecEJmJLo5RWKhcQCQ0V6gX8SbgmR/NNAh3g7jr4MBZfuftldjPv1SKyJVG3LEjM2V98iMX8T5HmASxmLQP8V7gvRH8O92nEvwQRWE3w/0oK92HEvwYbkDj6dmDv4bfmCDKivwJnov8G7j1+i90OyYg5519HyI65nnHx++6Yz5lvvz+yRDOF5keWaqbS/OgS7RSaH12qnTrot+73d3f+wv7/gz8moe4XvidZqQ==
+  </data>
+ </layer>
+ <objectgroup name="objects" width="32" height="24">
+  <object name="SpawnPoint" x="936" y="502" width="37" height="39"/>
+ </objectgroup>
+ <layer name="collisions" width="32" height="24" visible="0" opacity="0.53">
+  <data encoding="base64" compression="zlib">
+   eJxLZ2BgSB9gPFBgMNlPabiRE76Dyf/D3X5s9ozaT5n9sgNsPylgMNiPq8ygFxjp9qOD4WY/qXXQcPM/LeynZTtqsPh/oNqDg9X/9MQANSBAFw==
+  </data>
+ </layer>
+ <layer name="collectibles" width="32" height="24">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFowA/4IPSkiSqHwWjYDAAYtMjsembFEALM+lhNi3AUHPvUAajZTD1wWj6HQXDDQAAc2cAzw==
+  </data>
+ </layer>
+ <layer name="Exit" width="32" height="24">
+  <data encoding="base64" compression="zlib">
+   eJztzTERACAQxMBvwAE4AAfgXxqngjTZmdSpkiRJtJY6+B9pgv+VNvg/6YJ/6acHII0A7Q==
+  </data>
+ </layer>
+ <objectgroup name="collisions" width="32" height="24">
+  <object x="97" y="612" width="351" height="27"/>
+  <object x="762" y="611" width="222" height="30"/>
+  <object x="192" y="99" width="509" height="26"/>
+  <object x="34" y="355" width="380" height="28"/>
+  <object name="spikes" x="5" y="3" width="1012" height="29">
+   <properties>
+    <property name="harmful" value="true"/>
+   </properties>
+  </object>
+  <object x="7" y="32" width="23" height="727"/>
+  <object name="spikes_down" x="21" y="739" width="992" height="20">
+   <properties>
+    <property name="harmful" value="true"/>
+   </properties>
+  </object>
+  <object x="991" y="29" width="28" height="711"/>
+  <object x="576" y="354" width="412" height="27"/>
+ </objectgroup>
+ <objectgroup name="collectibles" width="32" height="24">
+  <object x="353" y="577" width="29" height="32"/>
+  <object x="863" y="384" width="30" height="31"/>
+  <object x="768" y="320" width="31" height="30"/>
+  <object x="481" y="351" width="31" height="31"/>
+  <object x="97" y="320" width="30" height="30"/>
+  <object x="352" y="129" width="31" height="31"/>
+ </objectgroup>
+</map>
