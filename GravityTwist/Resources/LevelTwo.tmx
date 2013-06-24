@@ -27,12 +27,12 @@
   </data>
  </layer>
  <objectgroup name="objects" width="32" height="24">
-  <object name="SpawnPoint" x="936" y="502" width="37" height="39"/>
+  <object name="SpawnPoint" x="160" y="192" width="37" height="39"/>
   <object name="ExitPoint" x="132" y="511" width="55" height="96"/>
  </objectgroup>
  <layer name="collectibles" width="32" height="24">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo4A4IDnQDhgFo4CGgBbpm5Z5Zqjlx6Hm3lEwCpDBaPodBcMNAADEIQCX
+   eJxjYBgFo4A4IDnQDhgFKGA0PqgLaBGeo3GEAKNhMQqGMhhNv6NguAEA9iEAlw==
   </data>
  </layer>
  <objectgroup name="collisions" width="32" height="24">
@@ -58,7 +58,7 @@
   <object x="353" y="577" width="29" height="32"/>
   <object x="863" y="384" width="30" height="31"/>
   <object x="768" y="320" width="31" height="30"/>
-  <object x="481" y="351" width="31" height="31"/>
+  <object x="481" y="224" width="31" height="31"/>
   <object x="97" y="320" width="30" height="30"/>
   <object x="352" y="129" width="31" height="31"/>
  </objectgroup>

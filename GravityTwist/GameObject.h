@@ -17,7 +17,7 @@
 
     CCSpriteBatchNode *parent1;
     CCTexture2D *spriteTexture;
-    CCPhysicsSprite *object;
+    
     enum {
         kTagParentNode = 1,
         kTagChildNode = 2
@@ -26,6 +26,7 @@
 }
 
 @property(nonatomic) b2Body* body;
+@property(nonatomic) CCPhysicsSprite *object;
 @property(nonatomic) BOOL isTouching;
 
 -(CCSpriteBatchNode*) getSpriteBatchNodeObject:  (NSString*) texture;

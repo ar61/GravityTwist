@@ -29,12 +29,16 @@
 #define kFilterCategoryNonSolidObjects 0x02
 #define kFilterCategoryHarmfulObjects 0x04
 #define kFilterCategorySolidObject 0x03
+#define kFilterCategoryExit 0x05
 
 // GameLayer
 @interface GameLayer : CCLayer
 {
     GameObject *player;
     CGSize s;
+    CGPoint spawnPoint;
+    CGPoint exitPoint;
+    CGPoint exitSize;
 	NSString *spriteTextureName;	// weak ref
 	b2World* world;					// strong ref
 	GLESDebugDraw *m_debugDraw;		// strong ref
@@ -44,7 +48,7 @@
     CCTMXLayer *collisions;
     CCTMXLayer *collectibles;
     int collectedCount;
-    NSDictionary *exitPoint;
+    NSDictionary *exitObject;
     CCTMXObjectGroup *objects;
     CCTMXObjectGroup *collisionObjects;
     CCTMXObjectGroup *collectibleObjects;
@@ -58,6 +62,7 @@
     }tiles;
     
     BOOL playerDead;
+    BOOL worldBeingDestroyed;
 }
 
 // returns a CCScene that contains the HelloWorldLayer as the only child
