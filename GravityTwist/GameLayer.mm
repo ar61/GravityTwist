@@ -320,6 +320,7 @@
     
 }
 
+//Hey
 -(void) accelerometer:(UIAccelerometer *)accelerometer didAccelerate:(UIAcceleration *)acceleration
 {
     if(!playerDead)
