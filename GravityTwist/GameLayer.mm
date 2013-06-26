@@ -40,7 +40,7 @@
 		
         playerDead = false;
         worldBeingDestroyed = false;
-        [self initLevel:@"LevelOne.tmx"];
+        [self initLevel:@"boxbutton.tmx"];
         
 		self.touchEnabled = YES;
 		self.accelerometerEnabled = YES;
