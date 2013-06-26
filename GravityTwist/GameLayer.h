@@ -53,6 +53,7 @@
     CCTMXObjectGroup *collisionObjects;
     CCTMXObjectGroup *collectibleObjects;
     MyContactListener *contactListener;
+    
     CCLabelTTF *coinsLabel;
     enum tileTypes{
         HARMFUL,

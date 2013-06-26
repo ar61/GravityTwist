@@ -64,6 +64,22 @@
         
         player = [player initWithOptions:b2_dynamicBody withPosition: spawnPoint withFixedRotation:YES withPolyShape:dynamicBox withDensity:1.0f withFriction:0.3f withRestitution:0.0f withWorld:world withParent:parent1];
         
+        /*
+        CGPoint otherPoint = CGPointMake(spawnPoint.x+15, spawnPoint.y);
+        
+        [[[GameObject alloc] init] initWithOptions:b2_dynamicBody withPosition:otherPoint withFixedRotation:YES withPolyShape:dynamicBox withDensity:1.0f withFriction:0.3f withRestitution:0.0f withWorld:world withParent:parent1];
+        */
+        
+        CCTMXObjectGroup *boxes = [tiledMap objectGroupNamed:@"boxes"];
+        for (id box in [boxes objects]) {
+            int boxx = [box[@"x"] intValue];
+            int boxy = [box[@"y"] intValue];
+            //int boxw = [box[@"width"] intValue];
+            //int boxh = [box[@"height"] intValue];
+            GameObject *gameBox = [[GameObject alloc] init];
+            gameBox = [gameBox initWithOptions:b2_dynamicBody withPosition:CGPointMake(boxx, boxy) withFixedRotation:YES withPolyShape:dynamicBox withDensity:1.0f withFriction:0.3f withRestitution:0.0f withWorld:world withParent:parent1];
+        }
+        
         [self addChild:tiledMap z:-1];
 		[self scheduleUpdate];
 	}
