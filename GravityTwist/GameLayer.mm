@@ -285,10 +285,10 @@
                         else if (filter.categoryBits == kFilterCategoryHarmfulObjects)
                         {
                             //remove player fixture
-                            bodyB->DestroyFixture(bodyB->GetFixtureList());
+                            /*bodyB->DestroyFixture(bodyB->GetFixtureList());
                             CCNode *parent = [self getChildByTag:kTagParentNode];
                             [parent removeChildByTag:kTagChildNode];
-                            playerDead = true;
+                            playerDead = true;*/
                             break;
                         }
                         /*else if (filter.categoryBits == kFilterCategoryExit)
@@ -327,72 +327,65 @@
         float THRESHOLD = 0.01f;
         player.body->SetAwake(true);
         b2Vec2 worldGravity = world->GetGravity();
+        b2Vec2 impulse;
         
-        if(!player.isTouching){
-            if(worldGravity.x == 0 && worldGravity.y < 0){
-                float angle = atan2f(acceleration.x,acceleration.y);
-                angle *= 180.0/3.14159;
+        if([self checkContactWithGround])
+        {
+            if(worldGravity.x == 0 && worldGravity.y < 0)
+            {
                 
                 if(acceleration.y >= THRESHOLD)
                 {
-                    b2Vec2 impulse = b2Vec2(-0.7f,0.0f);
-                    player.body->ApplyLinearImpulse(impulse, player.body->GetWorldCenter());
-                }
-                else if(acceleration.y <= -THRESHOLD)
-                {
-                    b2Vec2 impulse = b2Vec2(0.7f,0.0f);
-                    player.body->ApplyLinearImpulse(impulse, player.body->GetWorldCenter());
-                }
-                
-            }
-            else if((worldGravity.x == 0 && worldGravity.y > 0)){
-                
-                float angle = atan2f(acceleration.x,acceleration.y);
-                angle *= 180.0/3.14159;
-                
-                if(acceleration.y >= THRESHOLD)
-                {
-                    b2Vec2 impulse = b2Vec2(-0.7f,0.0f);
-                    player.body->ApplyLinearImpulse(impulse, player.body->GetWorldCenter());
+                    impulse = b2Vec2(-0.7f,0.0f);
                 }
                 if(acceleration.y <= -THRESHOLD)
                 {
-                    b2Vec2 impulse = b2Vec2(0.7f,0.0f);
-                    player.body->ApplyLinearImpulse(impulse, player.body->GetWorldCenter());
+                    impulse = b2Vec2(0.7f,0.0f);
+                }
+                
+            }
+            else if((worldGravity.x == 0 && worldGravity.y > 0))
+            {
+                
+                if(acceleration.y >= THRESHOLD)
+                {
+                    impulse = b2Vec2(-0.7f,0.0f);
+                }
+                else if(acceleration.y <= -THRESHOLD)
+                {
+                    impulse = b2Vec2(0.7f,0.0f);
                 }
             }
-            else if(worldGravity.x < 0 && worldGravity.y == 0){
+            else if(worldGravity.x < 0 && worldGravity.y == 0)
+            {
                 
                 if(acceleration.x >= THRESHOLD)
                 {
-                    b2Vec2 impulse = b2Vec2(0.0f,0.7f);
-                    player.body->ApplyLinearImpulse(impulse, player.body->GetWorldCenter());
+                    impulse = b2Vec2(0.0f,0.7f);
                 }
-                if(acceleration.x <= -THRESHOLD)
+                else if(acceleration.x <= -THRESHOLD)
                 {
-                    b2Vec2 impulse = b2Vec2(0.0f,-0.7f);
-                    player.body->ApplyLinearImpulse(impulse, player.body->GetWorldCenter());
+                    impulse = b2Vec2(0.0f,-0.7f);
                 }
                 
             }
-            else if(worldGravity.x > 0 && worldGravity.y == 0){
+            else if(worldGravity.x > 0 && worldGravity.y == 0)
+            {
                 
-                float angle = atan2f(acceleration.y,acceleration.x);
-                angle *= 180.0/3.14159;
                 if(acceleration.x >= THRESHOLD)
                 {
-                    b2Vec2 impulse = b2Vec2(0.0f,0.7f);
-                    player.body->ApplyLinearImpulse(impulse, player.body->GetWorldCenter());
+                    impulse = b2Vec2(0.0f,0.7f);
                 }
-                if(acceleration.x <= -THRESHOLD)
+                else if(acceleration.x <= -THRESHOLD)
                 {
-                    b2Vec2 impulse = b2Vec2(0.0f,-0.7f);
-                    player.body->ApplyLinearImpulse(impulse, player.body->GetWorldCenter());
+                    impulse = b2Vec2(0.0f,-0.7f);
                 }
                 
             }
+            player.body->ApplyLinearImpulse(impulse, player.body->GetWorldCenter());
+            
         }
-        else if(player.isTouching){
+        /*else if(player.isTouching){
             float angle = atan2f(acceleration.y, acceleration.x);
             angle *= 180.0/3.14159;
             
@@ -408,7 +401,7 @@
             else if ((angle < -135 && angle > -180)||(angle>135 && angle <=180)){
                 world->SetGravity(b2Vec2 (0, -GRAVITY));
             }
-        }
+        }*/
     }
 }
 
@@ -420,17 +413,32 @@
             CGPoint location = [touch locationInView: [touch view]];
             location = [[CCDirector sharedDirector] convertToGL: location];                    
             player.isTouching = YES;            
-            [self checkContactWithGroundAndJump];
+            
+            if([self checkContactWithGround])
+            {
+                b2Vec2 worldGravity;
+                worldGravity = world->GetGravity();
+                float gravityRemovalFactor = 1.0f;
+            
+                if (worldGravity.x == 0.0f && worldGravity.y > 0.0f)
+                    player.body->ApplyLinearImpulse(b2Vec2 (0, -player.body->GetMass()*GRAVITY*gravityRemovalFactor),   player.body->GetWorldCenter());
+                else if (worldGravity.x == 0.0f && worldGravity.y < 0.0f)
+                    player.body->ApplyLinearImpulse(b2Vec2 (0, player.body->GetMass()*GRAVITY*gravityRemovalFactor), player.body->GetWorldCenter());
+                else if (worldGravity.x > 0.0f && worldGravity.y == 0.0f)
+                    player.body->ApplyLinearImpulse(b2Vec2 (-player.body->GetMass()*GRAVITY*gravityRemovalFactor, 0), player.body->GetWorldCenter());
+                else if (worldGravity.x < 0.0f && worldGravity.y == 0.0f)
+                    player.body->ApplyLinearImpulse(b2Vec2 (player.body->GetMass()*GRAVITY*gravityRemovalFactor, 0), player.body->GetWorldCenter());
+            }
         }
     }
-}    
+}
 
 -(void) ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
      player.isTouching = NO;
 }
 
--(void) checkContactWithGroundAndJump
+-(BOOL) checkContactWithGround
 {
     std::vector<MyContact>::iterator position;
     for(position = contactListener->_contacts.begin();
@@ -448,24 +456,24 @@
                 b2Fixture *fDef = bodyA->GetFixtureList();
                 b2Filter filter = fDef->GetFilterData();
                 
-                if(filter.categoryBits == KFilterCategoryBits)
+                if(filter.categoryBits == KFilterCategoryBits||filter.categoryBits == kFilterCategoryHarmfulObjects)
                 {
-                    b2Vec2 worldGravity;
-                    worldGravity = world->GetGravity();
-                    float gravityRemovalFactor = 1.0f;
-                    
-                    if (worldGravity.x == 0.0f && worldGravity.y > 0.0f)
-                        player.body->ApplyLinearImpulse(b2Vec2 (0, -player.body->GetMass()*GRAVITY*gravityRemovalFactor), player.body->GetWorldCenter());
-                    else if (worldGravity.x == 0.0f && worldGravity.y < 0.0f)
-                        player.body->ApplyLinearImpulse(b2Vec2 (0, player.body->GetMass()*GRAVITY*gravityRemovalFactor), player.body->GetWorldCenter());
-                    else if (worldGravity.x > 0.0f && worldGravity.y == 0.0f)
-                        player.body->ApplyLinearImpulse(b2Vec2 (-player.body->GetMass()*GRAVITY*gravityRemovalFactor, 0), player.body->GetWorldCenter());
-                    else if (worldGravity.x < 0.0f && worldGravity.y == 0.0f)
-                        player.body->ApplyLinearImpulse(b2Vec2 (player.body->GetMass()*GRAVITY*gravityRemovalFactor, 0), player.body->GetWorldCenter());                    
+                    return TRUE;
                 }
+                else
+                {
+                    return FALSE;
+                }
+            
             }
         }
     }
+    return FALSE;
+}
+
+-(void) playerMove: (b2Vec2) impulse
+{
+    player.body->ApplyLinearImpulse(impulse, player.body->GetWorldCenter());
 }
 
 @end
