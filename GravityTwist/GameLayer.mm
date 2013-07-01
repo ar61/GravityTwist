@@ -62,13 +62,11 @@
         
         CCNode *parent1 = [self getChildByTag:kTagParentNode];
         
-        player = [player initWithOptions:b2_dynamicBody withPosition: spawnPoint withFixedRotation:YES withPolyShape:dynamicBox withDensity:1.0f withFriction:0.3f withRestitution:0.0f withWorld:world withParent:parent1];
+        player = [player initWithOptions:b2_dynamicBody withPosition: spawnPoint withFixedRotation:YES withPolyShape:dynamicBox withDensity:1.0f withFriction:0.3f withRestitution:0.0f withWorld:world withParent:parent1 tag:2];
         
-        /*
-        CGPoint otherPoint = CGPointMake(spawnPoint.x+15, spawnPoint.y);
+        //CGPoint otherPoint = CGPointMake(spawnPoint.x+15, spawnPoint.y);
         
-        [[[GameObject alloc] init] initWithOptions:b2_dynamicBody withPosition:otherPoint withFixedRotation:YES withPolyShape:dynamicBox withDensity:1.0f withFriction:0.3f withRestitution:0.0f withWorld:world withParent:parent1];
-        */
+        //[[[GameObject alloc] init] initWithOptions:b2_dynamicBody withPosition:otherPoint withFixedRotation:YES withPolyShape:dynamicBox withDensity:1.0f withFriction:0.3f withRestitution:0.0f withWorld:world withParent:parent1];
         
         CCTMXObjectGroup *boxes = [tiledMap objectGroupNamed:@"boxes"];
         for (id box in [boxes objects]) {
@@ -76,8 +74,11 @@
             int boxy = [box[@"y"] intValue];
             //int boxw = [box[@"width"] intValue];
             //int boxh = [box[@"height"] intValue];
+            b2PolygonShape boxDynamicBox;
+            boxDynamicBox.SetAsBox(.5f, .5f);
+
             GameObject *gameBox = [[GameObject alloc] init];
-            gameBox = [gameBox initWithOptions:b2_dynamicBody withPosition:CGPointMake(boxx, boxy) withFixedRotation:YES withPolyShape:dynamicBox withDensity:1.0f withFriction:0.3f withRestitution:0.0f withWorld:world withParent:parent1];
+            gameBox = [gameBox initWithOptions:b2_dynamicBody withPosition:CGPointMake(boxx, boxy) withFixedRotation:YES withPolyShape:boxDynamicBox withDensity:1.0f withFriction:0.3f withRestitution:0.0f withWorld:world withParent:parent1 tag:3];
         }
         
         [self addChild:tiledMap z:-1];

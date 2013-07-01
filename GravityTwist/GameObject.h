@@ -31,6 +31,6 @@
 
 -(CCSpriteBatchNode*) getSpriteBatchNodeObject:  (NSString*) texture;
 
--(id) initWithOptions: (b2BodyType) type withPosition:(CGPoint) position withFixedRotation:(BOOL) rotation withPolyShape:(b2PolygonShape) poly withDensity:(CGFloat) density withFriction:(CGFloat) friction withRestitution:(CGFloat) res withWorld: (b2World*) world withParent: (CCNode*) parent;
+-(id) initWithOptions: (b2BodyType) type withPosition:(CGPoint) position withFixedRotation:(BOOL) rotation withPolyShape:(b2PolygonShape) poly withDensity:(CGFloat) density withFriction:(CGFloat) friction withRestitution:(CGFloat) res withWorld: (b2World*) world withParent: (CCNode*) parent tag: (int)tag;
 
 @end

@@ -29,8 +29,8 @@
 
 //-(void)changePosition: (CGPoint) pos
 
--(id) initWithOptions: (b2BodyType) type withPosition:(CGPoint) position withFixedRotation:(BOOL) rotation withPolyShape:(b2PolygonShape) poly withDensity:(CGFloat) density withFriction:(CGFloat) friction withRestitution:(CGFloat) res withWorld: (b2World*) world withParent: (CCNode*) parent
-{        
+-(id) initWithOptions: (b2BodyType) type withPosition:(CGPoint) position withFixedRotation:(BOOL) rotation withPolyShape:(b2PolygonShape) poly withDensity:(CGFloat) density withFriction:(CGFloat) friction withRestitution:(CGFloat) res withWorld: (b2World*) world withParent: (CCNode*) parent tag: (int) tag
+{
     b2BodyDef bodyDef;
     bodyDef.type = type;
     bodyDef.position.Set(position.x, position.y);
@@ -49,7 +49,7 @@
     //parent = (CCNode *) parent1;
     
     object = [CCPhysicsSprite spriteWithTexture:spriteTexture rect:CGRectMake(32 * 1,32 * 1,32,32)];
-    [parent addChild:object z:0 tag:kTagChildNode];
+    [parent addChild:object z:0 tag:tag];
     
     [object setPTMRatio:PTM_RATIO];
     [object setB2Body:body];
