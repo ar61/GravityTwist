@@ -18,7 +18,7 @@
  </tileset>
  <layer name="tiles" width="32" height="24">
   <data encoding="base64" compression="zlib">
-   eJzl07ENgDAMRNF0UCEBBbRAARuQCdgEsv8GXI0iZBxbFknx66dL5OCcC8Y1RpXkn+hS8lvUod5o/4RmtAj53D1S/8/dI+VrdEQqwY+5f/apt/HmpvjU29DyU947Z/+Lm5PPcal+hWpDf0Cjgkv1V7QZ+jvyCu7Tt+wGnSd3eA==
+   eJxLZ2BgSB9gzDdAeCTZnwrEaTSyXxCIhYBYeID8rwjESkCsTCX7yfUPteKfXP9Qy35aYDcseCTZP9DhT4r92MKKWDwc7B/o8B+1f9R+EGYHYo4BtF8ciCUG0H51INYYQPvNgdiCDvYPJAYADWFaGA==
   </data>
  </layer>
  <layer name="Exit" width="32" height="24">
@@ -32,26 +32,20 @@
  </objectgroup>
  <layer name="collectibles" width="32" height="24">
   <data encoding="base64" compression="zlib">
-   eJxjYBhcQHKImz8KRsEoGAWkgNEyaRRQA4ymo5EFRuN7FFAKAIKBAH4=
+   eJxjYBhcQHKImz8KRsEoGAWkAFLKpNHyaxSMglEwCgYvGEplNACPZQB+
   </data>
  </layer>
  <objectgroup name="collisions" width="32" height="24">
-  <object x="387" y="705" width="604" height="28"/>
   <object x="0" y="0" width="1024" height="32"/>
   <object x="0" y="32" width="32" height="704"/>
   <object x="0" y="736" width="1024"/>
   <object x="992" y="32" width="32" height="704"/>
-  <object x="449" y="642" width="541" height="58"/>
-  <object x="515" y="579" width="475" height="58"/>
-  <object x="578" y="515" width="412" height="60"/>
-  <object x="643" y="451" width="347" height="60"/>
-  <object x="706" y="387" width="282" height="60"/>
-  <object x="771" y="322" width="219" height="60"/>
+  <object x="162" y="387" width="475" height="58"/>
   <object x="834" y="259" width="156" height="60"/>
  </objectgroup>
  <objectgroup name="collectibles" width="32" height="24">
-  <object x="608" y="480" width="32" height="32"/>
-  <object x="479" y="608" width="32" height="32"/>
+  <object x="673" y="703" width="32" height="32"/>
+  <object x="385" y="351" width="32" height="32"/>
   <object x="32" y="351" width="32" height="32"/>
   <object x="128" y="32" width="32" height="32"/>
   <object x="896" y="32" width="32" height="32"/>

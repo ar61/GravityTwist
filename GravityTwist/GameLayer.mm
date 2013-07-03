@@ -75,11 +75,22 @@ static NSString *levelFileName;
 
 -(void)initLevel: (NSString*) fileName
 {
+    [self initPhysics];
+    
     tiledMap = [CCTMXTiledMap tiledMapWithTMXFile:fileName];
     
     tile = [tiledMap layerNamed:@"tiles"];
     
     door = [tiledMap layerNamed:@"Exit"];
+    
+    objects = [tiledMap objectGroupNamed:@"objects"];
+    NSAssert(objects != nil, @"Tile map doesnt have an objects layer defined");
+    
+    NSDictionary *spawnPointInObject = [objects objectNamed:@"SpawnPoint"];
+    spawnPoint.x = [spawnPointInObject[@"x"] integerValue];
+    spawnPoint.y = [spawnPointInObject[@"y"] integerValue];
+        
+    exitObject = [objects objectNamed:@"ExitPoint"];
     
     if([levelFileName isEqual:@"LevelOne.tmx"])
     {
@@ -90,15 +101,6 @@ static NSString *levelFileName;
     {
         door.visible = NO;
     }
-    
-    objects = [tiledMap objectGroupNamed:@"objects"];
-    NSAssert(objects != nil, @"Tile map doesnt have an objects layer defined");
-    
-    NSDictionary *spawnPointInObject = [objects objectNamed:@"SpawnPoint"];
-    spawnPoint.x = [spawnPointInObject[@"x"] integerValue];
-    spawnPoint.y = [spawnPointInObject[@"y"] integerValue];
-        
-    exitObject = [objects objectNamed:@"ExitPoint"];
     
     collisions = [tiledMap layerNamed:@"collisions"];
     collisions.visible = NO;
@@ -111,7 +113,7 @@ static NSString *levelFileName;
     collectibles.tag = 1;
     collectedCount = 0;
 
-    [self initPhysics];
+    
     [self createPlatformObjects: collisionObjects withType:1];
     [self createPlatformObjects: collectibleObjects withType:2];    
 }
@@ -121,18 +123,17 @@ static NSString *levelFileName;
     NSMutableDictionary *objPoints;
     
     BOOL spikes;
-    //int z = [[layer valueForKeyPath:@"spike.hurtful"] integerValue];
     
     for(objPoints in [layer objects])
     {        
-        if([objPoints valueForKey:@"name"] == NULL)
+        if([objPoints valueForKey:@"kill"] == NULL)
         {
             spikes = false;
         }
         else
         {
-            NSString *named = [NSString stringWithFormat:@"%@", [objPoints objectForKey:@"name"]];
-            spikes = [named compare:@"spikes"];
+            NSString *named = [NSString stringWithFormat:@"%@", [objPoints objectForKey:@"kill"]];
+            spikes = [named isEqual:@"true"];
         }
         
         if(!spikes)
@@ -306,14 +307,12 @@ static NSString *levelFileName;
                         }
                         else if (filter.categoryBits == kFilterCategoryExit)
                         {
+                            int i = 1;
+                            
                             if([levelFileName isEqual: @"LevelOne.tmx"])
-                            [[CCDirector sharedDirector] replaceScene: [GameLayer scene: @"LevelTwo.tmx"]];
-                            
-                            if([levelFileName isEqual: @"LevelTwo.tmx"])
+                                [[CCDirector sharedDirector] replaceScene: [GameLayer scene: @"LevelTwo.tmx"]];                            
+                            else if([levelFileName isEqual: @"LevelTwo.tmx"])
                                 [[CCDirector sharedDirector] replaceScene: [GameLayer scene: @"LevelThree.tmx"]];
-                            
-                            if([levelFileName isEqual: @"LevelThree.tmx"])
-                                [[CCDirector sharedDirector] replaceScene: [GameLayer scene: @"LevelFour.tmx"]];
                         }
                     }
                 }
