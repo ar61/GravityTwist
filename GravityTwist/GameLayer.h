@@ -63,6 +63,8 @@
     
     BOOL playerDead;
     BOOL worldBeingDestroyed;
+    
+    float currentXAngle, currentYAngle;
 }
 
 // returns a CCScene that contains the HelloWorldLayer as the only child
