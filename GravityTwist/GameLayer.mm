@@ -415,6 +415,8 @@
                     world->SetGravity(b2Vec2 (GRAVITY, 0));
                 }
                 currentYAngle = newYAngle;
+                newXAngle = CC_RADIANS_TO_DEGREES(atan2f(acceleration.x, sqrtf(y2 + z2)));
+                currentXAngle = newXAngle;
 
             }
             else if(worldGravity.x == 0 && worldGravity.y > 0)
@@ -429,6 +431,9 @@
                     world->SetGravity(b2Vec2 (GRAVITY, 0));
                 }
                 currentYAngle = newYAngle;
+                newXAngle = CC_RADIANS_TO_DEGREES(atan2f(acceleration.x, sqrtf(y2 + z2)));
+                currentXAngle = newXAngle;
+
              
             }
             else if(worldGravity.x < 0 && worldGravity.y == 0)
@@ -444,6 +449,8 @@
                     world->SetGravity(b2Vec2 (0, -GRAVITY));
                 }
                 currentXAngle = newXAngle;
+                newYAngle = CC_RADIANS_TO_DEGREES(atan2f(acceleration.y, sqrtf(x2 + z2)));
+                currentYAngle = newYAngle;
                 
             }
             else if(worldGravity.x > 0 && worldGravity.y == 0)
@@ -458,6 +465,9 @@
                     world->SetGravity(b2Vec2 (0, -GRAVITY));
                 }
                 currentXAngle = newXAngle;
+                newYAngle = CC_RADIANS_TO_DEGREES(atan2f(acceleration.y, sqrtf(x2 + z2)));
+                currentYAngle = newYAngle;
+
             }
         }
         
