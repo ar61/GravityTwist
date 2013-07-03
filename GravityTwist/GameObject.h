@@ -26,7 +26,6 @@
 }
 
 @property(nonatomic) b2Body* body;
-@property(nonatomic) CCPhysicsSprite *object;
 @property(nonatomic) BOOL isTouching;
 
 -(CCSpriteBatchNode*) getSpriteBatchNodeObject:  (NSString*) texture;

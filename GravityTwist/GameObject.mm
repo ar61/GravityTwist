@@ -11,7 +11,6 @@
 @implementation GameObject
 
 @synthesize body;
-@synthesize object;
 
 -(id) init {
     [super init];
@@ -48,12 +47,12 @@
     
     //parent = (CCNode *) parent1;
     
-    object = [CCPhysicsSprite spriteWithTexture:spriteTexture rect:CGRectMake(32 * 1,32 * 1,32,32)];
-    [parent addChild:object z:0 tag:tag];
-    
-    [object setPTMRatio:PTM_RATIO];
-    [object setB2Body:body];
-    [object setPosition: position];
+    [self initWithTexture:spriteTexture rect:CGRectMake(32, 32, 32, 32)];
+
+    [parent addChild:self];
+    [self setPTMRatio:PTM_RATIO];
+    [self setB2Body:body];
+    [self setPosition:position];
     
     return self;
 }
