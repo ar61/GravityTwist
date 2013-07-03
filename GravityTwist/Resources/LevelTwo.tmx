@@ -18,48 +18,42 @@
  </tileset>
  <layer name="tiles" width="32" height="24">
   <data encoding="base64" compression="zlib">
-   eJzllT0OgkAQhecEJmJLo5RWKhcQCQ0V6gX8SbgmR/NNAh3g7jr4MBZfuftldjPv1SKyJVG3LEjM2V98iMX8T5HmASxmLQP8V7gvRH8O92nEvwQRWE3w/0oK92HEvwYbkDj6dmDv4bfmCDKivwJnov8G7j1+i90OyYg5519HyI65nnHx++6Yz5lvvz+yRDOF5keWaqbS/OgS7RSaH12qnTrot+73d3f+wv7/gz8moe4XvidZqQ==
+   eJzl07ENgDAMRNF0UCEBBbRAARuQCdgEsv8GXI0iZBxbFknx66dL5OCcC8Y1RpXkn+hS8lvUod5o/4RmtAj53D1S/8/dI+VrdEQqwY+5f/apt/HmpvjU29DyU947Z/+Lm5PPcal+hWpDf0Cjgkv1V7QZ+jvyCu7Tt+wGnSd3eA==
   </data>
  </layer>
  <layer name="Exit" width="32" height="24">
   <data encoding="base64" compression="zlib">
-   eJztzTERACAQxMBvwAE4AAfgXxqngjTZmdSpkiRJtJY6+B9pgv+VNvg/6YJ/6acHII0A7Q==
+   eJztzTERACAQxMBvwAE4AAfgXxqngjTZmdSpkv5pqYP/kSb4X2mD/5Mu+JckSbwH2kkA7Q==
   </data>
  </layer>
  <objectgroup name="objects" width="32" height="24">
-  <object name="SpawnPoint" x="160" y="192" width="37" height="39"/>
-  <object name="ExitPoint" x="132" y="511" width="55" height="96"/>
+  <object name="SpawnPoint" x="142" y="582" width="37" height="39"/>
+  <object name="ExitPoint" x="898" y="155" width="59" height="99"/>
  </objectgroup>
  <layer name="collectibles" width="32" height="24">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo4A4IDnQDhgFKGA0PqgLaBGeo3GEAKNhMQqGMhhNv6NguAEA9iEAlw==
+   eJxjYBhcQHKImz8KRsEoGAWkgNEyaRRQA4ymo5EFRuN7FFAKAIKBAH4=
   </data>
  </layer>
  <objectgroup name="collisions" width="32" height="24">
-  <object x="96" y="608" width="352" height="32"/>
-  <object x="768" y="608" width="224" height="32"/>
-  <object x="192" y="96" width="512" height="32"/>
-  <object x="32" y="352" width="384" height="32"/>
-  <object name="spikes" x="5" y="3" width="1012" height="29">
-   <properties>
-    <property name="harmful" value="true"/>
-   </properties>
-  </object>
-  <object x="7" y="32" width="23" height="727"/>
-  <object name="spikes_down" x="21" y="739" width="992" height="20">
-   <properties>
-    <property name="harmful" value="true"/>
-   </properties>
-  </object>
-  <object x="991" y="29" width="28" height="711"/>
-  <object x="576" y="352" width="416" height="32"/>
+  <object x="387" y="705" width="604" height="28"/>
+  <object x="0" y="0" width="1024" height="32"/>
+  <object x="0" y="32" width="32" height="704"/>
+  <object x="0" y="736" width="1024"/>
+  <object x="992" y="32" width="32" height="704"/>
+  <object x="449" y="642" width="541" height="58"/>
+  <object x="515" y="579" width="475" height="58"/>
+  <object x="578" y="515" width="412" height="60"/>
+  <object x="643" y="451" width="347" height="60"/>
+  <object x="706" y="387" width="282" height="60"/>
+  <object x="771" y="322" width="219" height="60"/>
+  <object x="834" y="259" width="156" height="60"/>
  </objectgroup>
  <objectgroup name="collectibles" width="32" height="24">
-  <object x="353" y="577" width="29" height="32"/>
-  <object x="863" y="384" width="30" height="31"/>
-  <object x="768" y="320" width="31" height="30"/>
-  <object x="481" y="224" width="31" height="31"/>
-  <object x="97" y="320" width="30" height="30"/>
-  <object x="352" y="129" width="31" height="31"/>
+  <object x="608" y="480" width="32" height="32"/>
+  <object x="479" y="608" width="32" height="32"/>
+  <object x="32" y="351" width="32" height="32"/>
+  <object x="128" y="32" width="32" height="32"/>
+  <object x="896" y="32" width="32" height="32"/>
  </objectgroup>
 </map>

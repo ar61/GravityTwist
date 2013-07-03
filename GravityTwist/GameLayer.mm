@@ -16,14 +16,17 @@
 #import "AppDelegate.h"
 #import "GameObject.h"
 
+static NSString *levelFileName;
 
 @implementation GameLayer
 
-+(CCScene *) scene
++(CCScene *) scene: (NSString*) layerName
 {
 	// 'scene' is an autorelease object.
 	CCScene *scene = [CCScene node];
 	
+    levelFileName = layerName;
+    
 	// 'layer' is an autorelease object.
 	GameLayer *layer = [GameLayer node];
 	
@@ -40,7 +43,7 @@
 		
         playerDead = false;
         worldBeingDestroyed = false;
-        [self initLevel:@"LevelOne.tmx"];
+        [self initLevel: levelFileName];
         
 		self.touchEnabled = YES;
 		self.accelerometerEnabled = YES;
@@ -77,7 +80,16 @@
     tile = [tiledMap layerNamed:@"tiles"];
     
     door = [tiledMap layerNamed:@"Exit"];
-    door.visible = NO;
+    
+    if([levelFileName isEqual:@"LevelOne.tmx"])
+    {
+        door.visible = YES;
+        [self createCollisionTiles: exitObject withType:5];
+    }
+    else
+    {
+        door.visible = NO;
+    }
     
     objects = [tiledMap objectGroupNamed:@"objects"];
     NSAssert(objects != nil, @"Tile map doesnt have an objects layer defined");
@@ -275,7 +287,7 @@
                             bodyA->DestroyFixture(fDef);
                             collectedCount++;
                             coinsLabel.string = [NSString stringWithFormat:@"coins: %d", collectedCount];
-                            if(collectedCount == 6)
+                            if(collectedCount == 5)
                             {
                                 door.visible = YES;
                                 [self createCollisionTiles: exitObject withType:5];                            
@@ -284,40 +296,30 @@
                         }
                         else if (filter.categoryBits == kFilterCategoryHarmfulObjects)
                         {
+                            [[CCDirector sharedDirector] replaceScene: [GameLayer scene: levelFileName]];
                             //remove player fixture
-                            bodyB->DestroyFixture(bodyB->GetFixtureList());
+                            /*bodyB->DestroyFixture(bodyB->GetFixtureList());
                             CCNode *parent = [self getChildByTag:kTagParentNode];
                             [parent removeChildByTag:kTagChildNode];
-                            playerDead = true;
+                            playerDead = true;*/
                             break;
                         }
-                        /*else if (filter.categoryBits == kFilterCategoryExit)
+                        else if (filter.categoryBits == kFilterCategoryExit)
                         {
-                            worldBeingDestroyed = true;
-                            for (b2Body* b = world->GetBodyList(); b; b = b->GetNext())
-                            {
-                                if(b->GetType() == b2_dynamicBody)
-                                {
-                                    continue;
-                                }
-                                
-                                world->DestroyBody(b);
-                            }
+                            if([levelFileName isEqual: @"LevelOne.tmx"])
+                            [[CCDirector sharedDirector] replaceScene: [GameLayer scene: @"LevelTwo.tmx"]];
                             
-                            [self initLevel:@"LevelTwo.tmx"];
+                            if([levelFileName isEqual: @"LevelTwo.tmx"])
+                                [[CCDirector sharedDirector] replaceScene: [GameLayer scene: @"LevelThree.tmx"]];
                             
-                            worldBeingDestroyed = false;
-                            
-                            [player.object setPosition: spawnPoint];
-                            
-                            break;
-                        }*/
+                            if([levelFileName isEqual: @"LevelThree.tmx"])
+                                [[CCDirector sharedDirector] replaceScene: [GameLayer scene: @"LevelFour.tmx"]];
+                        }
                     }
                 }
             }
         }
-    }
-    
+    }    
 }
 
 -(void) accelerometer:(UIAccelerometer *)accelerometer didAccelerate:(UIAcceleration *)acceleration

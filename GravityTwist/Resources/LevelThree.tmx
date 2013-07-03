@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="32" height="24" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="Tilesheet" tilewidth="32" tileheight="32">
+  <image source="Tilesheet.png" width="512" height="256"/>
+  <terraintypes>
+   <terrain name="New Terrain" tile="-1"/>
+  </terraintypes>
+  <tile id="6" terrain="0,0,0,0"/>
+  <tile id="7" terrain="0,0,0,0"/>
+  <tile id="22" terrain="0,0,0,0"/>
+  <tile id="23" terrain="0,0,0,0"/>
+  <tile id="24" terrain=",0,,0"/>
+  <tile id="28" terrain="0,0,0,0"/>
+  <tile id="38" terrain="0,0,0,0"/>
+  <tile id="39" terrain="0,0,0,0"/>
+  <tile id="54" terrain="0,0,0,0"/>
+  <tile id="55" terrain="0,0,0,0"/>
+ </tileset>
+ <layer name="tiles" width="32" height="24">
+  <data encoding="base64" compression="zlib">
+   eJzVlD0OwjAMRr2VCQkYYGABBogYQSp7EReAG/DTa3I0PosOpUqVxrFqOrylqfUUx59LIioD7CtC/7XVhWrHAhzRW1JXJ8Wvwb/6N+jtGqwUeizxz+CdgomRP5UDOPbof6FPz1qvCnA2vP8V3Az9d/BQ8l8SGbq/yQlzlkfmEjkm5Jlznezfwb2N9GOPEfYZ77UoPzLF2fr5toB7rrSXJPcfwZ0Z+jUZut83H5r+7PveZvfHnPO8m/mRc857L37nOcee432n6nQefxeWFdLzNj4BMWbn
+  </data>
+ </layer>
+ <layer name="Exit" width="32" height="24">
+  <data encoding="base64" compression="zlib">
+   eJztzTERACAUw9Au4AAcgAPQjzTqosPPu8scqZYrveNS/+33Cv6n3yP473634B8AAKC6D6IZBu0=
+  </data>
+ </layer>
+ <objectgroup name="objects" width="32" height="24">
+  <object name="SpawnPoint" x="100" y="642" width="79" height="37"/>
+  <object name="ExitPoint" x="899" y="35" width="59" height="99"/>
+ </objectgroup>
+ <layer name="collectibles" width="32" height="24">
+  <data encoding="base64" compression="zlib">
+   eJxjYBi8QJJOekbBKBgFo2AUkA6GQ3nLN9AOGAWjYBQMKkCtcm2wl48APHEAjA==
+  </data>
+ </layer>
+ <objectgroup name="collisions" width="32" height="24">
+  <object x="0" y="0" width="1024" height="32"/>
+  <object x="0" y="32" width="32" height="704"/>
+  <object x="0" y="736" width="318" height="28"/>
+  <object x="992" y="32" width="32" height="704"/>
+  <object x="258" y="322" width="508" height="60"/>
+  <object x="643" y="737" width="379" height="28"/>
+  <object x="354" y="1" width="379" height="28"/>
+  <object x="3" y="2" width="282" height="27"/>
+  <object x="835" y="2" width="187" height="27"/>
+  <object x="383" y="737" width="190" height="27"/>
+  <object x="326" y="741" width="52" height="22">
+   <properties>
+    <property name="kill" value="true"/>
+   </properties>
+  </object>
+  <object x="583" y="741" width="51" height="23">
+   <properties>
+    <property name="kill" value="true"/>
+   </properties>
+  </object>
+  <object x="292" y="0" width="53" height="27">
+   <properties>
+    <property name="kill" value="true"/>
+   </properties>
+  </object>
+  <object x="741" y="2" width="84" height="26">
+   <properties>
+    <property name="kill" value="true"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="collectibles" width="32" height="24">
+  <object x="767" y="703" width="32" height="32"/>
+  <object x="191" y="703" width="32" height="32"/>
+  <object x="511" y="384" width="32" height="32"/>
+  <object x="223" y="31" width="32" height="32"/>
+  <object x="640" y="30" width="32" height="32"/>
+ </objectgroup>
+</map>
