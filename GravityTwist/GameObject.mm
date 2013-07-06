@@ -12,6 +12,7 @@
 
 @synthesize body;
 @synthesize object;
+@synthesize spriteTexture;
 
 -(id) init {
     [super init];
@@ -29,7 +30,7 @@
 
 //-(void)changePosition: (CGPoint) pos
 
--(id) initWithOptions: (b2BodyType) type withPosition:(CGPoint) position withFixedRotation:(BOOL) rotation withPolyShape:(b2PolygonShape) poly withDensity:(CGFloat) density withFriction:(CGFloat) friction withRestitution:(CGFloat) res withWorld: (b2World*) world withParent: (CCNode*) parent
+-(id) initWithOptions: (b2BodyType) type withPosition:(CGPoint) position withFixedRotation:(BOOL) rotation withPolyShape:(b2PolygonShape) poly withDensity:(CGFloat) density withFriction:(CGFloat) friction withRestitution:(CGFloat) res withTileIndex:(b2Vec2)tilePosition withTileLength:(b2Vec2)tileLength withWorld: (b2World*) world withParent: (CCNode*) parent withZLocation:(int)z
 {        
     b2BodyDef bodyDef;
     bodyDef.type = type;
@@ -48,8 +49,9 @@
     
     //parent = (CCNode *) parent1;
     
-    object = [CCPhysicsSprite spriteWithTexture:spriteTexture rect:CGRectMake(32 * 1,32 * 1,32,32)];
-    [parent addChild:object z:0 tag:kTagChildNode];
+    object = [CCPhysicsSprite spriteWithTexture:spriteTexture rect:CGRectMake(32*tilePosition.x, 32*tilePosition.y, 32*tileLength.x, 32*tileLength.y)];
+
+    [parent addChild:object z:z tag:kTagChildNode];
     
     [object setPTMRatio:PTM_RATIO];
     [object setB2Body:body];

@@ -35,6 +35,8 @@
 @interface GameLayer : CCLayer
 {
     GameObject *player;
+    GameObject *platform;
+    GameObject *movingSpike;
     CGSize s;
     CGPoint spawnPoint;
     CGPoint exitPoint;
@@ -63,6 +65,7 @@
     
     BOOL playerDead;
     BOOL worldBeingDestroyed;
+    NSMutableArray *array;
 }
 
 // returns a CCScene that contains the HelloWorldLayer as the only child

@@ -41,6 +41,37 @@
   <object x="0" y="32" width="32" height="704"/>
   <object x="0" y="736" width="1024"/>
   <object x="992" y="32" width="32" height="704"/>
+  <object name="movingPlatform" x="768" y="608" width="128" height="32"/>
+  <object name="movingSpikes" x="736" y="608" width="32" height="32">
+   <properties>
+    <property name="kill" value="true"/>
+   </properties>
+  </object>
+  <object name="movingSpikes" x="896" y="608" width="32" height="32">
+   <properties>
+    <property name="kill" value="true"/>
+   </properties>
+  </object>
+  <object name="movingSpikes" x="768" y="640" width="32" height="32">
+   <properties>
+    <property name="kill" value="true"/>
+   </properties>
+  </object>
+  <object name="movingSpikes" x="864" y="640" width="32" height="32">
+   <properties>
+    <property name="kill" value="true"/>
+   </properties>
+  </object>
+  <object name="movingSpikes" x="768" y="576" width="32" height="32">
+   <properties>
+    <property name="kill" value="true"/>
+   </properties>
+  </object>
+  <object name="movingSpikes" x="864" y="576" width="32" height="32">
+   <properties>
+    <property name="kill" value="true"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup name="collectibles" width="32" height="24"/>
 </map>

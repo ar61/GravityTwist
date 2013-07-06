@@ -20,6 +20,10 @@ static NSString *levelFileName;
 
 @implementation GameLayer
 
+BOOL movingForward;
+int moveCount;
+int indexPos;
+
 +(CCScene *) scene: (NSString*) layerName
 {
 	// 'scene' is an autorelease object.
@@ -40,7 +44,19 @@ static NSString *levelFileName;
 -(id) init
 {
 	if( (self=[super init])) {
-		
+        
+		// Changes by Arpit Start
+        array = [[NSMutableArray alloc] initWithCapacity:20];
+        indexPos = 0;
+        movingForward = true;
+        moveCount = 0;
+        
+        player = [[GameObject alloc] init];
+        spriteTextureName = @"Tilesheet.png";
+        CCSpriteBatchNode *parent = [player getSpriteBatchNodeObject:spriteTextureName];
+        [self addChild:parent z:0 tag:kTagParentNode];
+        // Changes by Arpit End
+        
         playerDead = false;
         worldBeingDestroyed = false;
         [self initLevel: levelFileName];
@@ -52,20 +68,11 @@ static NSString *levelFileName;
         contactListener = new MyContactListener();
         world->SetContactListener(contactListener);
         
-        player = [[GameObject alloc] init];
-        
         b2PolygonShape dynamicBox;        
         dynamicBox.SetAsBox(.5f, .5f);
-        
-        spriteTextureName = @"blocks.png";
-        
-        CCSpriteBatchNode *parent = [player getSpriteBatchNodeObject:spriteTextureName];
-        
-        [self addChild:parent z:0 tag:kTagParentNode];
-        
         CCNode *parent1 = [self getChildByTag:kTagParentNode];
         
-        player = [player initWithOptions:b2_dynamicBody withPosition: spawnPoint withFixedRotation:YES withPolyShape:dynamicBox withDensity:1.0f withFriction:0.3f withRestitution:0.0f withWorld:world withParent:parent1];
+        player = [player initWithOptions:b2_dynamicBody withPosition: spawnPoint withFixedRotation:YES withPolyShape:dynamicBox withDensity:1.0f withFriction:0.3f withRestitution:0.0f withTileIndex:b2Vec2(1,1) withTileLength:b2Vec2(1,1) withWorld:world withParent:parent1 withZLocation:0];
         
         [self addChild:tiledMap z:-1];
 		[self scheduleUpdate];
@@ -155,38 +162,72 @@ static NSString *levelFileName;
     CGPoint _point = ccp(p.x+size.x/2, p.y+size.y/2);
     CGPoint _size = ccp(size.x,size.y);
     
-    b2BodyDef bDef;
-    bDef.type = b2_staticBody;
-    bDef.position.Set(_point.x/PTM_RATIO, _point.y/PTM_RATIO);
-    b2Body *b = world->CreateBody(&bDef);
+    bool isMovingPlatform = [[object valueForKey:@"name"] isEqual: @"movingPlatform"];
+    bool isMovingSpikes = [[object valueForKey:@"name"] isEqual: @"movingSpikes"];
     
-    b2PolygonShape shape;
-    shape.SetAsBox(_size.x/2.0/PTM_RATIO, _size.y/2.0/PTM_RATIO);
+    if(isMovingPlatform) {
+        platform = [[GameObject alloc] init];
+        [self addNewSpriteAtPosition:_point withSize:size withObject:platform];
+        
+    }
+    else if (isMovingSpikes) {
+        movingSpike = [[GameObject alloc] init];
+        [self addNewSpriteAtPosition:_point withSize:size withObject:movingSpike];
+        
+        b2Filter filter;
+        for (b2Fixture *f = movingSpike.body->GetFixtureList(); f; f=f->GetNext()) {
+            filter = f->GetFilterData();
+            filter.categoryBits = kFilterCategoryHarmfulObjects;
+            f->SetFilterData(filter);
+        }
+        [array insertObject:movingSpike atIndex:indexPos++];
+        [movingSpike release];
+    }
+    else {
+        b2BodyDef bDef;
+        bDef.type = b2_staticBody;
+        bDef.position.Set(_point.x/PTM_RATIO, _point.y/PTM_RATIO);
+        b2Body *b = world->CreateBody(&bDef);
+        
+        b2PolygonShape shape;
+        shape.SetAsBox(_size.x/2.0/PTM_RATIO, _size.y/2.0/PTM_RATIO);
+        
+        b2FixtureDef fDef;
+        fDef.shape = &shape;
+        fDef.density = 1.0f;
+        fDef.friction = 0.2f;
+        fDef.restitution = 0.0f;
+        if(type == 2)
+        {
+            //for collectibles
+            fDef.filter.categoryBits = kFilterCategoryNonSolidObjects;
+        }
+        else if(type == 4)
+        {
+            fDef.filter.categoryBits = kFilterCategoryHarmfulObjects;
+        }
+        else if(type == 5)
+        {
+            fDef.filter.categoryBits = kFilterCategoryExit;
+        }
+        else
+        {
+            //for remaining objects
+            fDef.filter.categoryBits = KFilterCategoryBits;
+        }
+        b->CreateFixture(&fDef);
+    }
+}
+
+-(void) addNewSpriteAtPosition:(CGPoint)position withSize:(CGPoint)size withObject:(GameObject*)object
+{
+    b2PolygonShape dynamicBox;
+    dynamicBox.SetAsBox(size.x/2.0/PTM_RATIO, size.y/2.0/PTM_RATIO);;
     
-    b2FixtureDef fDef;
-    fDef.shape = &shape;
-    fDef.density = 1.0f;
-    fDef.friction = 0.2f;
-    fDef.restitution = 0.0f;
-    if(type == 2)
-    {
-        //for collectibles
-        fDef.filter.categoryBits = kFilterCategoryNonSolidObjects;
-    }
-    else if(type == 4)
-    {
-        fDef.filter.categoryBits = kFilterCategoryHarmfulObjects;
-    }
-    else if(type == 5)
-    {
-        fDef.filter.categoryBits = kFilterCategoryExit;
-    }
-    else
-    {
-        //for remaining objects
-        fDef.filter.categoryBits = KFilterCategoryBits;
-    }
-    b->CreateFixture(&fDef);
+    CCNode *parent1 = [self getChildByTag:kTagParentNode];
+    object.spriteTexture = player.spriteTexture;
+    
+    object = [object initWithOptions:b2_kinematicBody withPosition: position withFixedRotation:YES withPolyShape:dynamicBox withDensity:1.0f withFriction:1.0f withRestitution:0.0f withTileIndex:b2Vec2(2,0) withTileLength:b2Vec2(size.x/PTM_RATIO, size.y/PTM_RATIO) withWorld:world withParent:parent1 withZLocation:1];
 }
 
 -(void) dealloc
@@ -197,13 +238,18 @@ static NSString *levelFileName;
 	delete m_debugDraw;
 	m_debugDraw = NULL;
 	
+    [player dealloc];
+    [platform dealloc];
+    [movingSpike release];
+    [array release];
+    
 	[super dealloc];
 }	
 
 -(void) initPhysics
 {	
 	b2Vec2 gravity;
-	gravity.Set(0.0f, -10.0f);
+	gravity.Set(0.0f, -GRAVITY);
     
 	world = new b2World(gravity);	
 	
@@ -232,7 +278,7 @@ static NSString *levelFileName;
 	// This is only for debug purposes
 	// It is recommend to disable it
 	//
-	/*[super draw];
+	[super draw];
 	
 	ccGLEnableVertexAttribs( kCCVertexAttribFlag_Position );
 	
@@ -240,7 +286,7 @@ static NSString *levelFileName;
 	
 	world->DrawDebugData();	
 	
-	kmGLPopMatrix();*/
+	kmGLPopMatrix();
 }
 
 
@@ -273,7 +319,7 @@ static NSString *levelFileName;
                 
                 //if(bodyA != nil || bodyB != nil)
                 {
-                    if(bodyA->GetType() == b2_staticBody && bodyB->GetType() == b2_dynamicBody)
+                    if((bodyA->GetType() == b2_staticBody || bodyA->GetType() == b2_kinematicBody) && bodyB->GetType() == b2_dynamicBody)
                     {
                         b2Fixture *fDef = bodyA->GetFixtureList();
                         b2Filter filter = fDef->GetFilterData();
@@ -318,7 +364,36 @@ static NSString *levelFileName;
                 }
             }
         }
+        
+        [self movePlatforms:0.1];
     }    
+}
+
+-(void) movePlatforms:(ccTime)dt {
+    if (platform != NULL) {
+        if (movingForward)
+            moveCount++;
+        else
+            moveCount--;
+        
+        if (movingForward) {
+            platform.body->SetLinearVelocity(b2Vec2(1,0));
+            for (movingSpike in array) {
+                movingSpike.body->SetLinearVelocity(b2Vec2(1,0));
+            }
+            
+            if (moveCount >= 60)
+                movingForward = false;
+        }
+        else {
+            platform.body->SetLinearVelocity(b2Vec2(-1,0));
+            for (movingSpike in array) {
+                movingSpike.body->SetLinearVelocity(b2Vec2(-1,0));
+            }
+            if (moveCount <= 0)
+                movingForward = true;
+        }
+    }
 }
 
 -(void) accelerometer:(UIAccelerometer *)accelerometer didAccelerate:(UIAcceleration *)acceleration
@@ -444,7 +519,7 @@ static NSString *levelFileName;
             b2Body *bodyA = contact.fixtureA->GetBody();
             b2Body *bodyB = contact.fixtureB->GetBody();
             
-            if(bodyA->GetType() == b2_staticBody && bodyB->GetType() == b2_dynamicBody)
+            if((bodyA->GetType() == b2_staticBody || bodyA->GetType() == b2_kinematicBody) && bodyB->GetType() == b2_dynamicBody)
             {
                 b2Fixture *fDef = bodyA->GetFixtureList();
                 b2Filter filter = fDef->GetFilterData();
