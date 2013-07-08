@@ -65,6 +65,7 @@
     BOOL worldBeingDestroyed;
     
     float currentXAngle, currentYAngle;
+    CGPoint firstTouch, lastTouch;
 }
 
 // returns a CCScene that contains the HelloWorldLayer as the only child

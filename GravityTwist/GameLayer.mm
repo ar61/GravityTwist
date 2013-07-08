@@ -15,9 +15,13 @@
 // Needed to obtain the Navigation Controller
 #import "AppDelegate.h"
 #import "GameObject.h"
+#import <UIKit/UIKit.h>
+
 
 
 @implementation GameLayer
+
+UIViewController *view;
 
 +(CCScene *) scene
 {
@@ -66,6 +70,7 @@
         
         [self addChild:tiledMap z:-1];
 		[self scheduleUpdate];
+        
 	}
 	return self;
 }
@@ -190,7 +195,7 @@
 -(void) initPhysics
 {	
 	b2Vec2 gravity;
-	gravity.Set(0.0f, -GRAVITY);
+	gravity.Set(0, -GRAVITY);
     
 	world = new b2World(gravity);	
 	
@@ -290,6 +295,7 @@
                             [parent removeChildByTag:kTagChildNode];
                             playerDead = true;*/
                             break;
+                            
                         }
                         /*else if (filter.categoryBits == kFilterCategoryExit)
                         {
@@ -401,7 +407,7 @@
                 
             }
         }
-        else if(player.isTouching)
+        /*else if(player.isTouching)
         {
             if(worldGravity.x == 0 && worldGravity.y < 0)
             {
@@ -469,13 +475,13 @@
                 currentYAngle = newYAngle;
 
             }
-        }
+        }*/
         
         
     }
 }
 
--(void) ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+/*-(void) ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     if(!playerDead)
     {
@@ -504,10 +510,101 @@
 
 -(void) ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
-     player.isTouching = NO;
+    player.isTouching = NO;
+    
+}*/
+
+-(void) ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    if(!playerDead)
+    {
+        NSSet *allTouches = [event allTouches];
+        UITouch *touch = [[allTouches allObjects] objectAtIndex:0];
+        CGPoint location = [touch locationInView:[touch view]];
+        location = [[CCDirector sharedDirector] convertToGL:location];
+        player.isTouching = YES;
+        
+        firstTouch = location;
+        
+        
+        
+    }
 }
 
- 
+-(void) ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    if(!playerDead)
+    {
+        NSSet *allTouches = [event allTouches];
+        UITouch *touch = [[allTouches allObjects] objectAtIndex:0];
+        CGPoint location = [touch locationInView:[touch view]];
+        location = [[CCDirector sharedDirector] convertToGL:location];
+        
+        player.isTouching = NO;
+        
+        lastTouch = location;
+        
+        if([self isPlayerOnGround])
+        {
+            b2Vec2 worldGravity;
+            worldGravity = world->GetGravity();
+            float gravityRemovalFactor = 0.7f;
+            
+            if (worldGravity.x == 0.0f && worldGravity.y > 0.0f)
+                player.body->ApplyLinearImpulse(b2Vec2 (0, -player.body->GetMass()*GRAVITY*gravityRemovalFactor), player.body->GetWorldCenter());
+            else if (worldGravity.x == 0.0f && worldGravity.y < 0.0f)
+                player.body->ApplyLinearImpulse(b2Vec2 (0, player.body->GetMass()*GRAVITY*gravityRemovalFactor), player.body->GetWorldCenter());
+            else if (worldGravity.x > 0.0f && worldGravity.y == 0.0f)
+                player.body->ApplyLinearImpulse(b2Vec2 (-player.body->GetMass()*GRAVITY*gravityRemovalFactor, 0), player.body->GetWorldCenter());
+            else if (worldGravity.x < 0.0f && worldGravity.y == 0.0f)
+                player.body->ApplyLinearImpulse(b2Vec2 (player.body->GetMass()*GRAVITY*gravityRemovalFactor, 0), player.body->GetWorldCenter());
+        }
+        else if(![self isPlayerOnGround])
+        {
+            float swipeLength = ccpDistance(firstTouch, lastTouch);
+            float xSwipeLength = fabsf(firstTouch.x - lastTouch.x);
+            float ySwipeLength = fabsf(firstTouch.y - lastTouch.y);
+
+            CCLOG(@"Swipe Length: %f", swipeLength);
+            
+            if(swipeLength > 10)
+            {
+                if(xSwipeLength > ySwipeLength)
+                {
+                    CCLOG(@"XSwipeLength: %f", xSwipeLength);
+                    if (firstTouch.x > lastTouch.x)
+                    {
+                        world->SetGravity(b2Vec2 (-GRAVITY, 0));
+                        
+                    }
+                    else
+                    {
+                        world->SetGravity(b2Vec2 (GRAVITY, 0));
+                        
+                    }
+                }
+                else if(ySwipeLength > xSwipeLength)
+                {
+                    CCLOG(@"YSwipeLength: %f", ySwipeLength);
+                    if (firstTouch.y > lastTouch.y)
+                    {
+                        world->SetGravity(b2Vec2 (0, -GRAVITY));
+                    }
+                    else
+                    {
+                        world->SetGravity(b2Vec2 (0, GRAVITY));
+                    }
+                
+                }
+            }
+        }
+
+        
+    }
+    
+}
+
+
 -(BOOL) isPlayerOnGround
 {
     std::vector<MyContact>::iterator position;
@@ -540,4 +637,5 @@
     return FALSE;
 
 }
+
 @end
