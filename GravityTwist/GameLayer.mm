@@ -51,9 +51,7 @@ int indexPos;
         movingForward = true;
         moveCount = 0;
         
-        //player = [[GameObject alloc] init];
         spriteTextureName = @"Tilesheet.png";
-        //CCSpriteBatchNode *parent = [player getSpriteBatchNodeObject:spriteTextureName];
         CCSpriteBatchNode *parent = [CCSpriteBatchNode batchNodeWithFile:spriteTextureName capacity:100];
         [self addChild:parent z:0 tag:kTagParentNode];
         // Changes by Arpit End
@@ -71,11 +69,9 @@ int indexPos;
         
         b2PolygonShape dynamicBox;        
         dynamicBox.SetAsBox(.5f, .5f);
-        //CCNode *parent1 = [self getChildByTag:kTagParentNode];
         
         player = [[GameObject alloc] initWithOptions:b2_dynamicBody withPosition: spawnPoint withFixedRotation:YES withPolyShape:dynamicBox withDensity:1.0f withFriction:0.3f withRestitution:0.0f withTileIndex:b2Vec2(1,1) withTileLength:b2Vec2(1,1) withWorld:world withBatchNode:parent withZLocation:0];
         
-                
         CCTMXObjectGroup *boxes = [tiledMap objectGroupNamed:@"boxes"];
         //CCSpriteBatchNode *boxParent = [platform getSpriteBatchNodeObject:spriteTextureName];
         for (id box in [boxes objects]) {
@@ -86,8 +82,7 @@ int indexPos;
             b2PolygonShape boxDynamicBox;
             boxDynamicBox.SetAsBox(.5f, .5f);
             
-            GameObject *gameBox = [[GameObject alloc] init];
-            //gameBox = [gameBox initWithOptions:b2_dynamicBody withPosition:CGPointMake(boxx, boxy) withFixedRotation:YES withPolyShape:boxDynamicBox withDensity:1.0f withFriction:0.3f withRestitution:0.0f withTileIndex:b2Vec2(1, 1) withTileLength:b2Vec2(1, 1) withWorld:world withParent:[self getChildByTag:kTagParentNode] withZLocation:0];
+            GameObject *gameBox = [[GameObject alloc] initWithOptions:b2_dynamicBody withPosition:CGPointMake(boxx, boxy) withFixedRotation:YES withPolyShape:boxDynamicBox withDensity:1.0f withFriction:0.3f withRestitution:0.0f withTileIndex:b2Vec2(1, 1) withTileLength:b2Vec2(1, 1) withWorld:world withBatchNode:parent withZLocation:0];
         }
         
         [self addChild:tiledMap z:-1];
@@ -270,7 +265,7 @@ int indexPos;
 	world = new b2World(gravity);	
 	
 	// Do we want to let bodies sleep?
-	world->SetAllowSleeping(true);
+	world->SetAllowSleeping(false);
 	
 	world->SetContinuousPhysics(true);
 	

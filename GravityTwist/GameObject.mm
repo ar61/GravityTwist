@@ -33,7 +33,7 @@
 
 -(id) initWithOptions: (b2BodyType) type withPosition:(CGPoint) position withFixedRotation:(BOOL) rotation withPolyShape:(b2PolygonShape) poly withDensity:(CGFloat) density withFriction:(CGFloat) friction withRestitution:(CGFloat) res withTileIndex:(b2Vec2)tilePosition withTileLength:(b2Vec2)tileLength withWorld: (b2World*) world withBatchNode: (CCSpriteBatchNode*) parent withZLocation:(int)z
 {
-    [super init];
+    [self initWithTexture:[parent texture] rect:CGRectMake(32*tilePosition.x, 32*tilePosition.y, 32*tileLength.x, 32*tileLength.y)];
     b2BodyDef bodyDef;
     bodyDef.type = type;
     bodyDef.position.Set(position.x, position.y);
@@ -48,10 +48,6 @@
     fixtureDef.friction = friction;
     fixtureDef.restitution = res;
     body->CreateFixture(&fixtureDef);
-    
-    //parent = (CCNode *) parent1;
-    
-    self = [CCPhysicsSprite spriteWithTexture:[parent texture] rect:CGRectMake(32*tilePosition.x, 32*tilePosition.y, 32*tileLength.x, 32*tileLength.y)];
 
     [parent addChild:self z:z tag:kTagChildNode];
     
@@ -59,7 +55,6 @@
     [self setB2Body:body];
     printf("%f %f\n",position.x,position.y);
     [self setPosition: position];
-    //[self setPosition:CGPointMake(203, 96)];
         
     return self;
 }
