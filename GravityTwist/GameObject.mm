@@ -11,8 +11,7 @@
 @implementation GameObject
 
 @synthesize body;
-@synthesize object;
-@synthesize spriteTexture;
+//@synthesize spriteTexture;
 
 -(id) init {
     [super init];
@@ -20,6 +19,7 @@
     return self;
 }
 
+/*
 -(CCSpriteBatchNode*) getSpriteBatchNodeObject: (NSString*) textureFilename
 {
     parent1 = [CCSpriteBatchNode batchNodeWithFile:textureFilename capacity:100];
@@ -27,11 +27,13 @@
     
     return parent1;
 }
+*/
 
 //-(void)changePosition: (CGPoint) pos
 
--(id) initWithOptions: (b2BodyType) type withPosition:(CGPoint) position withFixedRotation:(BOOL) rotation withPolyShape:(b2PolygonShape) poly withDensity:(CGFloat) density withFriction:(CGFloat) friction withRestitution:(CGFloat) res withTileIndex:(b2Vec2)tilePosition withTileLength:(b2Vec2)tileLength withWorld: (b2World*) world withParent: (CCNode*) parent withZLocation:(int)z
-{        
+-(id) initWithOptions: (b2BodyType) type withPosition:(CGPoint) position withFixedRotation:(BOOL) rotation withPolyShape:(b2PolygonShape) poly withDensity:(CGFloat) density withFriction:(CGFloat) friction withRestitution:(CGFloat) res withTileIndex:(b2Vec2)tilePosition withTileLength:(b2Vec2)tileLength withWorld: (b2World*) world withBatchNode: (CCSpriteBatchNode*) parent withZLocation:(int)z
+{
+    [super init];
     b2BodyDef bodyDef;
     bodyDef.type = type;
     bodyDef.position.Set(position.x, position.y);
@@ -49,14 +51,16 @@
     
     //parent = (CCNode *) parent1;
     
-    object = [CCPhysicsSprite spriteWithTexture:spriteTexture rect:CGRectMake(32*tilePosition.x, 32*tilePosition.y, 32*tileLength.x, 32*tileLength.y)];
+    self = [CCPhysicsSprite spriteWithTexture:[parent texture] rect:CGRectMake(32*tilePosition.x, 32*tilePosition.y, 32*tileLength.x, 32*tileLength.y)];
 
-    [parent addChild:object z:z tag:kTagChildNode];
+    [parent addChild:self z:z tag:kTagChildNode];
     
-    [object setPTMRatio:PTM_RATIO];
-    [object setB2Body:body];
-    [object setPosition: position];
-    
+    [self setPTMRatio:PTM_RATIO];
+    [self setB2Body:body];
+    printf("%f %f\n",position.x,position.y);
+    [self setPosition: position];
+    //[self setPosition:CGPointMake(203, 96)];
+        
     return self;
 }
 

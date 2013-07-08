@@ -56,7 +56,7 @@
 	
 	// Reset Button
 	CCMenuItemLabel *reset = [CCMenuItemFont itemWithString:@"Start Game" block:^(id sender){
-		[[CCDirector sharedDirector] replaceScene: [GameLayer scene: @"LevelOne.tmx"]];
+		[[CCDirector sharedDirector] replaceScene: [GameLayer scene: @"boxbutton.tmx"]];
 	}];
 	
     /*
