@@ -70,7 +70,7 @@ int indexPos;
         b2PolygonShape dynamicBox;        
         dynamicBox.SetAsBox(.5f, .5f);
         
-        player = [[GameObject alloc] initWithOptions:b2_dynamicBody withPosition: spawnPoint withFixedRotation:YES withPolyShape:dynamicBox withDensity:1.0f withFriction:0.3f withRestitution:0.0f withTileIndex:b2Vec2(1,1) withTileLength:b2Vec2(1,1) withWorld:world withBatchNode:parent withZLocation:0];
+        player = [[GameObject alloc] initWithOptions:b2_dynamicBody withPosition: spawnPoint withFixedRotation:YES withPolyShape:dynamicBox withDensity:10.0f withFriction:0.3f withRestitution:0.0f withTileIndex:b2Vec2(1,1) withTileLength:b2Vec2(1,1) withWorld:world withBatchNode:parent withZLocation:0];
         
         CCTMXObjectGroup *boxes = [tiledMap objectGroupNamed:@"boxes"];
         //CCSpriteBatchNode *boxParent = [platform getSpriteBatchNodeObject:spriteTextureName];
@@ -83,6 +83,32 @@ int indexPos;
             boxDynamicBox.SetAsBox(.5f, .5f);
             
             GameObject *gameBox = [[GameObject alloc] initWithOptions:b2_dynamicBody withPosition:CGPointMake(boxx, boxy) withFixedRotation:YES withPolyShape:boxDynamicBox withDensity:1.0f withFriction:0.3f withRestitution:0.0f withTileIndex:b2Vec2(1, 1) withTileLength:b2Vec2(1, 1) withWorld:world withBatchNode:parent withZLocation:0];
+        }
+        
+        // make buttons
+        b2BodyDef buttonBodyDef;
+        buttonBodyDef.type = b2_staticBody;
+        buttonBodyDef.fixedRotation = YES;
+        b2FixtureDef buttonFixtureDef;
+        buttonFixtureDef.density = 0;
+        buttonFixtureDef.friction = 0.3;
+        buttonFixtureDef.restitution = 0;
+
+        for (id button in [[tiledMap objectGroupNamed:@"buttons"] objects]) {
+            int buttonx = [button[@"x"] intValue];
+            int buttony = [button[@"y"] intValue];
+            int buttonw = [button[@"width"] intValue];
+            int buttonh = [button[@"height"] intValue];
+            
+            buttonBodyDef.position = b2Vec2(buttonx, buttony);
+            b2Body *buttonBody = world->CreateBody(&buttonBodyDef);
+            
+            b2PolygonShape shape;
+            shape.SetAsBox(buttonw/32/2, buttonh/32/2);
+            buttonFixtureDef.shape = &shape;
+            buttonFixtureDef.userData = button[@"doorLayer"];
+            NSLog(@"making button");
+            buttonBody->CreateFixture(&buttonFixtureDef);
         }
         
         [self addChild:tiledMap z:-1];
