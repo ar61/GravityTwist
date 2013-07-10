@@ -40,4 +40,11 @@
   <object x="0" y="384" width="160" height="32"/>
   <object x="352" y="384" width="160" height="32"/>
  </objectgroup>
+ <objectgroup name="doorCollisions" width="32" height="24">
+  <object x="160" y="387" width="189" height="12">
+   <properties>
+    <property name="doorLayer" value="door1"/>
+   </properties>
+  </object>
+ </objectgroup>
 </map>

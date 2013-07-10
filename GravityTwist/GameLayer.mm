@@ -86,29 +86,47 @@ int indexPos;
         }
         
         // make buttons
-        b2BodyDef buttonBodyDef;
-        buttonBodyDef.type = b2_staticBody;
-        buttonBodyDef.fixedRotation = YES;
-        b2FixtureDef buttonFixtureDef;
-        buttonFixtureDef.density = 0;
-        buttonFixtureDef.friction = 0.3;
-        buttonFixtureDef.restitution = 0;
-
-        for (id button in [[tiledMap objectGroupNamed:@"buttons"] objects]) {
-            int buttonx = [button[@"x"] intValue];
-            int buttony = [button[@"y"] intValue];
-            int buttonw = [button[@"width"] intValue];
-            int buttonh = [button[@"height"] intValue];
+        NSMutableArray *buttons = [[tiledMap objectGroupNamed:@"buttons"] objects];
+        doorCollisions = [NSMutableDictionary dictionaryWithCapacity:[buttons count]];
+        //[[doorCollisions alloc] initWithCapacity:[buttons count]];
+        NSMutableArray *doorCollisionObjects = [[tiledMap objectGroupNamed:@"doorCollisions"] objects];
+        for (id button in buttons) {
+            NSLog(@"%@\n",button[@"doorLayer"]);
+            [self createCollisionTiles:button withType:6];
             
-            buttonBodyDef.position = b2Vec2(buttonx, buttony);
-            b2Body *buttonBody = world->CreateBody(&buttonBodyDef);
+            // add door collision bodies
+            NSMutableArray *doorColBodies = [[NSMutableArray alloc] initWithCapacity:5];
+            [doorCollisions setValue:doorColBodies forKey:button[@"doorLayer"]];
+            for (id doorCol in doorCollisionObjects) {
+                if ([doorCol[@"doorLayer"] isEqualToString:button[@"doorLayer"]]) {
+                    CGPoint p = ccp([doorCol[@"x"] integerValue],[doorCol[@"y"] integerValue]);
+                    CGPoint size = ccp([doorCol[@"width"] integerValue],[doorCol[@"height"] integerValue]);
+                    
+                    CGPoint _point = ccp(p.x+size.x/2, p.y+size.y/2);
+                    CGPoint _size = ccp(size.x,size.y);
+                    
+                    b2BodyDef bDef;
+                    bDef.type = b2_staticBody;
+                    bDef.position.Set(_point.x/PTM_RATIO, _point.y/PTM_RATIO);
+                    b2Body *b = world->CreateBody(&bDef);
+                    
+                    b2PolygonShape shape;
+                    shape.SetAsBox(_size.x/2.0/PTM_RATIO, _size.y/2.0/PTM_RATIO);
+                    
+                    b2FixtureDef fDef;
+                    fDef.shape = &shape;
+                    fDef.density = 1.0f;
+                    fDef.friction = 0.2f;
+                    fDef.restitution = 0.0f;
+                    b->CreateFixture(&fDef);
+                    
+                    [doorColBodies addObject:[NSValue valueWithPointer:b]];
+                }
+            }
             
-            b2PolygonShape shape;
-            shape.SetAsBox(buttonw/32/2, buttonh/32/2);
-            buttonFixtureDef.shape = &shape;
-            buttonFixtureDef.userData = button[@"doorLayer"];
-            NSLog(@"making button");
-            buttonBody->CreateFixture(&buttonFixtureDef);
+            [doorCollisions retain];
+            
+            //NSLog(@"%@\n",doorCollisions);
         }
         
         [self addChild:tiledMap z:-1];
@@ -159,7 +177,7 @@ int indexPos;
 
     
     [self createPlatformObjects: collisionObjects withType:1];
-    [self createPlatformObjects: collectibleObjects withType:2];    
+    [self createPlatformObjects: collectibleObjects withType:2];
 }
 
 -(void)createPlatformObjects: (CCTMXObjectGroup*) layer withType:(int) type
@@ -247,6 +265,11 @@ int indexPos;
         {
             fDef.filter.categoryBits = kFilterCategoryExit;
         }
+        else if(type == 6) // button
+        {
+            fDef.filter.categoryBits = kFilterCategoryButton;
+            fDef.userData = object[@"doorLayer"];
+        }
         else
         {
             //for remaining objects
@@ -279,6 +302,7 @@ int indexPos;
     [platform dealloc];
     [movingSpike release];
     [array release];
+    [doorCollisions release];
     
 	[super dealloc];
 }	
@@ -353,13 +377,48 @@ int indexPos;
             {
                 b2Body *bodyA = contact.fixtureA->GetBody();
                 b2Body *bodyB = contact.fixtureB->GetBody();
-                
+
                 //if(bodyA != nil || bodyB != nil)
                 {
-                    if((bodyA->GetType() == b2_staticBody || bodyA->GetType() == b2_kinematicBody) && bodyB->GetType() == b2_dynamicBody)
+                    if(bodyB->GetType() == b2_staticBody)
+                    {
+                        b2Fixture *fDef = bodyB->GetFixtureList();
+                        b2Filter filter = fDef->GetFilterData();
+                        
+                        if (filter.categoryBits == kFilterCategoryButton) {
+                            NSString *doorLayer = (NSString*)contact.fixtureB->GetUserData();
+                            
+                            [tiledMap layerNamed:doorLayer].visible = NO;
+                            
+                            for (id doorColBody in [doorCollisions valueForKey:doorLayer])
+                            {
+                                ((b2Body*)[doorColBody pointerValue])->SetActive(NO);
+                                
+                            }
+                        }
+                        break;
+                    }
+                    /*
+                    if(bodyB->GetFixtureList()->GetFilterData().categoryBits == kFilterCategoryButton)
+                    {
+                        NSString *doorLayer = (NSString*)contact.fixtureB->GetUserData();
+                        
+                        [tiledMap layerNamed:doorLayer].visible = NO;
+                        
+                        NSLog(@"%@\n", doorLayer);
+                        NSLog(@"%@\n", doorCollisions);
+                        
+                        for (id doorColBody in [doorCollisions valueForKey:doorLayer])
+                        {
+                            ((b2Body*)[doorColBody pointerValue])->SetActive(NO);
+                        }
+                    }
+                     */
+                    else if((bodyA->GetType() == b2_staticBody || bodyA->GetType() == b2_kinematicBody) && bodyB->GetType() == b2_dynamicBody)
                     {
                         b2Fixture *fDef = bodyA->GetFixtureList();
                         b2Filter filter = fDef->GetFilterData();
+                        //if (filter.categoryBits != 1)
                         
                         if(filter.categoryBits == kFilterCategoryNonSolidObjects)
                         {
@@ -396,6 +455,18 @@ int indexPos;
                                 [[CCDirector sharedDirector] replaceScene: [GameLayer scene: @"LevelTwo.tmx"]];                            
                             else if([levelFileName isEqual: @"LevelTwo.tmx"])
                                 [[CCDirector sharedDirector] replaceScene: [GameLayer scene: @"LevelThree.tmx"]];
+                        }
+                        else if (filter.categoryBits == kFilterCategoryButton)
+                        {
+                            NSString *doorLayer = (NSString*)contact.fixtureA->GetUserData();
+                            
+                            [tiledMap layerNamed:doorLayer].visible = NO;
+                            
+                            NSLog(@"%@\n", doorLayer);
+                            for (id doorColBody in doorCollisions)
+                            {
+                                ((b2Body*)[doorColBody pointerValue])->SetActive(NO);
+                            }
                         }
                     }
                 }

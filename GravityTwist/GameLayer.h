@@ -30,6 +30,7 @@
 #define kFilterCategoryHarmfulObjects 0x04
 #define kFilterCategorySolidObject 0x03
 #define kFilterCategoryExit 0x05
+#define kFilterCategoryButton 0x06
 
 // GameLayer
 @interface GameLayer : CCLayer
@@ -66,6 +67,8 @@
     BOOL playerDead;
     BOOL worldBeingDestroyed;
     NSMutableArray *array;
+    
+    NSMutableDictionary *doorCollisions;
 }
 
 // returns a CCScene that contains the HelloWorldLayer as the only child
