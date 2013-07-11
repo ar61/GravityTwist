@@ -13,6 +13,11 @@
   <tile id="28" terrain="0,0,0,0"/>
   <tile id="38" terrain="0,0,0,0"/>
   <tile id="39" terrain="0,0,0,0"/>
+  <tile id="43">
+   <properties>
+    <property name="Collectible" value="true"/>
+   </properties>
+  </tile>
   <tile id="54" terrain="0,0,0,0"/>
   <tile id="55" terrain="0,0,0,0"/>
  </tileset>
@@ -73,4 +78,9 @@
   <object x="224" y="65" width="32" height="32"/>
   <object x="640" y="63" width="32" height="32"/>
  </objectgroup>
+ <layer name="Meta" width="32" height="24" opacity="0.24">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFuIAOnfSMglEwCkbBUASj5d0oGAWjgNqAWuXKaPmEHwAALhsA3Q==
+  </data>
+ </layer>
 </map>

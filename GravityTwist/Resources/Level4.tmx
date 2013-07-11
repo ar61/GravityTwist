@@ -13,12 +13,17 @@
   <tile id="28" terrain="0,0,0,0"/>
   <tile id="38" terrain="0,0,0,0"/>
   <tile id="39" terrain="0,0,0,0"/>
+  <tile id="43">
+   <properties>
+    <property name="Collectible" value="true"/>
+   </properties>
+  </tile>
   <tile id="54" terrain="0,0,0,0"/>
   <tile id="55" terrain="0,0,0,0"/>
  </tileset>
  <layer name="tiles" width="32" height="24">
   <data encoding="base64" compression="zlib">
-   eJztlLENgDAQA71AkAItDVCyAfsAazIa/j4FIYpM0BdXn956OwBYhQTSidjcn/QvwDWTiSj8A709iSK/Ov9cDua0v8jqL/e7/9t+9hjss/Va4ueOgXtmu5blZ6esW83n7/46/tL/aP1+95f7z4eMFTD/DXGJPp4=
+   eJztlLENgDAQA71AIgFtGqBkA/YB1mQ0/D0FAUUm0RdXn956OwBYhAQSRazuv/XPwDmRkSj8A7096UR+df657Mxpe5FVK/e7/99+9hjss/Va4ueOgXtmu5blZ6esW9Xn7/4y/q//Ufv9LfiPh6j9qQDmvwCuIkIZ
   </data>
  </layer>
  <layer name="Exit" width="32" height="24">
@@ -41,7 +46,7 @@
     <property name="kill" value="true"/>
    </properties>
   </object>
-  <object x="0" y="736" width="320" height="32"/>
+  <object x="-4" y="705" width="321" height="59"/>
   <object x="992" y="32" width="32" height="704">
    <properties>
     <property name="kill" value="true"/>
@@ -81,4 +86,9 @@
  <objectgroup name="collectibles" width="32" height="24">
   <object x="640" y="416" width="32" height="32"/>
  </objectgroup>
+ <layer name="Meta" width="32" height="24" opacity="0.1">
+  <data encoding="base64" compression="zlib">
+   eJztzgEJAAAMA6AFev98jzEGmsAEAPZdOwAw4gHwQAAt
+  </data>
+ </layer>
 </map>

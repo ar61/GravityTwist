@@ -402,7 +402,7 @@ CCSpriteBatchNode *parent;
                         else if (filter.categoryBits == kFilterCategoryExit)
                         {
                             if([levelFileName isEqual: @"LevelOne.tmx"])
-                                [[CCDirector sharedDirector] replaceScene: [GameLayer scene: @"LevelTwo.tmx"]];                            
+                                [[CCDirector sharedDirector] replaceScene: [GameLayer scene: @"LevelTwo.tmx"]];
                             else if([levelFileName isEqual: @"LevelTwo.tmx"])
                                 [[CCDirector sharedDirector] replaceScene: [GameLayer scene: @"LevelThree.tmx"]];
                             else if([levelFileName isEqual: @"LevelThree.tmx"])
