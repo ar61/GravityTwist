@@ -11,6 +11,7 @@
 
 // Needed to obtain the Navigation Controller
 #import "AppDelegate.h"
+#import "LevelManager.h"
 #import "GameLayer.h"
 
 
@@ -18,6 +19,7 @@
 
 @interface MenuItemLayer()
 -(void) createMenu;
+-(void) selectLevel;
 @end
 
 @implementation MenuItemLayer
@@ -41,7 +43,7 @@
 {
 	if( (self=[super init])) {
         
-		// create reset button
+		// create menu
 		[self createMenu];
         
 	}
@@ -51,45 +53,23 @@
 
 -(void) createMenu
 {
-	// Default font size will be 22 points.
-	[CCMenuItemFont setFontSize:22];
+	// Default font size will be 32 points.
+	[CCMenuItemFont setFontSize:32];
 	
-	// Reset Button
-	CCMenuItemLabel *reset = [CCMenuItemFont itemWithString:@"Start Game" block:^(id sender){
+	// Start Button
+	
+    CCMenuItemLabel *start = [CCMenuItemFont itemWithString:@"Start Game" target:self selector:@selector(selectLevel)];
+    
+    
+   /* CCMenuItemLabel *start = [CCMenuItemFont itemWithString:@"Start Game" block:^(id sender){
 		[[CCDirector sharedDirector] replaceScene: [GameLayer scene]];
-	}];
-	
-    /*
-     // Achievement Menu Item using blocks
-     CCMenuItem *itemAchievement = [CCMenuItemFont itemWithString:@"Achievements" block:^(id sender) {
-     
-     
-     GKAchievementViewController *achivementViewController = [[GKAchievementViewController alloc] init];
-     achivementViewController.achievementDelegate = self;
-     
-     AppController *app = (AppController*) [[UIApplication sharedApplication] delegate];
-     
-     [[app navController] presentModalViewController:achivementViewController animated:YES];
-     
-     [achivementViewController release];
-     }];
-     
-     // Leaderboard Menu Item using blocks
-     CCMenuItem *itemLeaderboard = [CCMenuItemFont itemWithString:@"Leaderboard" block:^(id sender) {
-     
-     
-     GKLeaderboardViewController *leaderboardViewController = [[GKLeaderboardViewController alloc] init];
-     leaderboardViewController.leaderboardDelegate = self;
-     
-     AppController *app = (AppController*) [[UIApplication sharedApplication] delegate];
-     
-     [[app navController] presentModalViewController:leaderboardViewController animated:YES];
-     
-     [leaderboardViewController release];
-     }];
-     */
-	
-	CCMenu *menu = [CCMenu menuWithItems:reset, nil];
+	}]; */
+    
+    CCMenuItemLabel *options = [CCMenuItemFont itemWithString:@"Options"];
+    
+    CCMenuItemLabel *credits = [CCMenuItemFont itemWithString:@"Credits"];
+    
+	CCMenu *menu = [CCMenu menuWithItems:start, options, credits, nil];
 	
 	[menu alignItemsVertically];
 	
@@ -100,20 +80,9 @@
 	[self addChild: menu z:-1];
 }
 
-/*
- #pragma mark GameKit delegate
- 
- -(void) achievementViewControllerDidFinish:(GKAchievementViewController *)viewController
- {
- AppController *app = (AppController*) [[UIApplication sharedApplication] delegate];
- [[app navController] dismissModalViewControllerAnimated:YES];
- }
- 
- -(void) leaderboardViewControllerDidFinish:(GKLeaderboardViewController *)viewController
- {
- AppController *app = (AppController*) [[UIApplication sharedApplication] delegate];
- [[app navController] dismissModalViewControllerAnimated:YES];
- }
- */
+-(void) selectLevel
+{
+    [[CCDirector sharedDirector] replaceScene:[LevelManager scene]];
+}
 
 @end
