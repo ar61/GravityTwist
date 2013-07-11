@@ -51,21 +51,17 @@ static NSString *levelFileName;
         
         contactListener = new MyContactListener();
         world->SetContactListener(contactListener);
-        
-        player = [[GameObject alloc] init];
-        
+                
         b2PolygonShape dynamicBox;        
         dynamicBox.SetAsBox(.5f, .5f);
         
         spriteTextureName = @"blocks.png";
         
-        CCSpriteBatchNode *parent = [player getSpriteBatchNodeObject:spriteTextureName];
+        CCSpriteBatchNode *parent = [CCSpriteBatchNode batchNodeWithFile:spriteTextureName capacity:100];
         
         [self addChild:parent z:0 tag:kTagParentNode];
-        
-        CCNode *parent1 = [self getChildByTag:kTagParentNode];
-        
-        player = [player initWithOptions:b2_dynamicBody withPosition: spawnPoint withFixedRotation:YES withPolyShape:dynamicBox withDensity:1.0f withFriction:0.3f withRestitution:0.0f withWorld:world withParent:parent1];
+                
+        player = [[GameObject alloc] initWithOptions:b2_dynamicBody withPosition: spawnPoint withFixedRotation:YES withPolyShape:dynamicBox withDensity:10.0f withFriction:0.3f withRestitution:0.0f withTileIndex:b2Vec2(1,1) withTileLength:b2Vec2(1,1) withWorld:world withBatchNode:parent withZLocation:0];
         
         [self addChild:tiledMap z:-1];
 		[self scheduleUpdate];
