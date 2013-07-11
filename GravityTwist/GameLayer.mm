@@ -120,7 +120,7 @@ CCSpriteBatchNode *parent;
     
     collisionObjects = [tiledMap objectGroupNamed:@"collisions"];	
     
-    //collectibleObjects = [tiledMap objectGroupNamed:@"collectibles"];
+    collectibleObjects = [tiledMap objectGroupNamed:@"collectibles"];
     
     collectibles = [tiledMap layerNamed:@"collectibles"];
     collectibles.tag = 1;
@@ -222,12 +222,12 @@ CCSpriteBatchNode *parent;
         fDef.density = 1.0f;
         fDef.friction = 0.2f;
         fDef.restitution = 0.0f;
-        /*if(type == 2)
+        if(type == 2)
         {
             //for collectibles
             fDef.filter.categoryBits = kFilterCategoryNonSolidObjects;
         }
-        else*/ if(type == 4)
+        else if(type == 4)
         {
             // for spikes
             fDef.filter.categoryBits = kFilterCategoryHarmfulObjects;
@@ -331,7 +331,8 @@ CCSpriteBatchNode *parent;
     
     if(!worldBeingDestroyed)
     {
-        CGPoint tileCoord = [self tileCoordForPosition:player.position];
+        //to be worked on later by Abhinav
+        /*CGPoint tileCoord = [self tileCoordForPosition:player.position];
         int tileGid = [meta tileGIDAt:tileCoord];
         if (tileGid) {
             NSDictionary *properties = [tiledMap propertiesForGID:tileGid];
@@ -341,6 +342,7 @@ CCSpriteBatchNode *parent;
                     [meta removeTileAt:tileCoord];
                     [collectibles removeTileAt:tileCoord];
                     collectedCount++;
+                    coinsLabel.string = [NSString stringWithFormat:@"coins: %d", collectedCount];
                     if(collectedCount == 5)
                     {
                         door.visible = YES;
@@ -348,7 +350,7 @@ CCSpriteBatchNode *parent;
                     }
                 }
             }
-        }
+        }*/
         
         // Instruct the world to perform a single step of simulation. It is
         // generally best to keep the time step and iterations fixed.
@@ -372,7 +374,7 @@ CCSpriteBatchNode *parent;
                         b2Fixture *fDef = bodyA->GetFixtureList();
                         b2Filter filter = fDef->GetFilterData();
                         
-                        /*if(filter.categoryBits == kFilterCategoryNonSolidObjects)
+                        if(filter.categoryBits == kFilterCategoryNonSolidObjects)
                         {
                             b2Vec2 v = bodyA->GetPosition();
                             int x = v.x;
@@ -389,7 +391,7 @@ CCSpriteBatchNode *parent;
                             }
                             break;
                         }
-                        else*/ if (filter.categoryBits == kFilterCategoryHarmfulObjects)
+                        else if (filter.categoryBits == kFilterCategoryHarmfulObjects)
                         {
                             [[CCDirector sharedDirector] replaceScene: [GameLayer scene: levelFileName]];
                             //remove player fixture
