@@ -47,6 +47,7 @@
     CCTMXLayer *door;
     CCTMXLayer *collisions;
     CCTMXLayer *collectibles;
+    CCTMXLayer *meta;
     int collectedCount;
     NSDictionary *exitObject;
     CCTMXObjectGroup *objects;

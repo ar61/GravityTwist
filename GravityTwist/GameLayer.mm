@@ -93,6 +93,9 @@ CCSpriteBatchNode *parent;
     
     door = [tiledMap layerNamed:@"Exit"];
     
+    meta = [tiledMap layerNamed:@"Meta"];
+    meta.visible = NO;
+    
     objects = [tiledMap objectGroupNamed:@"objects"];
     NSAssert(objects != nil, @"Tile map doesnt have an objects layer defined");
     
@@ -115,9 +118,9 @@ CCSpriteBatchNode *parent;
     collisions = [tiledMap layerNamed:@"collisions"];
     collisions.visible = NO;
     
-    collisionObjects = [tiledMap objectGroupNamed:@"collisions"];
+    collisionObjects = [tiledMap objectGroupNamed:@"collisions"];	
     
-    collectibleObjects = [tiledMap objectGroupNamed:@"collectibles"];
+    //collectibleObjects = [tiledMap objectGroupNamed:@"collectibles"];
     
     collectibles = [tiledMap layerNamed:@"collectibles"];
     collectibles.tag = 1;
@@ -126,6 +129,13 @@ CCSpriteBatchNode *parent;
     
     [self createPlatformObjects: collisionObjects withType:1];
     [self createPlatformObjects: collectibleObjects withType:2];    
+}
+
+// Add new method
+- (CGPoint)tileCoordForPosition:(CGPoint)position {
+    int x = position.x / tiledMap.tileSize.width;
+    int y = ((tiledMap.mapSize.height * tiledMap.tileSize.height) - position.y) / tiledMap.tileSize.height;
+    return ccp(x, y);
 }
 
 -(void)createPlatformObjects: (CCTMXObjectGroup*) layer withType:(int) type
@@ -212,17 +222,19 @@ CCSpriteBatchNode *parent;
         fDef.density = 1.0f;
         fDef.friction = 0.2f;
         fDef.restitution = 0.0f;
-        if(type == 2)
+        /*if(type == 2)
         {
             //for collectibles
             fDef.filter.categoryBits = kFilterCategoryNonSolidObjects;
         }
-        else if(type == 4)
+        else*/ if(type == 4)
         {
+            // for spikes
             fDef.filter.categoryBits = kFilterCategoryHarmfulObjects;
         }
         else if(type == 5)
         {
+            //for exit door
             fDef.filter.categoryBits = kFilterCategoryExit;
         }
         else
@@ -319,6 +331,25 @@ CCSpriteBatchNode *parent;
     
     if(!worldBeingDestroyed)
     {
+        CGPoint tileCoord = [self tileCoordForPosition:player.position];
+        int tileGid = [meta tileGIDAt:tileCoord];
+        if (tileGid) {
+            NSDictionary *properties = [tiledMap propertiesForGID:tileGid];
+            if (properties) {
+                NSString *collision = properties[@"Collectible"];
+                if (collision && [collision isEqualToString:@"true"]) {
+                    [meta removeTileAt:tileCoord];
+                    [collectibles removeTileAt:tileCoord];
+                    collectedCount++;
+                    if(collectedCount == 5)
+                    {
+                        door.visible = YES;
+                        [self createCollisionTiles: exitObject withType:5];
+                    }
+                }
+            }
+        }
+        
         // Instruct the world to perform a single step of simulation. It is
         // generally best to keep the time step and iterations fixed.
         world->Step(dt, velocityIterations, positionIterations);
@@ -341,7 +372,7 @@ CCSpriteBatchNode *parent;
                         b2Fixture *fDef = bodyA->GetFixtureList();
                         b2Filter filter = fDef->GetFilterData();
                         
-                        if(filter.categoryBits == kFilterCategoryNonSolidObjects)
+                        /*if(filter.categoryBits == kFilterCategoryNonSolidObjects)
                         {
                             b2Vec2 v = bodyA->GetPosition();
                             int x = v.x;
@@ -358,7 +389,7 @@ CCSpriteBatchNode *parent;
                             }
                             break;
                         }
-                        else if (filter.categoryBits == kFilterCategoryHarmfulObjects)
+                        else*/ if (filter.categoryBits == kFilterCategoryHarmfulObjects)
                         {
                             [[CCDirector sharedDirector] replaceScene: [GameLayer scene: levelFileName]];
                             //remove player fixture
