@@ -39,9 +39,9 @@
     CGPoint spawnPoint;
     CGPoint exitPoint;
     CGPoint exitSize;
-	NSString *spriteTextureName;	// weak ref
-	b2World* world;					// strong ref
-	GLESDebugDraw *m_debugDraw;		// strong ref
+	NSString *spriteTextureName;
+	b2World* world;
+	GLESDebugDraw *m_debugDraw;
     CCTMXTiledMap *tiledMap;
     CCTMXLayer *tile;
     CCTMXLayer *door;
@@ -63,6 +63,14 @@
     
     BOOL playerDead;
     BOOL worldBeingDestroyed;
+    CGPoint firstTouch, lastTouch;
+    
+    //Changes by Arpit - Start
+    GameObject *movingPlatform;
+    GameObject *movingSpike;
+    NSMutableArray *movingPlatformObjects;
+    NSMutableArray *movingSpikeObjects;
+    //Changes by Arpit - End
 }
 
 // returns a CCScene that contains the HelloWorldLayer as the only child

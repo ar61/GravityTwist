@@ -16,9 +16,13 @@
 #import "AppDelegate.h"
 #import "GameObject.h"
 
-static NSString *levelFileName;
-
 @implementation GameLayer
+
+static NSString *levelFileName;
+BOOL movingForward;
+int moveCount;
+int spikeArrayIndex, platformArrayIndex;
+CCSpriteBatchNode *parent;
 
 +(CCScene *) scene: (NSString*) layerName
 {
@@ -43,6 +47,25 @@ static NSString *levelFileName;
 		
         playerDead = false;
         worldBeingDestroyed = false;
+        
+        //Changes by Arpit - Start
+        
+        movingPlatformObjects = [[NSMutableArray alloc] initWithCapacity:20];
+        movingSpikeObjects = [[NSMutableArray alloc] initWithCapacity:50];
+        spikeArrayIndex = platformArrayIndex = moveCount = 0;
+        movingForward = true;
+        
+        b2PolygonShape dynamicBox;
+        dynamicBox.SetAsBox(.5f, .5f);
+        
+        spriteTextureName = @"Tilesheet.png";
+        
+        //CCSpriteBatchNode *parent = [CCSpriteBatchNode batchNodeWithFile:spriteTextureName capacity:100];
+        parent = [CCSpriteBatchNode batchNodeWithFile:spriteTextureName capacity:100];
+        [self addChild:parent z:0 tag:kTagParentNode];
+
+        //Changes by Arpit - End
+        
         [self initLevel: levelFileName];
         
 		self.touchEnabled = YES;
@@ -50,20 +73,11 @@ static NSString *levelFileName;
 		s = [CCDirector sharedDirector].winSize;
         
         contactListener = new MyContactListener();
-        world->SetContactListener(contactListener);
-                
-        b2PolygonShape dynamicBox;        
-        dynamicBox.SetAsBox(.5f, .5f);
+        world->SetContactListener(contactListener); 
         
-        spriteTextureName = @"blocks.png";
+        player = [[GameObject alloc] initWithOptions:b2_dynamicBody withPosition: spawnPoint withRotation:YES withPolyShape:dynamicBox withDensity:1.0f withFriction:0.3f withRestitution:0.0f withTileIndex:b2Vec2(8,4) withTileLength:b2Vec2(1,1) withWorld:world withBatchNode:parent withZLocation:0];
         
-        CCSpriteBatchNode *parent = [CCSpriteBatchNode batchNodeWithFile:spriteTextureName capacity:100];
-        
-        [self addChild:parent z:0 tag:kTagParentNode];
-                
-        player = [[GameObject alloc] initWithOptions:b2_dynamicBody withPosition: spawnPoint withFixedRotation:YES withPolyShape:dynamicBox withDensity:10.0f withFriction:0.3f withRestitution:0.0f withTileIndex:b2Vec2(1,1) withTileLength:b2Vec2(1,1) withWorld:world withBatchNode:parent withZLocation:0];
-        
-        [self addChild:tiledMap z:-1];
+        [self addChild:tiledMap z:-10];
 		[self scheduleUpdate];
 	}
 	return self;
@@ -151,38 +165,85 @@ static NSString *levelFileName;
     CGPoint _point = ccp(p.x+size.x/2, p.y+size.y/2);
     CGPoint _size = ccp(size.x,size.y);
     
-    b2BodyDef bDef;
-    bDef.type = b2_staticBody;
-    bDef.position.Set(_point.x/PTM_RATIO, _point.y/PTM_RATIO);
-    b2Body *b = world->CreateBody(&bDef);
+    bool isMovingPlatform = [[object valueForKey:@"name"] isEqual: @"movingPlatform"];
+    bool isMovingSpikes = [[object valueForKey:@"name"] isEqual: @"movingSpikes"];
     
-    b2PolygonShape shape;
-    shape.SetAsBox(_size.x/2.0/PTM_RATIO, _size.y/2.0/PTM_RATIO);
+    if(isMovingPlatform) {
+        movingPlatform = [[GameObject alloc] init];
+        [self addNewSpriteAtPosition:_point withSize:size withTilePosition:b2Vec2(10,4) withObject:movingPlatform];
+        [movingPlatformObjects insertObject:movingPlatform atIndex:platformArrayIndex++];
+        [movingPlatform release];
+    }
+    else if (isMovingSpikes) {
+        b2Vec2 tilePosition;
+        
+        if ([[object valueForKey:@"topSpike"] isEqual:@"true"])
+            tilePosition = b2Vec2(11,1);
+        else if ([[object valueForKey:@"leftSpike"] isEqual:@"true"])
+            tilePosition = b2Vec2(9,3);
+        else if ([[object valueForKey:@"bottomSpike"] isEqual:@"true"])
+            tilePosition = b2Vec2(10,2);
+        else if ([[object valueForKey:@"rightSpike"] isEqual:@"true"])
+            tilePosition = b2Vec2(12,0);
+        
+        movingSpike = [[GameObject alloc] init];
+        [self addNewSpriteAtPosition:_point withSize:size withTilePosition:tilePosition withObject:movingSpike];
+        
+        b2Filter filter;
+        for (b2Fixture *f = movingSpike.body->GetFixtureList(); f; f=f->GetNext()) {
+            filter = f->GetFilterData();
+            filter.categoryBits = kFilterCategoryHarmfulObjects;
+            f->SetFilterData(filter);
+        }
+        [movingSpikeObjects insertObject:movingSpike atIndex:spikeArrayIndex++];
+        [movingSpike release];
+    }
+    else {
+        b2BodyDef bDef;
+        bDef.type = b2_staticBody;
+        bDef.position.Set(_point.x/PTM_RATIO, _point.y/PTM_RATIO);
+        b2Body *b = world->CreateBody(&bDef);
+        
+        b2PolygonShape shape;
+        shape.SetAsBox(_size.x/2.0/PTM_RATIO, _size.y/2.0/PTM_RATIO);
+        
+        b2FixtureDef fDef;
+        fDef.shape = &shape;
+        fDef.density = 1.0f;
+        fDef.friction = 0.2f;
+        fDef.restitution = 0.0f;
+        if(type == 2)
+        {
+            //for collectibles
+            fDef.filter.categoryBits = kFilterCategoryNonSolidObjects;
+        }
+        else if(type == 4)
+        {
+            fDef.filter.categoryBits = kFilterCategoryHarmfulObjects;
+        }
+        else if(type == 5)
+        {
+            fDef.filter.categoryBits = kFilterCategoryExit;
+        }
+        else
+        {
+            //for remaining objects
+            fDef.filter.categoryBits = KFilterCategoryBits;
+        }
+        b->CreateFixture(&fDef);
+    }
+}
+
+-(void) addNewSpriteAtPosition:(CGPoint)position withSize:(CGPoint)size withTilePosition:(b2Vec2)tilePosition withObject:(GameObject*)object
+{
+    b2PolygonShape dynamicBox;
+    dynamicBox.SetAsBox(size.x/2.0/PTM_RATIO, size.y/2.0/PTM_RATIO);
+    //CCNode *parent1 = [self getChildByTag:kTagParentNode];
+    //object.spriteTexture = player.spriteTexture;
     
-    b2FixtureDef fDef;
-    fDef.shape = &shape;
-    fDef.density = 1.0f;
-    fDef.friction = 0.2f;
-    fDef.restitution = 0.0f;
-    if(type == 2)
-    {
-        //for collectibles
-        fDef.filter.categoryBits = kFilterCategoryNonSolidObjects;
-    }
-    else if(type == 4)
-    {
-        fDef.filter.categoryBits = kFilterCategoryHarmfulObjects;
-    }
-    else if(type == 5)
-    {
-        fDef.filter.categoryBits = kFilterCategoryExit;
-    }
-    else
-    {
-        //for remaining objects
-        fDef.filter.categoryBits = KFilterCategoryBits;
-    }
-    b->CreateFixture(&fDef);
+    object = [object initWithOptions:b2_kinematicBody withPosition: position withRotation:YES withPolyShape:dynamicBox withDensity:1.0f
+                        withFriction:1.0f withRestitution:0.0f withTileIndex:tilePosition withTileLength:b2Vec2(size.x/PTM_RATIO, size.y/PTM_RATIO)
+                           withWorld:world withBatchNode:parent withZLocation:1];
 }
 
 -(void) dealloc
@@ -193,13 +254,19 @@ static NSString *levelFileName;
 	delete m_debugDraw;
 	m_debugDraw = NULL;
 	
+    [player release];
+    [movingPlatform release];
+    [movingSpike release];
+    [movingPlatformObjects release];
+    [movingSpikeObjects release];
+    
 	[super dealloc];
 }	
 
 -(void) initPhysics
 {	
 	b2Vec2 gravity;
-	gravity.Set(0.0f, -10.0f);
+	gravity.Set(0.0f, -GRAVITY);
     
 	world = new b2World(gravity);	
 	
@@ -269,7 +336,7 @@ static NSString *levelFileName;
                 
                 //if(bodyA != nil || bodyB != nil)
                 {
-                    if(bodyA->GetType() == b2_staticBody && bodyB->GetType() == b2_dynamicBody)
+                    if((bodyA->GetType() == b2_staticBody || bodyA->GetType() == b2_kinematicBody) && bodyB->GetType() == b2_dynamicBody)
                     {
                         b2Fixture *fDef = bodyA->GetFixtureList();
                         b2Filter filter = fDef->GetFilterData();
@@ -303,18 +370,50 @@ static NSString *levelFileName;
                         }
                         else if (filter.categoryBits == kFilterCategoryExit)
                         {
-                            int i = 1;
-                            
                             if([levelFileName isEqual: @"LevelOne.tmx"])
                                 [[CCDirector sharedDirector] replaceScene: [GameLayer scene: @"LevelTwo.tmx"]];                            
                             else if([levelFileName isEqual: @"LevelTwo.tmx"])
                                 [[CCDirector sharedDirector] replaceScene: [GameLayer scene: @"LevelThree.tmx"]];
+                            else if([levelFileName isEqual: @"LevelThree.tmx"])
+                                [[CCDirector sharedDirector] replaceScene: [GameLayer scene: @"Level4.tmx"]];
                         }
                     }
                 }
             }
         }
-    }    
+        
+        [self movePlatforms:0.1];
+    }
+}
+
+-(void) movePlatforms:(ccTime)dt {
+    if (movingPlatformObjects != NULL || movingSpikeObjects != NULL) {
+        if (movingForward)
+            moveCount++;
+        else
+            moveCount--;
+        
+        if (movingForward) {
+            for (movingPlatform in movingPlatformObjects)
+                movingPlatform.body->SetLinearVelocity(b2Vec2(1,0));
+            
+            for (movingSpike in movingSpikeObjects)
+                movingSpike.body->SetLinearVelocity(b2Vec2(1,0));
+            
+            if (moveCount >= 60)
+                movingForward = false;
+        }
+        else {
+            for (movingPlatform in movingPlatformObjects)
+                movingPlatform.body->SetLinearVelocity(b2Vec2(-1,0));
+            
+            for (movingSpike in movingSpikeObjects)
+                movingSpike.body->SetLinearVelocity(b2Vec2(-1,0));
+            
+            if (moveCount <= 0)
+                movingForward = true;
+        }
+    }
 }
 
 -(void) accelerometer:(UIAccelerometer *)accelerometer didAccelerate:(UIAcceleration *)acceleration
@@ -325,106 +424,172 @@ static NSString *levelFileName;
         player.body->SetAwake(true);
         b2Vec2 worldGravity = world->GetGravity();
         
-        if(!player.isTouching){
+        //if([self isPlayerOnGround]){
+            
             if(worldGravity.x == 0 && worldGravity.y < 0){
-                float angle = atan2f(acceleration.x,acceleration.y);
-                angle *= 180.0/3.14159;
-                
                 if(acceleration.y >= THRESHOLD)
                 {
                     b2Vec2 impulse = b2Vec2(-0.7f,0.0f);
                     player.body->ApplyLinearImpulse(impulse, player.body->GetWorldCenter());
                 }
-                else if(acceleration.y <= -THRESHOLD)
-                {
-                    b2Vec2 impulse = b2Vec2(0.7f,0.0f);
-                    player.body->ApplyLinearImpulse(impulse, player.body->GetWorldCenter());
-                }
                 
-            }
-            else if((worldGravity.x == 0 && worldGravity.y > 0)){
-                
-                float angle = atan2f(acceleration.x,acceleration.y);
-                angle *= 180.0/3.14159;
-                
-                if(acceleration.y >= THRESHOLD)
-                {
-                    b2Vec2 impulse = b2Vec2(-0.7f,0.0f);
-                    player.body->ApplyLinearImpulse(impulse, player.body->GetWorldCenter());
-                }
                 if(acceleration.y <= -THRESHOLD)
                 {
                     b2Vec2 impulse = b2Vec2(0.7f,0.0f);
                     player.body->ApplyLinearImpulse(impulse, player.body->GetWorldCenter());
                 }
             }
-            else if(worldGravity.x < 0 && worldGravity.y == 0){
-                
-                if(acceleration.x >= THRESHOLD)
-                {
-                    b2Vec2 impulse = b2Vec2(0.0f,0.7f);
-                    player.body->ApplyLinearImpulse(impulse, player.body->GetWorldCenter());
-                }
-                if(acceleration.x <= -THRESHOLD)
-                {
-                    b2Vec2 impulse = b2Vec2(0.0f,-0.7f);
-                    player.body->ApplyLinearImpulse(impulse, player.body->GetWorldCenter());
-                }
-                
-            }
-            else if(worldGravity.x > 0 && worldGravity.y == 0){
-                
-                float angle = atan2f(acceleration.y,acceleration.x);
-                angle *= 180.0/3.14159;
-                if(acceleration.x >= THRESHOLD)
-                {
-                    b2Vec2 impulse = b2Vec2(0.0f,0.7f);
-                    player.body->ApplyLinearImpulse(impulse, player.body->GetWorldCenter());
-                }
-                if(acceleration.x <= -THRESHOLD)
-                {
-                    b2Vec2 impulse = b2Vec2(0.0f,-0.7f);
-                    player.body->ApplyLinearImpulse(impulse, player.body->GetWorldCenter());
-                }
-                
-            }
-        }
-        else if(player.isTouching){
-            float angle = atan2f(acceleration.y, acceleration.x);
-            angle *= 180.0/3.14159;
             
-            if (angle >= -45 && angle <= 45 ) {
-                world->SetGravity(b2Vec2 (0, GRAVITY));
+            else if((worldGravity.x == 0 && worldGravity.y > 0)){
+                if(acceleration.y >= THRESHOLD)
+                {
+                    b2Vec2 impulse = b2Vec2(-0.7f,0.0f);
+                    player.body->ApplyLinearImpulse(impulse, player.body->GetWorldCenter());
+                }
+                
+                if(acceleration.y <= -THRESHOLD)
+                {
+                    b2Vec2 impulse = b2Vec2(0.7f,0.0f);
+                    player.body->ApplyLinearImpulse(impulse, player.body->GetWorldCenter());
+                }
             }
-            else if (angle > 45 && angle < 135) {
-                world->SetGravity(b2Vec2 (-GRAVITY, 0));
+            
+            else if(worldGravity.x < 0 && worldGravity.y == 0){
+                if(acceleration.x >= THRESHOLD)
+                {
+                    b2Vec2 impulse = b2Vec2(0.0f,0.7f);
+                    player.body->ApplyLinearImpulse(impulse, player.body->GetWorldCenter());
+                }
+                
+                if(acceleration.x <= -THRESHOLD)
+                {
+                    b2Vec2 impulse = b2Vec2(0.0f,-0.7f);
+                    player.body->ApplyLinearImpulse(impulse, player.body->GetWorldCenter());
+                }
             }
-            else if (angle > -135 && angle < -45) {
-                world->SetGravity(b2Vec2 (GRAVITY, 0));
+            
+            else if(worldGravity.x > 0 && worldGravity.y == 0) {
+                if(acceleration.x >= THRESHOLD)
+                {
+                    b2Vec2 impulse = b2Vec2(0.0f,0.7f);
+                    player.body->ApplyLinearImpulse(impulse, player.body->GetWorldCenter());
+                }
+                
+                if(acceleration.x <= -THRESHOLD)
+                {
+                    b2Vec2 impulse = b2Vec2(0.0f,-0.7f);
+                    player.body->ApplyLinearImpulse(impulse, player.body->GetWorldCenter());
+                }
             }
-            else if ((angle < -135 && angle > -180)||(angle>135 && angle <=180)){
-                world->SetGravity(b2Vec2 (0, -GRAVITY));
-            }
-        }
-    }
+        //}
+    } 
 }
 
 -(void) ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     if(!playerDead)
     {
-        for(NSSet* touch in touches){
-            CGPoint location = [touch locationInView: [touch view]];
-            location = [[CCDirector sharedDirector] convertToGL: location];                    
-            player.isTouching = YES;            
-            [self checkContactWithGroundAndJump];
-        }
+        NSSet *allTouches = [event allTouches];
+        UITouch *touch = [[allTouches allObjects] objectAtIndex:0];
+        CGPoint location = [touch locationInView:[touch view]];
+        location = [[CCDirector sharedDirector] convertToGL:location];
+        player.isTouching = YES;
+        firstTouch = location;
     }
-}    
+}
 
 -(void) ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
-     player.isTouching = NO;
+    if(!playerDead)
+    {
+        NSSet *allTouches = [event allTouches];
+        
+        UITouch *touch = [[allTouches allObjects] objectAtIndex:0];
+        
+        CGPoint location = [touch locationInView:[touch view]];
+        
+        location = [[CCDirector sharedDirector] convertToGL:location];
+        player.isTouching = NO;
+        lastTouch = location;
+        
+        {
+            float swipeLength = ccpDistance(firstTouch, lastTouch);
+            float xSwipeLength = fabsf(firstTouch.x - lastTouch.x);
+            float ySwipeLength = fabsf(firstTouch.y - lastTouch.y);
+            CCLOG(@"Swipe Length: %f", swipeLength);
+            
+            if(swipeLength > 10)
+            {                
+                if(xSwipeLength > ySwipeLength)
+                {
+                    CCLOG(@"XSwipeLength: %f", xSwipeLength);
+                    if (firstTouch.x > lastTouch.x)
+                    {
+                        world->SetGravity(b2Vec2 (-GRAVITY, 0));
+                        player.body->ApplyLinearImpulse(b2Vec2 (-player.body->GetMass()*GRAVITY/4,0), player.body->GetWorldCenter());
+                    }
+                    else
+                    {
+                        world->SetGravity(b2Vec2 (GRAVITY, 0));
+                        player.body->ApplyLinearImpulse(b2Vec2 (player.body->GetMass()*GRAVITY/4,0), player.body->GetWorldCenter()); 
+                    }
+                }
+                else if(ySwipeLength > xSwipeLength)
+                {
+                    CCLOG(@"YSwipeLength: %f", ySwipeLength);
+                    if (firstTouch.y > lastTouch.y) 
+                    {
+                        world->SetGravity(b2Vec2 (0, -GRAVITY));
+                        player.body->ApplyLinearImpulse(b2Vec2 (0,-player.body->GetMass()*GRAVITY/4), player.body->GetWorldCenter());
+                    }
+                    
+                    else  
+                    {
+                        world->SetGravity(b2Vec2 (0, GRAVITY));
+                        player.body->ApplyLinearImpulse(b2Vec2 (0,player.body->GetMass()*GRAVITY/4), player.body->GetWorldCenter());   
+                    }  
+                }  
+            }
+        }  
+    }
+}
+
+
+
+
+
+-(BOOL) isPlayerOnGround
+{
+    std::vector<MyContact>::iterator position;
+    for(position = contactListener->_contacts.begin(); position != contactListener->_contacts.end(); ++position)   
+    {
+        MyContact contact = *position;
+        
+        if(contact.fixtureA != NULL && contact.fixtureB != NULL) 
+        {
+            b2Body *bodyA = contact.fixtureA->GetBody();
+            b2Body *bodyB = contact.fixtureB->GetBody();
+            
+            if(bodyA->GetType() == b2_staticBody && bodyB->GetType() == b2_dynamicBody)
+            {
+                b2Fixture *fDef = bodyA->GetFixtureList();
+                b2Filter filter = fDef->GetFilterData();
+                
+                if(filter.categoryBits == KFilterCategoryBits || filter.categoryBits == kFilterCategoryHarmfulObjects)
+                {
+                    return TRUE;
+                }
+                else
+                {
+                    return FALSE;
+                }
+            }
+            
+        }
+        
+    }
+    
+    return FALSE;
 }
 
 -(void) checkContactWithGroundAndJump
@@ -440,7 +605,7 @@ static NSString *levelFileName;
             b2Body *bodyA = contact.fixtureA->GetBody();
             b2Body *bodyB = contact.fixtureB->GetBody();
             
-            if(bodyA->GetType() == b2_staticBody && bodyB->GetType() == b2_dynamicBody)
+            if((bodyA->GetType() == b2_staticBody || bodyA->GetType() == b2_kinematicBody) && bodyB->GetType() == b2_dynamicBody)
             {
                 b2Fixture *fDef = bodyA->GetFixtureList();
                 b2Filter filter = fDef->GetFilterData();
