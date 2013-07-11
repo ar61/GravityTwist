@@ -20,6 +20,7 @@
 		3F11E6291777DE420060A7B3 /* LevelTwo.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 3F11E6281777DE420060A7B3 /* LevelTwo.tmx */; };
 		3F13E385177BC0F200262F06 /* LevelThree.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 3F13E384177BC0F200262F06 /* LevelThree.tmx */; };
 		3FBAD9DA1766B02000CC4B4C /* MenuItemLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3FBAD9D91766B02000CC4B4C /* MenuItemLayer.mm */; };
+		65156720178E55ED004640E5 /* ButtonData.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6515671F178E55EC004640E5 /* ButtonData.mm */; };
 		65982EE6178A433F0017D624 /* boxbutton.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 65982EE5178A433F0017D624 /* boxbutton.tmx */; };
 		C3D9BD17175DD688005BE61F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3D9BD16175DD688005BE61F /* QuartzCore.framework */; };
 		C3D9BD19175DD688005BE61F /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3D9BD18175DD688005BE61F /* OpenGLES.framework */; };
@@ -218,6 +219,8 @@
 		3F13E384177BC0F200262F06 /* LevelThree.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = LevelThree.tmx; path = Resources/LevelThree.tmx; sourceTree = "<group>"; };
 		3FBAD9D81766B02000CC4B4C /* MenuItemLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuItemLayer.h; sourceTree = "<group>"; };
 		3FBAD9D91766B02000CC4B4C /* MenuItemLayer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MenuItemLayer.mm; sourceTree = "<group>"; };
+		6515671E178E55EC004640E5 /* ButtonData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ButtonData.h; sourceTree = "<group>"; };
+		6515671F178E55EC004640E5 /* ButtonData.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ButtonData.mm; sourceTree = "<group>"; };
 		65982EE5178A433F0017D624 /* boxbutton.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = boxbutton.tmx; path = Resources/boxbutton.tmx; sourceTree = "<group>"; };
 		C3D9BD12175DD688005BE61F /* GravityTwist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GravityTwist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3D9BD16175DD688005BE61F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -653,6 +656,8 @@
 			children = (
 				3F11E6191777BF090060A7B3 /* MyContactListener.h */,
 				3F11E61A1777BF090060A7B3 /* MyContactListener.mm */,
+				6515671E178E55EC004640E5 /* ButtonData.h */,
+				6515671F178E55EC004640E5 /* ButtonData.mm */,
 				3F11E6161777ACD10060A7B3 /* GameObject.h */,
 				3F11E6171777ACD10060A7B3 /* GameObject.mm */,
 				C3D9BF49175DD690005BE61F /* AppDelegate.h */,
@@ -1464,6 +1469,7 @@
 				3FBAD9DA1766B02000CC4B4C /* MenuItemLayer.mm in Sources */,
 				3F11E6181777ACD10060A7B3 /* GameObject.mm in Sources */,
 				3F11E61B1777BF090060A7B3 /* MyContactListener.mm in Sources */,
+				65156720178E55ED004640E5 /* ButtonData.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

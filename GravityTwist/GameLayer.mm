@@ -14,6 +14,7 @@
 
 // Needed to obtain the Navigation Controller
 #import "AppDelegate.h"
+#import "ButtonData.h"
 #import "GameObject.h"
 
 static NSString *levelFileName;
@@ -92,7 +93,9 @@ int indexPos;
         NSMutableArray *doorCollisionObjects = [[tiledMap objectGroupNamed:@"doorCollisions"] objects];
         for (id button in buttons) {
             NSLog(@"%@\n",button[@"doorLayer"]);
-            [self createCollisionTiles:button withType:6];
+            //[self createCollisionTiles:button withType:6];
+            b2Body* buttonBody = [self createCollisionBody:button bits:6];
+            
             
             // add door collision bodies
             NSMutableArray *doorColBodies = [[NSMutableArray alloc] initWithCapacity:5];
@@ -123,10 +126,10 @@ int indexPos;
                     [doorColBodies addObject:[NSValue valueWithPointer:b]];
                 }
             }
+            ButtonData *bd = [[ButtonData alloc] initWithBodies:doorColBodies withDoorLayer:[tiledMap layerNamed:button[@"doorLayer"]]];
+            buttonBody->GetFixtureList()->SetUserData(bd);
             
             [doorCollisions retain];
-            
-            //NSLog(@"%@\n",doorCollisions);
         }
         
         [self addChild:tiledMap z:-1];
@@ -207,6 +210,34 @@ int indexPos;
             [self createCollisionTiles: objPoints withType: 4];
         }
     }
+}
+
+-(b2Body*)createCollisionBody: (NSDictionary*)object bits: (int)bits {
+    CGPoint p = ccp([object[@"x"] integerValue],[object[@"y"] integerValue]);
+    CGPoint size = ccp([object[@"width"] integerValue],[object[@"height"] integerValue]);
+    
+    CGPoint _point = ccp(p.x+size.x/2, p.y+size.y/2);
+    CGPoint _size = ccp(size.x,size.y);
+
+    b2BodyDef bDef;
+    bDef.type = b2_staticBody;
+    bDef.position.Set(_point.x/PTM_RATIO, _point.y/PTM_RATIO);
+    b2Body *b = world->CreateBody(&bDef);
+    
+    b2PolygonShape shape;
+    shape.SetAsBox(_size.x/2.0/PTM_RATIO, _size.y/2.0/PTM_RATIO);
+    
+    b2FixtureDef fDef;
+    fDef.shape = &shape;
+    fDef.density = 1.0f;
+    fDef.friction = 0.2f;
+    fDef.restitution = 0.0f;
+
+    fDef.filter.categoryBits = bits;
+    
+    b->CreateFixture(&fDef);
+    
+    return b;
 }
 
 -(void)createCollisionTiles: (NSDictionary*)object withType: (int) type
@@ -363,6 +394,15 @@ int indexPos;
     
     if(!worldBeingDestroyed)
     {
+        // Before the step, we disable/delete objects that have been marked
+        for (id l in [doorCollisions allValues]) {
+            for (NSValue* pb in l) {
+                b2Body* b = (b2Body*)[pb pointerValue];
+                //NSLog(@"%@\n",(NSNumber*)b->GetUserData());
+                b->SetActive(![(NSNumber*)b->GetUserData() boolValue]);
+            }
+        }
+        
         // Instruct the world to perform a single step of simulation. It is
         // generally best to keep the time step and iterations fixed.
         world->Step(dt, velocityIterations, positionIterations);
@@ -380,6 +420,7 @@ int indexPos;
 
                 //if(bodyA != nil || bodyB != nil)
                 {
+                    /*
                     if(bodyB->GetType() == b2_staticBody)
                     {
                         b2Fixture *fDef = bodyB->GetFixtureList();
@@ -398,6 +439,7 @@ int indexPos;
                         }
                         break;
                     }
+                    */
                     /*
                     if(bodyB->GetFixtureList()->GetFilterData().categoryBits == kFilterCategoryButton)
                     {
@@ -414,7 +456,7 @@ int indexPos;
                         }
                     }
                      */
-                    else if((bodyA->GetType() == b2_staticBody || bodyA->GetType() == b2_kinematicBody) && bodyB->GetType() == b2_dynamicBody)
+                    if((bodyA->GetType() == b2_staticBody || bodyA->GetType() == b2_kinematicBody) && bodyB->GetType() == b2_dynamicBody)
                     {
                         b2Fixture *fDef = bodyA->GetFixtureList();
                         b2Filter filter = fDef->GetFilterData();
