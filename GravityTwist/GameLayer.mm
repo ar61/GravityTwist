@@ -70,7 +70,7 @@ UIViewController *view;
         
         [self addChild:tiledMap z:-1];
 		[self scheduleUpdate];
-        
+
 	}
 	return self;
 }
@@ -544,7 +544,7 @@ UIViewController *view;
         
         lastTouch = location;
         
-        if([self isPlayerOnGround])
+        /*if([self isPlayerOnGround])
         {
             b2Vec2 worldGravity;
             worldGravity = world->GetGravity();
@@ -558,8 +558,8 @@ UIViewController *view;
                 player.body->ApplyLinearImpulse(b2Vec2 (-player.body->GetMass()*GRAVITY*gravityRemovalFactor, 0), player.body->GetWorldCenter());
             else if (worldGravity.x < 0.0f && worldGravity.y == 0.0f)
                 player.body->ApplyLinearImpulse(b2Vec2 (player.body->GetMass()*GRAVITY*gravityRemovalFactor, 0), player.body->GetWorldCenter());
-        }
-        else if(![self isPlayerOnGround])
+        }*/
+        //if([self isPlayerOnGround])
         {
             float swipeLength = ccpDistance(firstTouch, lastTouch);
             float xSwipeLength = fabsf(firstTouch.x - lastTouch.x);
@@ -569,17 +569,25 @@ UIViewController *view;
             
             if(swipeLength > 10)
             {
+                
+                //b2Vec2 playerPos = player.body->GetPosition();
+                //player.body->SetTransform(playerPos, CC_DEGREES_TO_RADIANS(90));
+                
+                //player.body->ApplyTorque();
                 if(xSwipeLength > ySwipeLength)
                 {
                     CCLOG(@"XSwipeLength: %f", xSwipeLength);
                     if (firstTouch.x > lastTouch.x)
                     {
                         world->SetGravity(b2Vec2 (-GRAVITY, 0));
+                        player.body->ApplyLinearImpulse(b2Vec2 (-player.body->GetMass()*GRAVITY/4,0), player.body->GetWorldCenter());
+                                        
                         
                     }
                     else
                     {
                         world->SetGravity(b2Vec2 (GRAVITY, 0));
+                        player.body->ApplyLinearImpulse(b2Vec2 (player.body->GetMass()*GRAVITY/4,0), player.body->GetWorldCenter());
                         
                     }
                 }
@@ -589,13 +597,17 @@ UIViewController *view;
                     if (firstTouch.y > lastTouch.y)
                     {
                         world->SetGravity(b2Vec2 (0, -GRAVITY));
+                        player.body->ApplyLinearImpulse(b2Vec2 (0,-player.body->GetMass()*GRAVITY/4), player.body->GetWorldCenter());
                     }
                     else
                     {
                         world->SetGravity(b2Vec2 (0, GRAVITY));
+                        player.body->ApplyLinearImpulse(b2Vec2 (0,player.body->GetMass()*GRAVITY/4), player.body->GetWorldCenter());
+
                     }
                 
                 }
+                
             }
         }
 
@@ -625,6 +637,7 @@ UIViewController *view;
                 
                 if(filter.categoryBits == KFilterCategoryBits || filter.categoryBits == kFilterCategoryHarmfulObjects)
                 {
+                    
                     return TRUE;
                 }
                 else
