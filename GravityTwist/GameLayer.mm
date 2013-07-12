@@ -94,6 +94,7 @@ CCSpriteBatchNode *parent;
         
         // make buttons
         NSMutableArray *buttons = [[tiledMap objectGroupNamed:@"buttons"] objects];
+        
         doorCollisions = [NSMutableDictionary dictionaryWithCapacity:[buttons count]];
         NSMutableArray *doorCollisionObjects = [[tiledMap objectGroupNamed:@"doorCollisions"] objects];
         
@@ -112,9 +113,9 @@ CCSpriteBatchNode *parent;
             ButtonData *bd = [[ButtonData alloc] initWithBodies:doorColBodies withDoorLayer:[tiledMap layerNamed:button[@"doorLayer"]]];
             buttonBody->GetFixtureList()->SetUserData(bd);
             
-            [doorCollisions retain];
         }
         
+        [doorCollisions retain];
         [self addChild:tiledMap z:-10];
 		[self scheduleUpdate];
 	}
@@ -398,11 +399,13 @@ CCSpriteBatchNode *parent;
     if(!worldBeingDestroyed)
     {
         // Before the step, we disable/delete objects that have been marked
-        for (id l in [doorCollisions allValues]) {
-            for (NSValue* pb in l) {
-                b2Body* b = (b2Body*)[pb pointerValue];
-                //NSLog(@"%@\n",(NSNumber*)b->GetUserData());
-                b->SetActive(![(NSNumber*)b->GetUserData() boolValue]);
+        if ([doorCollisions count] > 0) {
+            for (id l in [doorCollisions allValues]) {
+                for (NSValue* pb in l) {
+                    b2Body* b = (b2Body*)[pb pointerValue];
+                    //NSLog(@"%@\n",(NSNumber*)b->GetUserData());
+                    b->SetActive(![(NSNumber*)b->GetUserData() boolValue]);
+                }
             }
         }
         
