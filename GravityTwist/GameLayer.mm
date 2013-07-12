@@ -326,7 +326,7 @@ UIViewController *view;
     
 }
 
-
+//Hey
 -(void) accelerometer:(UIAccelerometer *)accelerometer didAccelerate:(UIAcceleration *)acceleration
 {
     if(!playerDead)
@@ -334,6 +334,21 @@ UIViewController *view;
         float THRESHOLD = 0.01f;
         player.body->SetAwake(true);
         b2Vec2 worldGravity = world->GetGravity();
+        
+        unsigned long x2, y2, z2;
+        float newXAngle, newYAngle;
+        
+        
+        x2 = (unsigned long) (acceleration.x * acceleration.x);
+        y2 = (unsigned long) (acceleration.y * acceleration.y);
+        z2 = (unsigned long) (acceleration.z * acceleration.z);
+        
+        //newXAngle = CC_RADIANS_TO_DEGREES(atan2f(acceleration.x, sqrtf(y2 + z2)));
+        //newYAngle = CC_RADIANS_TO_DEGREES(atan2f(acceleration.y, sqrtf(x2 + z2)));
+        
+        //CCLOG(@"X Angle: %f", newXAngle);
+        //CCLOG(@"Y Angle: %f", newYAngle);
+        
         
         if([self isPlayerOnGround]){
             if(worldGravity.x == 0 && worldGravity.y < 0){
@@ -392,11 +407,112 @@ UIViewController *view;
                 
             }
         }
+        /*else if(player.isTouching)
+        {
+            if(worldGravity.x == 0 && worldGravity.y < 0)
+            {
+                newYAngle = CC_RADIANS_TO_DEGREES(atan2f(acceleration.y, sqrtf(x2 + z2)));
+                if(newYAngle > currentYAngle)
+                {
+                    world->SetGravity(b2Vec2 (-GRAVITY, 0));
+                }
+                else if(newYAngle < currentYAngle)
+                {
+                    world->SetGravity(b2Vec2 (GRAVITY, 0));
+                }
+                currentYAngle = newYAngle;
+                newXAngle = CC_RADIANS_TO_DEGREES(atan2f(acceleration.x, sqrtf(y2 + z2)));
+                currentXAngle = newXAngle;
+
+            }
+            else if(worldGravity.x == 0 && worldGravity.y > 0)
+            {
+                newYAngle = CC_RADIANS_TO_DEGREES(atan2f(acceleration.y, sqrtf(x2 + z2)));
+                if(newYAngle > currentYAngle)
+                {
+                    world->SetGravity(b2Vec2 (-GRAVITY, 0));
+                }
+                else if(newYAngle < currentYAngle)
+                {
+                    world->SetGravity(b2Vec2 (GRAVITY, 0));
+                }
+                currentYAngle = newYAngle;
+                newXAngle = CC_RADIANS_TO_DEGREES(atan2f(acceleration.x, sqrtf(y2 + z2)));
+                currentXAngle = newXAngle;
+
+             
+            }
+            else if(worldGravity.x < 0 && worldGravity.y == 0)
+            {
+                
+                newXAngle = CC_RADIANS_TO_DEGREES(atan2f(acceleration.x, sqrtf(y2 + z2)));
+                if(newXAngle > currentXAngle)
+                {
+                    world->SetGravity(b2Vec2 (0, GRAVITY));
+                }
+                else if(newXAngle < currentXAngle)
+                {
+                    world->SetGravity(b2Vec2 (0, -GRAVITY));
+                }
+                currentXAngle = newXAngle;
+                newYAngle = CC_RADIANS_TO_DEGREES(atan2f(acceleration.y, sqrtf(x2 + z2)));
+                currentYAngle = newYAngle;
+                
+            }
+            else if(worldGravity.x > 0 && worldGravity.y == 0)
+            {
+                newXAngle = CC_RADIANS_TO_DEGREES(atan2f(acceleration.x, sqrtf(y2 + z2)));
+                if(newXAngle > currentXAngle)
+                {
+                    world->SetGravity(b2Vec2 (0, GRAVITY));
+                }
+                else if(newXAngle < currentXAngle)
+                {
+                    world->SetGravity(b2Vec2 (0, -GRAVITY));
+                }
+                currentXAngle = newXAngle;
+                newYAngle = CC_RADIANS_TO_DEGREES(atan2f(acceleration.y, sqrtf(x2 + z2)));
+                currentYAngle = newYAngle;
+
+            }
+        }*/
         
         
     }
 }
 
+/*-(void) ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    if(!playerDead)
+    {
+        for(NSSet* touch in touches){
+            CGPoint location = [touch locationInView: [touch view]];
+            location = [[CCDirector sharedDirector] convertToGL: location];                    
+            player.isTouching = YES;            
+            if([self isPlayerOnGround])
+            {
+                b2Vec2 worldGravity;
+                worldGravity = world->GetGravity();
+                float gravityRemovalFactor = 0.7f;
+                
+                if (worldGravity.x == 0.0f && worldGravity.y > 0.0f)
+                    player.body->ApplyLinearImpulse(b2Vec2 (0, -player.body->GetMass()*GRAVITY*gravityRemovalFactor), player.body->GetWorldCenter());
+                else if (worldGravity.x == 0.0f && worldGravity.y < 0.0f)
+                    player.body->ApplyLinearImpulse(b2Vec2 (0, player.body->GetMass()*GRAVITY*gravityRemovalFactor), player.body->GetWorldCenter());
+                else if (worldGravity.x > 0.0f && worldGravity.y == 0.0f)
+                    player.body->ApplyLinearImpulse(b2Vec2 (-player.body->GetMass()*GRAVITY*gravityRemovalFactor, 0), player.body->GetWorldCenter());
+                else if (worldGravity.x < 0.0f && worldGravity.y == 0.0f)
+                    player.body->ApplyLinearImpulse(b2Vec2 (player.body->GetMass()*GRAVITY*gravityRemovalFactor, 0), player.body->GetWorldCenter());
+            }
+        }
+    }
+}
+
+-(void) ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    player.isTouching = NO;
+    
+}*/
 
 -(void) ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
@@ -428,6 +544,22 @@ UIViewController *view;
         
         lastTouch = location;
         
+        /*if([self isPlayerOnGround])
+        {
+            b2Vec2 worldGravity;
+            worldGravity = world->GetGravity();
+            float gravityRemovalFactor = 0.7f;
+            
+            if (worldGravity.x == 0.0f && worldGravity.y > 0.0f)
+                player.body->ApplyLinearImpulse(b2Vec2 (0, -player.body->GetMass()*GRAVITY*gravityRemovalFactor), player.body->GetWorldCenter());
+            else if (worldGravity.x == 0.0f && worldGravity.y < 0.0f)
+                player.body->ApplyLinearImpulse(b2Vec2 (0, player.body->GetMass()*GRAVITY*gravityRemovalFactor), player.body->GetWorldCenter());
+            else if (worldGravity.x > 0.0f && worldGravity.y == 0.0f)
+                player.body->ApplyLinearImpulse(b2Vec2 (-player.body->GetMass()*GRAVITY*gravityRemovalFactor, 0), player.body->GetWorldCenter());
+            else if (worldGravity.x < 0.0f && worldGravity.y == 0.0f)
+                player.body->ApplyLinearImpulse(b2Vec2 (player.body->GetMass()*GRAVITY*gravityRemovalFactor, 0), player.body->GetWorldCenter());
+        }*/
+        //if([self isPlayerOnGround])
         {
             float swipeLength = ccpDistance(firstTouch, lastTouch);
             float xSwipeLength = fabsf(firstTouch.x - lastTouch.x);
