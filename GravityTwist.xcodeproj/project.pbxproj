@@ -20,6 +20,7 @@
 		3F11E6291777DE420060A7B3 /* LevelTwo.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 3F11E6281777DE420060A7B3 /* LevelTwo.tmx */; };
 		3F13E385177BC0F200262F06 /* LevelThree.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 3F13E384177BC0F200262F06 /* LevelThree.tmx */; };
 		3F6CD15E178E67D7001A1372 /* Level4.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 3F6CD15D178E67D7001A1372 /* Level4.tmx */; };
+		3FA9C32B178F8C04001B5C19 /* LevelManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3FA9C32A178F8C04001B5C19 /* LevelManager.mm */; };
 		3FBAD9DA1766B02000CC4B4C /* MenuItemLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3FBAD9D91766B02000CC4B4C /* MenuItemLayer.mm */; };
 		C3D9BD17175DD688005BE61F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3D9BD16175DD688005BE61F /* QuartzCore.framework */; };
 		C3D9BD19175DD688005BE61F /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3D9BD18175DD688005BE61F /* OpenGLES.framework */; };
@@ -217,6 +218,8 @@
 		3F11E6281777DE420060A7B3 /* LevelTwo.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = LevelTwo.tmx; path = Resources/LevelTwo.tmx; sourceTree = "<group>"; };
 		3F13E384177BC0F200262F06 /* LevelThree.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = LevelThree.tmx; path = Resources/LevelThree.tmx; sourceTree = "<group>"; };
 		3F6CD15D178E67D7001A1372 /* Level4.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Level4.tmx; path = Resources/Level4.tmx; sourceTree = "<group>"; };
+		3FA9C329178F8C04001B5C19 /* LevelManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelManager.h; sourceTree = "<group>"; };
+		3FA9C32A178F8C04001B5C19 /* LevelManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LevelManager.mm; sourceTree = "<group>"; };
 		3FBAD9D81766B02000CC4B4C /* MenuItemLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuItemLayer.h; sourceTree = "<group>"; };
 		3FBAD9D91766B02000CC4B4C /* MenuItemLayer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MenuItemLayer.mm; sourceTree = "<group>"; };
 		C3D9BD12175DD688005BE61F /* GravityTwist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GravityTwist.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -668,6 +671,8 @@
 				C3D9BD29175DD689005BE61F /* Resources */,
 				C3D9BD41175DD689005BE61F /* libs */,
 				C3D9BF45175DD690005BE61F /* Supporting Files */,
+				3FA9C329178F8C04001B5C19 /* LevelManager.h */,
+				3FA9C32A178F8C04001B5C19 /* LevelManager.mm */,
 			);
 			path = GravityTwist;
 			sourceTree = "<group>";
@@ -1464,6 +1469,7 @@
 				3FBAD9DA1766B02000CC4B4C /* MenuItemLayer.mm in Sources */,
 				3F11E6181777ACD10060A7B3 /* GameObject.mm in Sources */,
 				3F11E61B1777BF090060A7B3 /* MyContactListener.mm in Sources */,
+				3FA9C32B178F8C04001B5C19 /* LevelManager.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

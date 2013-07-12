@@ -71,8 +71,24 @@
 
 -(void) loadLevel: (int) levelNumber
 {
-    [[CCDirector sharedDirector] replaceScene:[GameLayer scene]];
-    
+    if(levelNumber == 0)
+    {
+        [[CCDirector sharedDirector] replaceScene: [GameLayer scene: @"LevelOne.tmx"]];
+
+    }
+    else if(levelNumber == 1)
+    {
+        [[CCDirector sharedDirector] replaceScene: [GameLayer scene: @"LevelTwo.tmx"]];
+    }
+    else if(levelNumber == 2)
+    {
+        [[CCDirector sharedDirector] replaceScene: [GameLayer scene: @"LevelThree.tmx"]];
+    }
+    else if(levelNumber == 3)
+    {
+        [[CCDirector sharedDirector] replaceScene: [GameLayer scene: @"Level4.tmx"]];
+    }
+        
 }
 
 -(id) goBack

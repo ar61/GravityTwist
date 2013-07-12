@@ -8,6 +8,7 @@
 
 // Import the interfaces
 #import "GameLayer.h"
+#import "LevelManager.h"
 
 // Not included in "cocos2d.h"
 #import "CCPhysicsSprite.h"
@@ -15,6 +16,7 @@
 // Needed to obtain the Navigation Controller
 #import "AppDelegate.h"
 #import "GameObject.h"
+
 
 @implementation GameLayer
 
@@ -403,12 +405,7 @@ CCSpriteBatchNode *parent;
                         }
                         else if (filter.categoryBits == kFilterCategoryExit)
                         {
-                            if([levelFileName isEqual: @"LevelOne.tmx"])
-                                [[CCDirector sharedDirector] replaceScene: [GameLayer scene: @"LevelTwo.tmx"]];
-                            else if([levelFileName isEqual: @"LevelTwo.tmx"])
-                                [[CCDirector sharedDirector] replaceScene: [GameLayer scene: @"LevelThree.tmx"]];
-                            else if([levelFileName isEqual: @"LevelThree.tmx"])
-                                [[CCDirector sharedDirector] replaceScene: [GameLayer scene: @"Level4.tmx"]];
+                            [[CCDirector sharedDirector] replaceScene:[LevelManager scene]];
                         }
                     }
                 }

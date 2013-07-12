@@ -14,6 +14,7 @@
     CCMenuItemFont *menuItem;
     CCMenuItemLabel *menuItemLabel;
     CCMenuItemFont *levelSelectLabel;
+    CCMenuItemFont *backLabel;
     CCMenu *menu;
     
 }
