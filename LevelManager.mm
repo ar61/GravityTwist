@@ -8,6 +8,7 @@
 
 #import "LevelManager.h"
 #import "GameLayer.h"
+#import "MenuItemLayer.h"
 
 @implementation LevelManager
 
@@ -44,18 +45,26 @@
         int realIndex = 0;
         menu = [CCMenu menuWithItems:nil];
         for (int x = 0; x < 2; x++) {
-                for (int y = 0; y < 5; y++) {
-                        menuItem = [CCMenuItemFont itemFromString:[NSString stringWithFormat:@"%d", realIndex] block:^(id sender){ [self loadLevel: realIndex]; }];
-                        menuItem.tag = realIndex;
-                        menuItem.position = ccp(y * (menuItem.contentSize.width + 25),-(x * (menuItem.contentSize.height + 25)));
-                        [menu addChild:menuItem];
-                        realIndex++;
-                    }
+            for (int y = 0; y < 5; y++) {
+                
+                menuItem = [CCMenuItemFont itemFromString:[NSString stringWithFormat:@"%d", realIndex] block:^(id sender){ [self loadLevel: realIndex]; }];
+                menuItem.tag = realIndex;
+                menuItem.position = ccp(y * (menuItem.contentSize.width + 25),-(x * (menuItem.contentSize.height + 25)));
+                [menu addChild:menuItem];
+                realIndex++;
             }
+        }
+        menu.position = ccp(300,425);
+    
         levelSelectLabel = [CCMenuItemFont itemFromString:@"Select Level"];
         levelSelectLabel.position = ccp(500,600);
+    
+        backLabel = [CCMenuItemFont itemFromString:@"Back" block:^(id sender) { [self goBack]; }];
+        backLabel.position = ccp(-150,-350);
+    
         [self addChild: levelSelectLabel];
-        menu.position = ccp(300,425);   //   <-- Adjust coordinates.
+        [menu addChild: backLabel];
+    
     
     
 }
@@ -64,6 +73,11 @@
 {
     [[CCDirector sharedDirector] replaceScene:[GameLayer scene]];
     
+}
+
+-(id) goBack
+{
+    [[CCDirector sharedDirector] replaceScene:[MenuItemLayer scene]];
 }
 
 
