@@ -7,6 +7,7 @@
 //
 
 #import "MyContactListener.h"
+#import "ButtonData.h"
 
 MyContactListener::MyContactListener() : _contacts() {
 }
@@ -19,6 +20,10 @@ void MyContactListener::BeginContact(b2Contact* contact) {
     // is reused.
     MyContact myContact = { contact->GetFixtureA(), contact->GetFixtureB() };
     _contacts.push_back(myContact);
+    
+    if(contact->GetFixtureB()->GetFilterData().categoryBits) {
+        [(ButtonData*)contact->GetFixtureB()->GetUserData() setButtonPressed:YES];
+    }
 }
 
 void MyContactListener::EndContact(b2Contact* contact) {

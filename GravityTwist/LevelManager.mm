@@ -87,6 +87,9 @@
     else if(levelNumber == 3)
     {
         [[CCDirector sharedDirector] replaceScene: [GameLayer scene: @"Level4.tmx"]];
+    } else if(levelNumber == 4)
+    {
+        [[CCDirector sharedDirector] replaceScene: [GameLayer scene: @"boxbutton.tmx"]];
     }
         
 }

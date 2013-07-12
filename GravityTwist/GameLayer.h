@@ -72,6 +72,9 @@
     NSMutableArray *movingPlatformObjects;
     NSMutableArray *movingSpikeObjects;
     //Changes by Arpit - End
+    
+    // TODO: make this non-global
+    NSMutableDictionary *doorCollisions;
 }
 
 // returns a CCScene that contains the HelloWorldLayer as the only child

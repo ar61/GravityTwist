@@ -15,6 +15,7 @@
 
 // Needed to obtain the Navigation Controller
 #import "AppDelegate.h"
+#import "ButtonData.h"
 #import "GameObject.h"
 
 
@@ -78,6 +79,41 @@ CCSpriteBatchNode *parent;
         world->SetContactListener(contactListener); 
         
         player = [[GameObject alloc] initWithOptions:b2_dynamicBody withPosition: spawnPoint withRotation:YES withPolyShape:dynamicBox withDensity:1.0f withFriction:0.3f withRestitution:0.0f withTileIndex:b2Vec2(8,4) withTileLength:b2Vec2(1,1) withWorld:world withBatchNode:parent withZLocation:0];
+        
+        CCTMXObjectGroup *boxes = [tiledMap objectGroupNamed:@"boxes"];
+        for (id box in [boxes objects]) {
+            int boxx = [box[@"x"] intValue];
+            int boxy = [box[@"y"] intValue];
+            //int boxw = [box[@"width"] intValue];
+            //int boxh = [box[@"height"] intValue];
+            b2PolygonShape boxDynamicBox;
+            boxDynamicBox.SetAsBox(.5f, .5f);
+            
+            GameObject *gameBox = [[GameObject alloc] initWithOptions:b2_dynamicBody withPosition:CGPointMake(boxx, boxy) withRotation:YES withPolyShape:boxDynamicBox withDensity:1.0f withFriction:0.3f withRestitution:0.0f withTileIndex:b2Vec2(1, 1) withTileLength:b2Vec2(1, 1) withWorld:world withBatchNode:parent withZLocation:0];
+        }
+        
+        // make buttons
+        NSMutableArray *buttons = [[tiledMap objectGroupNamed:@"buttons"] objects];
+        doorCollisions = [NSMutableDictionary dictionaryWithCapacity:[buttons count]];
+        NSMutableArray *doorCollisionObjects = [[tiledMap objectGroupNamed:@"doorCollisions"] objects];
+        
+        for (id button in buttons) {
+            b2Body* buttonBody = [self createCollisionBody:button bits:6];
+            
+            // add door collision bodies
+            NSMutableArray *doorColBodies = [[NSMutableArray alloc] initWithCapacity:5];
+            [doorCollisions setValue:doorColBodies forKey:button[@"doorLayer"]];
+            
+            for (id doorCol in doorCollisionObjects) {
+                if ([doorCol[@"doorLayer"] isEqualToString:button[@"doorLayer"]]) {
+                    [doorColBodies addObject:[NSValue valueWithPointer:[self createCollisionBody:doorCol bits:1]]];
+                }
+            }
+            ButtonData *bd = [[ButtonData alloc] initWithBodies:doorColBodies withDoorLayer:[tiledMap layerNamed:button[@"doorLayer"]]];
+            buttonBody->GetFixtureList()->SetUserData(bd);
+            
+            [doorCollisions retain];
+        }
         
         [self addChild:tiledMap z:-10];
 		[self scheduleUpdate];
@@ -167,6 +203,34 @@ CCSpriteBatchNode *parent;
             [self createCollisionTiles: objPoints withType: 4];
         }
     }
+}
+
+-(b2Body*)createCollisionBody: (NSDictionary*)object bits: (int)bits {
+    CGPoint p = ccp([object[@"x"] integerValue],[object[@"y"] integerValue]);
+    CGPoint size = ccp([object[@"width"] integerValue],[object[@"height"] integerValue]);
+    
+    CGPoint _point = ccp(p.x+size.x/2, p.y+size.y/2);
+    CGPoint _size = ccp(size.x,size.y);
+    
+    b2BodyDef bDef;
+    bDef.type = b2_staticBody;
+    bDef.position.Set(_point.x/PTM_RATIO, _point.y/PTM_RATIO);
+    b2Body *b = world->CreateBody(&bDef);
+    
+    b2PolygonShape shape;
+    shape.SetAsBox(_size.x/2.0/PTM_RATIO, _size.y/2.0/PTM_RATIO);
+    
+    b2FixtureDef fDef;
+    fDef.shape = &shape;
+    fDef.density = 1.0f;
+    fDef.friction = 0.2f;
+    fDef.restitution = 0.0f;
+    
+    fDef.filter.categoryBits = bits;
+    
+    b->CreateFixture(&fDef);
+    
+    return b;
 }
 
 -(void)createCollisionTiles: (NSDictionary*)object withType: (int) type
@@ -285,7 +349,7 @@ CCSpriteBatchNode *parent;
 	world = new b2World(gravity);	
 	
 	// Do we want to let bodies sleep?
-	world->SetAllowSleeping(true);
+	world->SetAllowSleeping(false);
 	
 	world->SetContinuousPhysics(true);
 	
@@ -333,6 +397,15 @@ CCSpriteBatchNode *parent;
     
     if(!worldBeingDestroyed)
     {
+        // Before the step, we disable/delete objects that have been marked
+        for (id l in [doorCollisions allValues]) {
+            for (NSValue* pb in l) {
+                b2Body* b = (b2Body*)[pb pointerValue];
+                //NSLog(@"%@\n",(NSNumber*)b->GetUserData());
+                b->SetActive(![(NSNumber*)b->GetUserData() boolValue]);
+            }
+        }
+        
         //to be worked on later by Abhinav
         /*CGPoint tileCoord = [self tileCoordForPosition:player.position];
         int tileGid = [meta tileGIDAt:tileCoord];

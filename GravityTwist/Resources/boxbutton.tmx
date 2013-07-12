@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="32" height="24" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="tiles" tilewidth="32" tileheight="32">
+  <image source="Tilesheet.png" width="512" height="256"/>
+ </tileset>
+ <layer name="tiles" width="32" height="24">
+  <data encoding="base64" compression="zlib">
+   eJxTYWBgUCETi1CgFxlHkolFcIhbY8HY1NHKfmLxqP2j9o/aP2r/QNufjoZxqUdXN1z8P2r/qP2j9o/aP1D2D2T7GwDAk+5x
+  </data>
+ </layer>
+ <layer name="collisions" width="32" height="24">
+  <data encoding="base64" compression="zlib">
+   eJwTYWBgEBlgTC6gRC9M/6j9o/aP2j9q/0i2n9jymJplN7J5lOgftX/U/lH7R+0fyvYPJAYAxMAKyQ==
+  </data>
+ </layer>
+ <objectgroup name="objects" width="32" height="24">
+  <object name="SpawnPoint" x="203" y="672"/>
+ </objectgroup>
+ <layer name="door1" width="32" height="24">
+  <data encoding="base64" compression="zlib">
+   eJztwzENAAAIA7Dpwb9Ajt0YIG3SBABqjgD8sdbDAP0=
+  </data>
+ </layer>
+ <objectgroup name="boxes" width="32" height="24">
+  <object name="box1" type="box" x="696" y="347" width="64" height="64"/>
+ </objectgroup>
+ <objectgroup name="buttons" width="32" height="24">
+  <object name="button1" type="button" x="676" y="33" width="153" height="23">
+   <properties>
+    <property name="doorLayer" value="door1"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="collisions" width="32" height="24">
+  <object x="0" y="0" width="1024" height="32"/>
+  <object x="0" y="0" width="32" height="768"/>
+  <object x="0" y="736" width="1024" height="32"/>
+  <object x="992" y="0" width="32" height="768"/>
+  <object x="480" y="0" width="32" height="768"/>
+  <object x="0" y="384" width="160" height="32"/>
+  <object x="352" y="384" width="160" height="32"/>
+ </objectgroup>
+ <objectgroup name="doorCollisions" width="32" height="24">
+  <object x="160" y="387" width="189" height="12">
+   <properties>
+    <property name="doorLayer" value="door1"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>
