@@ -21,7 +21,9 @@ void MyContactListener::BeginContact(b2Contact* contact) {
     MyContact myContact = { contact->GetFixtureA(), contact->GetFixtureB() };
     _contacts.push_back(myContact);
     
-    if(contact->GetFixtureB()->GetFilterData().categoryBits) {
+    if(contact->GetFixtureB()->GetFilterData().categoryBits == 6) {
+        // mark the box for freezing
+        contact->GetFixtureA()->GetBody()->SetUserData([NSNumber numberWithBool:YES]);
         [(ButtonData*)contact->GetFixtureB()->GetUserData() setButtonPressed:YES];
     }
 }

@@ -75,6 +75,7 @@
     
     // TODO: make this non-global
     NSMutableDictionary *doorCollisions;
+    NSMutableArray *boxGameObjects;
 }
 
 // returns a CCScene that contains the HelloWorldLayer as the only child

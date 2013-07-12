@@ -23,68 +23,58 @@
  </tileset>
  <layer name="tiles" width="32" height="24">
   <data encoding="base64" compression="zlib">
+<<<<<<< HEAD
+   eJztlrENgDAMBH8CJKClIZTMBV6T0XgvAAqWeBRTXJmc7PitGAATsz7Ez3YBLHhHq/4FOAqZicI/0juQXuRX97/Wv7NP202vWq4/qz/KW/Uzx2CePdcSP/cYuM98r1X5mSnP1mff//fr/VfzkaH+7P4pgPrf7ZxY4mGI
+=======
    eJztlLENgDAQA71AIgFtGqBkA/YB1mQ0/D0FAUUm0RdXn956OwBYhAQSRazuv/XPwDmRkSj8A7096UR+df657Mxpe5FVK/e7/99+9hjss/Va4ueOgXtmu5blZ6esW9Xn7/4y/q//Ufv9LfiPh6j9qQDmvwCuIkIZ
+>>>>>>> 1df12c1ce7166962ae4b7d5dbd6454ac909eb30c
   </data>
  </layer>
  <layer name="Exit" width="32" height="24">
   <data encoding="base64" compression="zlib">
-   eJztzUERACAQw8CaAAeHA9CPNKri+iA7k3ckdDrS3S71X35X8D/9HsE/AADA7x42/gVi
+   eJztzTERACAUw9Au4AAcgAPQjzTqosPPu8scqZYrveNS/+33Cv6n3yP473634B8AAKC6D6IZBu0=
   </data>
  </layer>
  <objectgroup name="objects" width="32" height="24">
   <object name="SpawnPoint" x="96" y="640" width="32" height="32"/>
-  <object name="ExitPoint" x="912" y="80" width="32" height="64"/>
+  <object name="ExitPoint" x="913" y="48" width="32" height="64"/>
  </objectgroup>
  <layer name="collectibles" width="32" height="24">
   <data encoding="base64" compression="zlib">
-   eJztzgEJAAAMA6DVeP+ijzEGmsAEAPZdOwAw4gGNsAAa
+   eJxjYBgFo2BwAcmBdsAoGAWjgIFvoB0wCkbBMAKj9dooGGwAAIqHAEE=
   </data>
  </layer>
  <objectgroup name="collisions" width="32" height="24">
-  <object x="0" y="32" width="32" height="704">
+  <object x="0" y="0" width="32" height="736"/>
+  <object x="0" y="736" width="1024" height="32"/>
+  <object x="992" y="32" width="32" height="704"/>
+  <object x="32" y="0" width="992" height="32"/>
+  <object x="512" y="704" width="480" height="32">
    <properties>
     <property name="kill" value="true"/>
    </properties>
   </object>
+<<<<<<< HEAD
+  <object name="movingPlatform" x="432" y="352" width="128" height="32"/>
+  <object x="480" y="32" width="32" height="320">
+=======
   <object x="-4" y="705" width="321" height="59"/>
   <object x="992" y="32" width="32" height="704">
+>>>>>>> 1df12c1ce7166962ae4b7d5dbd6454ac909eb30c
    <properties>
     <property name="kill" value="true"/>
    </properties>
   </object>
-  <object x="0" y="0" width="1024" height="32">
+  <object x="480" y="384" width="32" height="352"/>
+  <object x="32" y="32" width="448" height="32">
    <properties>
     <property name="kill" value="true"/>
-   </properties>
-  </object>
-  <object name="Spikes_bottom_left" x="320" y="736" width="704" height="32">
-   <properties>
-    <property name="kill" value="true"/>
-   </properties>
-  </object>
-  <object name="movingPlatform" x="384" y="512" width="128" height="32"/>
-  <object name="movingSpikes" x="384" y="480" width="128" height="32">
-   <properties>
-    <property name="kill" value="true"/>
-    <property name="topSpike" value="true"/>
-   </properties>
-  </object>
-  <object name="movingPlatform" x="672" y="288" width="128" height="32"/>
-  <object name="movingSpikes" x="672" y="256" width="128" height="32">
-   <properties>
-    <property name="kill" value="true"/>
-    <property name="topSpike" value="true"/>
-   </properties>
-  </object>
-  <object name="movingSpikes" x="640" y="288" width="32" height="32">
-   <properties>
-    <property name="kill" value="true"/>
-    <property name="leftSpike" value="true"/>
    </properties>
   </object>
  </objectgroup>
  <objectgroup name="collectibles" width="32" height="24">
-  <object x="640" y="416" width="32" height="32"/>
+  <object x="864" y="576" width="32" height="32"/>
+  <object x="160" y="160" width="32" height="32"/>
  </objectgroup>
  <layer name="Meta" width="32" height="24" opacity="0.1">
   <data encoding="base64" compression="zlib">

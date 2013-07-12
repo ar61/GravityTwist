@@ -80,7 +80,11 @@ CCSpriteBatchNode *parent;
         
         player = [[GameObject alloc] initWithOptions:b2_dynamicBody withPosition: spawnPoint withRotation:YES withPolyShape:dynamicBox withDensity:1.0f withFriction:0.3f withRestitution:0.0f withTileIndex:b2Vec2(8,4) withTileLength:b2Vec2(1,1) withWorld:world withBatchNode:parent withZLocation:0];
         
+        
         CCTMXObjectGroup *boxes = [tiledMap objectGroupNamed:@"boxes"];
+        
+        boxGameObjects = [[NSMutableArray alloc] initWithCapacity:[[boxes objects] count]];
+
         for (id box in [boxes objects]) {
             int boxx = [box[@"x"] intValue];
             int boxy = [box[@"y"] intValue];
@@ -90,6 +94,8 @@ CCSpriteBatchNode *parent;
             boxDynamicBox.SetAsBox(.5f, .5f);
             
             GameObject *gameBox = [[GameObject alloc] initWithOptions:b2_dynamicBody withPosition:CGPointMake(boxx, boxy) withRotation:YES withPolyShape:boxDynamicBox withDensity:1.0f withFriction:0.3f withRestitution:0.0f withTileIndex:b2Vec2(1, 1) withTileLength:b2Vec2(1, 1) withWorld:world withBatchNode:parent withZLocation:0];
+            
+            [boxGameObjects addObject:gameBox];
         }
         
         // make buttons
@@ -399,13 +405,16 @@ CCSpriteBatchNode *parent;
     if(!worldBeingDestroyed)
     {
         // Before the step, we disable/delete objects that have been marked
-        if ([doorCollisions count] > 0) {
-            for (id l in [doorCollisions allValues]) {
-                for (NSValue* pb in l) {
-                    b2Body* b = (b2Body*)[pb pointerValue];
-                    //NSLog(@"%@\n",(NSNumber*)b->GetUserData());
-                    b->SetActive(![(NSNumber*)b->GetUserData() boolValue]);
-                }
+        for (id l in [doorCollisions allValues]) {
+            for (NSValue* pb in l) {
+                b2Body* b = (b2Body*)[pb pointerValue];
+                //NSLog(@"%@\n",(NSNumber*)b->GetUserData());
+                b->SetActive(![(NSNumber*)b->GetUserData() boolValue]);
+            }
+        }
+        for (id box in boxGameObjects) {
+            if ([(NSNumber*)[box body]->GetUserData() boolValue]) {
+                [box body]->SetType(b2_staticBody);
             }
         }
         
