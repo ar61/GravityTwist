@@ -23,7 +23,6 @@
     <property name="doorLayer" value="door2"/>
    </properties>
   </object>
-  <object name="ExitPoint" x="64" y="376" width="63" height="103"/>
  </objectgroup>
  <layer name="door1" width="32" height="24">
   <data encoding="base64" compression="zlib">
@@ -37,7 +36,6 @@
     <property name="doorLayer" value="door1"/>
    </properties>
   </object>
-  <object name="SpawnPoint" x="60" y="583" width="11" height="9"/>
   <object x="209" y="320" width="15" height="160">
    <properties>
     <property name="doorLayer" value="door2"/>
@@ -51,4 +49,24 @@
    eJztzTERADAIALHXg+pKZUVDLzGQAuCaen4/wK8WUUkD8w==
   </data>
  </layer>
+ <objectgroup name="objects" width="32" height="24" opacity="0.72">
+  <object name="SpawnPoint" x="60" y="583" width="11" height="9"/>
+  <object name="ExitPoint" x="64" y="376" width="63" height="103"/>
+ </objectgroup>
+ <objectgroup name="collisions" width="32" height="24">
+  <object x="448" y="96" width="256" height="32"/>
+  <object x="672" y="96" width="32" height="224"/>
+  <object x="672" y="288" width="192" height="32"/>
+  <object x="832" y="288" width="32" height="160"/>
+  <object x="448" y="96" width="32" height="576"/>
+  <object x="0" y="288" width="32" height="384"/>
+  <object x="0" y="640" width="992" height="32"/>
+  <object x="448" y="416" width="416" height="32"/>
+  <object x="672" y="416" width="32" height="96"/>
+  <object x="672" y="480" width="320" height="32"/>
+  <object x="960" y="480" width="32" height="192"/>
+  <object x="0" y="480" width="352" height="32"/>
+  <object x="320" y="448" width="32" height="96"/>
+  <object x="0" y="288" width="448" height="32"/>
+ </objectgroup>
 </map>
