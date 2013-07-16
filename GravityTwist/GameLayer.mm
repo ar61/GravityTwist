@@ -9,6 +9,7 @@
 // Import the interfaces
 #import "GameLayer.h"
 #import "LevelManager.h"
+#import "PauseScreen.h"
 
 // Not included in "cocos2d.h"
 #import "CCPhysicsSprite.h"
@@ -619,6 +620,10 @@ CCSpriteBatchNode *parent;
     {
         NSSet *allTouches = [event allTouches];
         
+        int numberOfFingersTouching = [allTouches count];
+        
+        
+        
         UITouch *touch = [[allTouches allObjects] objectAtIndex:0];
         
         CGPoint location = [touch locationInView:[touch view]];
@@ -627,17 +632,24 @@ CCSpriteBatchNode *parent;
         player.isTouching = NO;
         lastTouch = location;
         
+        if(numberOfFingersTouching == 2)
+        {
+            CCLOG(@"Two finger touch detected");
+            [[CCDirector sharedDirector] pushScene:[PauseScreen scene]];
+            
+        }
+        else
         {
             float swipeLength = ccpDistance(firstTouch, lastTouch);
             float xSwipeLength = fabsf(firstTouch.x - lastTouch.x);
             float ySwipeLength = fabsf(firstTouch.y - lastTouch.y);
-            CCLOG(@"Swipe Length: %f", swipeLength);
+            //CCLOG(@"Swipe Length: %f", swipeLength);
             
             if(swipeLength > 10)
             {                
                 if(xSwipeLength > ySwipeLength)
                 {
-                    CCLOG(@"XSwipeLength: %f", xSwipeLength);
+                    //CCLOG(@"XSwipeLength: %f", xSwipeLength);
                     if (firstTouch.x > lastTouch.x)
                     {
                         world->SetGravity(b2Vec2 (-GRAVITY, 0));
@@ -651,7 +663,7 @@ CCSpriteBatchNode *parent;
                 }
                 else if(ySwipeLength > xSwipeLength)
                 {
-                    CCLOG(@"YSwipeLength: %f", ySwipeLength);
+                    //CCLOG(@"YSwipeLength: %f", ySwipeLength);
                     if (firstTouch.y > lastTouch.y) 
                     {
                         world->SetGravity(b2Vec2 (0, -GRAVITY));

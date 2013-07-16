@@ -19,6 +19,7 @@
 		3F11E6271777CF1A0060A7B3 /* Tilesheet.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F11E6261777CF1A0060A7B3 /* Tilesheet.png */; };
 		3F11E6291777DE420060A7B3 /* LevelTwo.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 3F11E6281777DE420060A7B3 /* LevelTwo.tmx */; };
 		3F13E385177BC0F200262F06 /* LevelThree.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 3F13E384177BC0F200262F06 /* LevelThree.tmx */; };
+		3F4C2B1D1794C00C002E33AC /* PauseScreen.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3F4C2B1C1794C00C002E33AC /* PauseScreen.mm */; };
 		3F6CD15E178E67D7001A1372 /* Level4.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 3F6CD15D178E67D7001A1372 /* Level4.tmx */; };
 		3FA9C32B178F8C04001B5C19 /* LevelManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3FA9C32A178F8C04001B5C19 /* LevelManager.mm */; };
 		3FBAD9DA1766B02000CC4B4C /* MenuItemLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3FBAD9D91766B02000CC4B4C /* MenuItemLayer.mm */; };
@@ -220,6 +221,8 @@
 		3F11E6261777CF1A0060A7B3 /* Tilesheet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Tilesheet.png; path = Resources/Tilesheet.png; sourceTree = "<group>"; };
 		3F11E6281777DE420060A7B3 /* LevelTwo.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = LevelTwo.tmx; path = Resources/LevelTwo.tmx; sourceTree = "<group>"; };
 		3F13E384177BC0F200262F06 /* LevelThree.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = LevelThree.tmx; path = Resources/LevelThree.tmx; sourceTree = "<group>"; };
+		3F4C2B1B1794C00C002E33AC /* PauseScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PauseScreen.h; sourceTree = "<group>"; };
+		3F4C2B1C1794C00C002E33AC /* PauseScreen.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PauseScreen.mm; sourceTree = "<group>"; };
 		3F6CD15D178E67D7001A1372 /* Level4.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Level4.tmx; path = Resources/Level4.tmx; sourceTree = "<group>"; };
 		3FA9C329178F8C04001B5C19 /* LevelManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelManager.h; sourceTree = "<group>"; };
 		3FA9C32A178F8C04001B5C19 /* LevelManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LevelManager.mm; sourceTree = "<group>"; };
@@ -682,6 +685,8 @@
 				C3D9BF45175DD690005BE61F /* Supporting Files */,
 				3FA9C329178F8C04001B5C19 /* LevelManager.h */,
 				3FA9C32A178F8C04001B5C19 /* LevelManager.mm */,
+				3F4C2B1B1794C00C002E33AC /* PauseScreen.h */,
+				3F4C2B1C1794C00C002E33AC /* PauseScreen.mm */,
 			);
 			path = GravityTwist;
 			sourceTree = "<group>";
@@ -1484,6 +1489,7 @@
 				3F11E61B1777BF090060A7B3 /* MyContactListener.mm in Sources */,
 				3FA9C32B178F8C04001B5C19 /* LevelManager.mm in Sources */,
 				65156727178FA35E004640E5 /* ButtonData.mm in Sources */,
+				3F4C2B1D1794C00C002E33AC /* PauseScreen.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
