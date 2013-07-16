@@ -27,6 +27,7 @@
 
 @property(nonatomic) b2Body* body;
 @property(nonatomic) BOOL isTouching;
+@property b2Vec2 linearImpulse;
 
 -(id) initWithOptions: (b2BodyType) type withPosition:(CGPoint) position withRotation:(BOOL) rotation withPolyShape:(b2PolygonShape) poly withDensity:(CGFloat) density withFriction:(CGFloat) friction withRestitution:(CGFloat) res withTileIndex:(b2Vec2)tilePosition withTileLength:(b2Vec2)tileLength withWorld: (b2World*) world withBatchNode:(CCSpriteBatchNode*)parent withZLocation:(int)z;
 @end

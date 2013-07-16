@@ -13,14 +13,20 @@
    eJwTYWBgEBlgTC6gRC9M/6j9o/aP2j9q/0i2n9jymJplN7J5lOgftX/U/lH7R+0fyvYPJAYAxMAKyQ==
   </data>
  </layer>
- <objectgroup name="objects" width="32" height="24">
-  <object name="SpawnPoint" x="203" y="672"/>
- </objectgroup>
  <layer name="door1" width="32" height="24">
   <data encoding="base64" compression="zlib">
    eJztwzENAAAIA7Dpwb9Ajt0YIG3SBABqjgD8sdbDAP0=
   </data>
  </layer>
+ <layer name="Exit" width="32" height="24">
+  <data encoding="base64" compression="zlib">
+   eJztzTENACAAA8Eu4AAcgAPQjzQqgqQMf8nPL/1rS2e51H/6PYL/7ncL/qvfJfgHAADAexfnpwbt
+  </data>
+ </layer>
+ <objectgroup name="objects" width="32" height="24">
+  <object name="SpawnPoint" x="203" y="672"/>
+  <object name="ExitPoint" x="240" y="48" width="32" height="64"/>
+ </objectgroup>
  <objectgroup name="boxes" width="32" height="24">
   <object name="box1" type="box" x="696" y="347" width="64" height="64"/>
  </objectgroup>

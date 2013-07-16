@@ -11,6 +11,7 @@
 @implementation GameObject
 
 @synthesize body;
+@synthesize linearImpulse;
 
 -(id) init {
     [super init];

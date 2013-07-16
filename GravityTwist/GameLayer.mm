@@ -79,7 +79,7 @@ CCSpriteBatchNode *parent;
         contactListener = new MyContactListener();
         world->SetContactListener(contactListener); 
         
-        player = [[GameObject alloc] initWithOptions:b2_dynamicBody withPosition: spawnPoint withRotation:YES withPolyShape:dynamicBox withDensity:1.0f withFriction:0.3f withRestitution:0.0f withTileIndex:b2Vec2(8,4) withTileLength:b2Vec2(1,1) withWorld:world withBatchNode:parent withZLocation:0];
+        player = [[GameObject alloc] initWithOptions:b2_dynamicBody withPosition: spawnPoint withRotation:YES withPolyShape:dynamicBox withDensity:1.1f withFriction:0.3f withRestitution:0.0f withTileIndex:b2Vec2(8,4) withTileLength:b2Vec2(1,1) withWorld:world withBatchNode:parent withZLocation:0];
         
         
         CCTMXObjectGroup *boxes = [tiledMap objectGroupNamed:@"boxes"];
@@ -151,7 +151,15 @@ CCSpriteBatchNode *parent;
         
     exitObject = [objects objectNamed:@"ExitPoint"];
     
-    if([levelFileName isEqual:@"LevelOne.tmx"])
+    collisionObjects = [tiledMap objectGroupNamed:@"collisions"];	
+    
+    collectibleObjects = [tiledMap objectGroupNamed:@"collectibles"];
+    
+    collectibles = [tiledMap layerNamed:@"collectibles"];
+    collectibles.tag = 1;
+    collectedCount = 0;
+
+    if([[collectibleObjects objects] count] == 0)
     {
         door.visible = YES;
         [self createCollisionTiles: exitObject withType:5];
@@ -161,20 +169,8 @@ CCSpriteBatchNode *parent;
         door.visible = NO;
     }
     
-    collisions = [tiledMap layerNamed:@"collisions"];
-    collisions.visible = NO;
-    
-    collisionObjects = [tiledMap objectGroupNamed:@"collisions"];	
-    
-    collectibleObjects = [tiledMap objectGroupNamed:@"collectibles"];
-    
-    collectibles = [tiledMap layerNamed:@"collectibles"];
-    collectibles.tag = 1;
-    collectedCount = 0;
-
-    
     [self createPlatformObjects: collisionObjects withType:1];
-    [self createPlatformObjects: collectibleObjects withType:2];    
+    //[self createPlatformObjects: collectibleObjects withType:2];
 }
 
 // Add new method
@@ -253,8 +249,21 @@ CCSpriteBatchNode *parent;
     bool isMovingSpikes = [[object valueForKey:@"name"] isEqual: @"movingSpikes"];
     
     if(isMovingPlatform) {
+        b2Vec2 tilePosition;
+        
+        if ([[object valueForKey:@"isHorizontal"] isEqual:@"true"])
+            tilePosition = b2Vec2(10,4);
+        else if ([[object valueForKey:@"isVertical"] isEqual:@"true"])
+            tilePosition = b2Vec2(4,1);
+        
         movingPlatform = [[GameObject alloc] init];
-        [self addNewSpriteAtPosition:_point withSize:size withTilePosition:b2Vec2(10,4) withObject:movingPlatform];
+        [self addNewSpriteAtPosition:_point withSize:size withTilePosition:tilePosition withObject:movingPlatform];
+        
+        b2Vec2 impulse;
+        impulse.x = [object[@"speedX"] floatValue];
+        impulse.y = [object[@"speedY"] floatValue];
+        movingPlatform.linearImpulse = impulse;
+        
         [movingPlatformObjects insertObject:movingPlatform atIndex:platformArrayIndex++];
         [movingPlatform release];
     }
@@ -273,6 +282,11 @@ CCSpriteBatchNode *parent;
         movingSpike = [[GameObject alloc] init];
         [self addNewSpriteAtPosition:_point withSize:size withTilePosition:tilePosition withObject:movingSpike];
         
+        b2Vec2 impulse;
+        impulse.x = [object[@"speedX"] floatValue];
+        impulse.y = [object[@"speedY"] floatValue];
+        movingSpike.linearImpulse = impulse;
+        
         b2Filter filter;
         for (b2Fixture *f = movingSpike.body->GetFixtureList(); f; f=f->GetNext()) {
             filter = f->GetFilterData();
@@ -282,6 +296,7 @@ CCSpriteBatchNode *parent;
         [movingSpikeObjects insertObject:movingSpike atIndex:spikeArrayIndex++];
         [movingSpike release];
     }
+
     else {
         b2BodyDef bDef;
         bDef.type = b2_staticBody;
@@ -296,12 +311,14 @@ CCSpriteBatchNode *parent;
         fDef.density = 1.0f;
         fDef.friction = 0.2f;
         fDef.restitution = 0.0f;
+        /*
         if(type == 2)
         {
             //for collectibles
             fDef.filter.categoryBits = kFilterCategoryNonSolidObjects;
         }
-        else if(type == 4)
+        else */
+        if(type == 4)
         {
             // for spikes
             fDef.filter.categoryBits = kFilterCategoryHarmfulObjects;
@@ -419,8 +436,7 @@ CCSpriteBatchNode *parent;
             }
         }
         
-        //to be worked on later by Abhinav
-        /*CGPoint tileCoord = [self tileCoordForPosition:player.position];
+        CGPoint tileCoord = [self tileCoordForPosition:player.position];
         int tileGid = [meta tileGIDAt:tileCoord];
         if (tileGid) {
             NSDictionary *properties = [tiledMap propertiesForGID:tileGid];
@@ -431,14 +447,14 @@ CCSpriteBatchNode *parent;
                     [collectibles removeTileAt:tileCoord];
                     collectedCount++;
                     coinsLabel.string = [NSString stringWithFormat:@"coins: %d", collectedCount];
-                    if(collectedCount == 5)
+                    if(collectedCount == [[collectibleObjects objects] count])
                     {
                         door.visible = YES;
                         [self createCollisionTiles: exitObject withType:5];
                     }
                 }
             }
-        }*/
+        }
         
         // Instruct the world to perform a single step of simulation. It is
         // generally best to keep the time step and iterations fixed.
@@ -454,45 +470,33 @@ CCSpriteBatchNode *parent;
             {
                 b2Body *bodyA = contact.fixtureA->GetBody();
                 b2Body *bodyB = contact.fixtureB->GetBody();
-                
-                //if(bodyA != nil || bodyB != nil)
+
+                if((bodyA->GetType() == b2_staticBody || bodyA->GetType() == b2_kinematicBody) && bodyB->GetType() == b2_dynamicBody)
                 {
-                    if((bodyA->GetType() == b2_staticBody || bodyA->GetType() == b2_kinematicBody) && bodyB->GetType() == b2_dynamicBody)
+                    b2Fixture *fDef = bodyA->GetFixtureList();
+                    b2Filter filter = fDef->GetFilterData();
+                    
+                    if (filter.categoryBits == kFilterCategoryHarmfulObjects)
                     {
-                        b2Fixture *fDef = bodyA->GetFixtureList();
-                        b2Filter filter = fDef->GetFilterData();
-                        
-                        if(filter.categoryBits == kFilterCategoryNonSolidObjects)
-                        {
-                            b2Vec2 v = bodyA->GetPosition();
-                            int x = v.x;
-                            int y = ceil(v.y);
-                            y = tiledMap.mapSize.height - y;
-                            [collectibles removeTileAt:ccp(x,y)];
-                            bodyA->DestroyFixture(fDef);
-                            collectedCount++;
-                            coinsLabel.string = [NSString stringWithFormat:@"coins: %d", collectedCount];
-                            if(collectedCount == 5)
-                            {
-                                door.visible = YES;
-                                [self createCollisionTiles: exitObject withType:5];                            
-                            }
-                            break;
-                        }
-                        else if (filter.categoryBits == kFilterCategoryHarmfulObjects)
-                        {
-                            [[CCDirector sharedDirector] replaceScene: [GameLayer scene: levelFileName]];
-                            //remove player fixture
-                            /*bodyB->DestroyFixture(bodyB->GetFixtureList());
-                            CCNode *parent = [self getChildByTag:kTagParentNode];
-                            [parent removeChildByTag:kTagChildNode];
-                            playerDead = true;*/
-                            break;
-                        }
-                        else if (filter.categoryBits == kFilterCategoryExit)
-                        {
-                            [[CCDirector sharedDirector] replaceScene:[LevelManager scene]];
-                        }
+                        [[CCDirector sharedDirector] replaceScene: [GameLayer scene: levelFileName]];
+                        //remove player fixture
+                        /*bodyB->DestroyFixture(bodyB->GetFixtureList());
+                        CCNode *parent = [self getChildByTag:kTagParentNode];
+                        [parent removeChildByTag:kTagChildNode];
+                        playerDead = true;*/
+                        break;
+                    }
+                    else if (filter.categoryBits == kFilterCategoryExit)
+                    {
+                        [[CCDirector sharedDirector] replaceScene:[LevelManager scene]];
+                    }
+                }
+                else if (bodyB->GetType() == b2_staticBody && bodyA->GetType() == b2_dynamicBody) {
+                    b2Fixture *fDef = bodyB->GetFixtureList();
+                    b2Filter filter = fDef->GetFilterData();
+                    if (filter.categoryBits == kFilterCategoryExit)
+                    {
+                        [[CCDirector sharedDirector] replaceScene:[LevelManager scene]];
                     }
                 }
             }
@@ -511,20 +515,20 @@ CCSpriteBatchNode *parent;
         
         if (movingForward) {
             for (movingPlatform in movingPlatformObjects)
-                movingPlatform.body->SetLinearVelocity(b2Vec2(1,0));
+                movingPlatform.body->SetLinearVelocity(movingPlatform.linearImpulse);
             
             for (movingSpike in movingSpikeObjects)
-                movingSpike.body->SetLinearVelocity(b2Vec2(1,0));
+                movingSpike.body->SetLinearVelocity(movingSpike.linearImpulse);
             
-            if (moveCount >= 60)
+            if (moveCount >= 100)
                 movingForward = false;
         }
         else {
             for (movingPlatform in movingPlatformObjects)
-                movingPlatform.body->SetLinearVelocity(b2Vec2(-1,0));
+                movingPlatform.body->SetLinearVelocity(-movingPlatform.linearImpulse);
             
             for (movingSpike in movingSpikeObjects)
-                movingSpike.body->SetLinearVelocity(b2Vec2(-1,0));
+                movingSpike.body->SetLinearVelocity(-movingSpike.linearImpulse);
             
             if (moveCount <= 0)
                 movingForward = true;
@@ -545,13 +549,13 @@ CCSpriteBatchNode *parent;
             if(worldGravity.x == 0 && worldGravity.y < 0){
                 if(acceleration.y >= THRESHOLD)
                 {
-                    b2Vec2 impulse = b2Vec2(-0.7f,0.0f);
+                    b2Vec2 impulse = b2Vec2(-0.5f,0.0f);
                     player.body->ApplyLinearImpulse(impulse, player.body->GetWorldCenter());
                 }
                 
                 if(acceleration.y <= -THRESHOLD)
                 {
-                    b2Vec2 impulse = b2Vec2(0.7f,0.0f);
+                    b2Vec2 impulse = b2Vec2(0.5f,0.0f);
                     player.body->ApplyLinearImpulse(impulse, player.body->GetWorldCenter());
                 }
             }
@@ -559,13 +563,13 @@ CCSpriteBatchNode *parent;
             else if((worldGravity.x == 0 && worldGravity.y > 0)){
                 if(acceleration.y >= THRESHOLD)
                 {
-                    b2Vec2 impulse = b2Vec2(-0.7f,0.0f);
+                    b2Vec2 impulse = b2Vec2(-0.5f,0.0f);
                     player.body->ApplyLinearImpulse(impulse, player.body->GetWorldCenter());
                 }
                 
                 if(acceleration.y <= -THRESHOLD)
                 {
-                    b2Vec2 impulse = b2Vec2(0.7f,0.0f);
+                    b2Vec2 impulse = b2Vec2(0.5f,0.0f);
                     player.body->ApplyLinearImpulse(impulse, player.body->GetWorldCenter());
                 }
             }
@@ -573,13 +577,13 @@ CCSpriteBatchNode *parent;
             else if(worldGravity.x < 0 && worldGravity.y == 0){
                 if(acceleration.x >= THRESHOLD)
                 {
-                    b2Vec2 impulse = b2Vec2(0.0f,0.7f);
+                    b2Vec2 impulse = b2Vec2(0.0f,0.f);
                     player.body->ApplyLinearImpulse(impulse, player.body->GetWorldCenter());
                 }
                 
                 if(acceleration.x <= -THRESHOLD)
                 {
-                    b2Vec2 impulse = b2Vec2(0.0f,-0.7f);
+                    b2Vec2 impulse = b2Vec2(0.0f,-0.5f);
                     player.body->ApplyLinearImpulse(impulse, player.body->GetWorldCenter());
                 }
             }
@@ -587,13 +591,13 @@ CCSpriteBatchNode *parent;
             else if(worldGravity.x > 0 && worldGravity.y == 0) {
                 if(acceleration.x >= THRESHOLD)
                 {
-                    b2Vec2 impulse = b2Vec2(0.0f,0.7f);
+                    b2Vec2 impulse = b2Vec2(0.0f,0.5f);
                     player.body->ApplyLinearImpulse(impulse, player.body->GetWorldCenter());
                 }
                 
                 if(acceleration.x <= -THRESHOLD)
                 {
-                    b2Vec2 impulse = b2Vec2(0.0f,-0.7f);
+                    b2Vec2 impulse = b2Vec2(0.0f,-0.5f);
                     player.body->ApplyLinearImpulse(impulse, player.body->GetWorldCenter());
                 }
             }

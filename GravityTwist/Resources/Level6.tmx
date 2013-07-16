@@ -57,17 +57,33 @@
     <property name="kill" value="true"/>
    </properties>
   </object>
-  <object name="movingPlatform" x="384" y="512" width="128" height="32"/>
+  <object name="movingPlatform" x="384" y="512" width="128" height="32">
+   <properties>
+    <property name="isHorizontal" value="true"/>
+    <property name="speedX" value="-2"/>
+    <property name="speedY" value="1"/>
+   </properties>
+  </object>
   <object name="movingSpikes" x="384" y="480" width="128" height="32">
    <properties>
     <property name="kill" value="true"/>
+    <property name="speedX" value="-2"/>
+    <property name="speedY" value="1"/>
     <property name="topSpike" value="true"/>
    </properties>
   </object>
-  <object name="movingPlatform" x="672" y="288" width="128" height="32"/>
+  <object name="movingPlatform" x="672" y="288" width="128" height="32">
+   <properties>
+    <property name="isHorizontal" value="true"/>
+    <property name="speedX" value="1.5"/>
+    <property name="speedY" value="0"/>
+   </properties>
+  </object>
   <object name="movingSpikes" x="672" y="256" width="128" height="32">
    <properties>
     <property name="kill" value="true"/>
+    <property name="speedX" value="1.5"/>
+    <property name="speedY" value="0"/>
     <property name="topSpike" value="true"/>
    </properties>
   </object>
@@ -75,6 +91,8 @@
    <properties>
     <property name="kill" value="true"/>
     <property name="leftSpike" value="true"/>
+    <property name="speedX" value="1.5"/>
+    <property name="speedY" value="0"/>
    </properties>
   </object>
  </objectgroup>

@@ -18,7 +18,7 @@
  </tileset>
  <layer name="tiles" width="32" height="24">
   <data encoding="base64" compression="zlib">
-   eJztlsENgCAQBLcCEvXrR2zDdpA2Lc292IBwiWuAxzyP4Y7shQwgizkcWH2oJDvrQ6P+Hbgi2YjCv9A7k0nkV8+/9IyTc0ovZtVq/z37vXf/on/mGMyz5Vri5x4D95nttSI/M2XZ+vX7D7/Onzrvf/if+rUS9b/buAHL0mKV
+   eJztlssJgDAQRKeCgHr1oqnDcuK2aWnOYgP5IKMhh3dcHhmYIQbAxBwN+H2oxBrvQ6f+CFw72YjCv9A7k0nkV+dfysmcUkZWb/nV7x/+b/vZY7DP3muJnzsG7pnvWpGfnfJu/T7/nv3K/U1iv/r9w//cr5Wo/93ODcWkX4M=
   </data>
  </layer>
  <layer name="Exit" width="32" height="24">
@@ -40,7 +40,6 @@
   <object x="0" y="736" width="1024" height="32"/>
   <object x="992" y="32" width="32" height="704"/>
   <object x="0" y="0" width="1024" height="32"/>
-  <object name="movingPlatform" x="464" y="352" width="128" height="32"/>
   <object x="544" y="704" width="448" height="32">
    <properties>
     <property name="kill" value="true"/>
@@ -51,8 +50,15 @@
     <property name="kill" value="true"/>
    </properties>
   </object>
-  <object x="512" y="32" width="32" height="320"/>
-  <object x="512" y="384" width="32" height="352"/>
+  <object x="512" y="32" width="32" height="192"/>
+  <object x="512" y="544" width="32" height="192"/>
+  <object name="movingPlatform" x="512" y="352" width="32" height="128">
+   <properties>
+    <property name="isVertical" value="true"/>
+    <property name="speedX" value="0"/>
+    <property name="speedY" value="1.5"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup name="collectibles" width="32" height="24">
   <object x="128" y="160" width="32" height="32"/>

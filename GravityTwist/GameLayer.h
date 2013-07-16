@@ -45,7 +45,6 @@
     CCTMXTiledMap *tiledMap;
     CCTMXLayer *tile;
     CCTMXLayer *door;
-    CCTMXLayer *collisions;
     CCTMXLayer *collectibles;
     CCTMXLayer *meta;
     int collectedCount;
