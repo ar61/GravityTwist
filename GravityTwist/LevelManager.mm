@@ -42,7 +42,7 @@
 -(void) createLevelSelectScreen
 {
     [CCMenuItemFont setFontSize:150];
-    int realIndex = 0;
+    int realIndex = 1;
     menu = [CCMenu menuWithItems:nil];
     for (int x = 0; x < 2; x++) {
         for (int y = 0; y < 5; y++) {
@@ -70,36 +70,8 @@
 }
 
 -(void) loadLevel: (int) levelNumber
-{
-    if(levelNumber == 0)
-    {
-        [[CCDirector sharedDirector] replaceScene: [GameLayer scene: @"LevelOne.tmx"]];
-
-    }
-    else if(levelNumber == 1)
-    {
-        [[CCDirector sharedDirector] replaceScene: [GameLayer scene: @"LevelTwo.tmx"]];
-    }
-    else if(levelNumber == 2)
-    {
-        [[CCDirector sharedDirector] replaceScene: [GameLayer scene: @"LevelThree.tmx"]];
-    }
-    else if(levelNumber == 3)
-    {
-        [[CCDirector sharedDirector] replaceScene: [GameLayer scene: @"Level4.tmx"]];
-    }
-    else if(levelNumber == 4)
-    {
-        [[CCDirector sharedDirector] replaceScene: [GameLayer scene: @"Level4.tmx"]];
-    }
-    else if(levelNumber == 5)
-    {
-        [[CCDirector sharedDirector] replaceScene: [GameLayer scene: @"boxbutton.tmx"]];
-    }
-    else if(levelNumber == 6)
-    {
-        [[CCDirector sharedDirector] replaceScene: [GameLayer scene: @"Level6.tmx"]];
-    }        
+{    
+    [[CCDirector sharedDirector] replaceScene:[GameLayer scene:[NSString stringWithFormat:@"Level%d.tmx", levelNumber]]];
 }
 
 -(id) goBack

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="32" height="24" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="tiles" tilewidth="32" tileheight="32">
+  <image source="Tilesheet.png" width="512" height="256"/>
+ </tileset>
+ <layer name="tiles" width="32" height="24">
+  <data encoding="base64" compression="zlib">
+   eJyLZmBgiB7FQw6LEMD0sJ8cuVH7R+1HV0suJtVMaoYVKfqsibCfFYjZBtB+USAWG0D7VYFYjUT7qZFeYOKmQGyGxz4VHPqskTA5YUOu+8lJ/9jMA9G2QGwHpW2R+PZIfJD/48j0I75wp0f+G072x9LA/oHClLh/FFMHAwCJyujU
+  </data>
+ </layer>
+ <objectgroup name="boxes" width="32" height="24">
+  <object x="520" y="548" width="57" height="51"/>
+  <object x="529" y="308" width="63" height="72"/>
+ </objectgroup>
+ <objectgroup name="buttons" width="32" height="24">
+  <object x="512" y="448" width="96" height="32">
+   <properties>
+    <property name="doorLayer" value="door1"/>
+   </properties>
+  </object>
+  <object x="800" y="320" width="32" height="96">
+   <properties>
+    <property name="doorLayer" value="door2"/>
+   </properties>
+  </object>
+  <object name="ExitPoint" x="64" y="376" width="63" height="103"/>
+ </objectgroup>
+ <layer name="door1" width="32" height="24">
+  <data encoding="base64" compression="zlib">
+   eJztzaENAAAIBLGfh6kZFYsH2SanLwHgSyXtz7daAVwNwtgC3Q==
+  </data>
+ </layer>
+ <objectgroup name="doorCollisions" width="32" height="24">
+  <object x="352" y="480" width="96" height="13"/>
+  <object x="689" y="320" width="15" height="96">
+   <properties>
+    <property name="doorLayer" value="door1"/>
+   </properties>
+  </object>
+  <object name="SpawnPoint" x="60" y="583" width="11" height="9"/>
+  <object x="209" y="320" width="15" height="160">
+   <properties>
+    <property name="doorLayer" value="door2"/>
+   </properties>
+  </object>
+  <object x="-100" y="585"/>
+  <object x="-100" y="167"/>
+ </objectgroup>
+ <layer name="door2" width="32" height="24">
+  <data encoding="base64" compression="zlib">
+   eJztzTERADAIALHXg+pKZUVDLzGQAuCaen4/wK8WUUkD8w==
+  </data>
+ </layer>
+</map>
