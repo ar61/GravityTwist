@@ -10,6 +10,7 @@
 #import "GameLayer.h"
 #import "LevelManager.h"
 #import "PauseScreen.h"
+#import "MenuItemLayer.h"
 
 // Not included in "cocos2d.h"
 #import "CCPhysicsSprite.h"
@@ -19,10 +20,10 @@
 #import "ButtonData.h"
 #import "GameObject.h"
 
+static NSString *levelFileName;
 
 @implementation GameLayer
 
-static NSString *levelFileName;
 BOOL movingForward;
 int moveCount;
 int spikeArrayIndex, platformArrayIndex;
@@ -53,7 +54,7 @@ CCSpriteBatchNode *parent;
         worldBeingDestroyed = false;
         
         //Changes by Arpit - Start
-        
+        pauseScreenUp=FALSE;
         movingPlatformObjects = [[NSMutableArray alloc] initWithCapacity:20];
         movingSpikeObjects = [[NSMutableArray alloc] initWithCapacity:50];
         spikeArrayIndex = platformArrayIndex = moveCount = 0;
@@ -97,6 +98,8 @@ CCSpriteBatchNode *parent;
             GameObject *gameBox = [[GameObject alloc] initWithOptions:b2_dynamicBody withPosition:CGPointMake(boxx, boxy) withRotation:YES withPolyShape:boxDynamicBox withDensity:1.0f withFriction:0.3f withRestitution:0.0f withTileIndex:b2Vec2(1, 1) withTileLength:b2Vec2(1, 1) withWorld:world withBatchNode:parent withZLocation:0];
             
             [boxGameObjects addObject:gameBox];
+            
+            [gameBox release];
         }
         
         // make buttons
@@ -120,6 +123,7 @@ CCSpriteBatchNode *parent;
             ButtonData *bd = [[ButtonData alloc] initWithBodies:doorColBodies withDoorLayer:[tiledMap layerNamed:button[@"doorLayer"]]];
             buttonBody->GetFixtureList()->SetUserData(bd);
             
+            [doorColBodies release];
         }
         
         [doorCollisions retain];
@@ -353,7 +357,7 @@ CCSpriteBatchNode *parent;
 {
 	delete world;	
 	world = NULL;
-	
+	CCLOG(@"In Dealloc");
 	delete m_debugDraw;
 	m_debugDraw = NULL;
 	
@@ -362,6 +366,7 @@ CCSpriteBatchNode *parent;
     [movingSpike release];
     [movingPlatformObjects release];
     [movingSpikeObjects release];
+    [boxGameObjects release];
     
 	[super dealloc];
 }	
@@ -488,6 +493,7 @@ CCSpriteBatchNode *parent;
                     }
                     else if (filter.categoryBits == kFilterCategoryExit)
                     {
+                        //NSString *path = [[NSBundle mainBundle] pathForResource:@"Level" ofType:@"tmx"];
                         [[CCDirector sharedDirector] replaceScene:[LevelManager scene]];
                     }
                 }
@@ -639,8 +645,8 @@ CCSpriteBatchNode *parent;
         if(numberOfFingersTouching == 2)
         {
             CCLOG(@"Two finger touch detected");
-            [[CCDirector sharedDirector] pushScene:[PauseScreen scene]];
-            
+            [self PauseButtonTapped:self];
+            //[[CCDirector sharedDirector] pushScene:[PauseScreen scene]];
         }
         else
         {
@@ -684,10 +690,6 @@ CCSpriteBatchNode *parent;
         }  
     }
 }
-
-
-
-
 
 -(BOOL) isPlayerOnGround
 {
@@ -759,6 +761,105 @@ CCSpriteBatchNode *parent;
             }
         }
     }
+}
+
+
+// Pause Menu - Arpit
+-(void)PauseButtonTapped:(id)sender
+{
+    if(pauseScreenUp ==FALSE)
+    {
+        pauseScreenUp=TRUE;
+        //if you have music uncomment the line bellow
+        //[[SimpleAudioEngine sharedEngine] pauseBackgroundMusic];
+        [[CCDirector sharedDirector] pause];
+        
+        pauseLayer = [CCLayerColor layerWithColor: ccc4(150, 150, 150, 125) width: s.width height: s.height];
+        pauseLayer.position = CGPointZero;
+        [self addChild: pauseLayer z:11];
+        
+        pauseScreen =[[CCSprite spriteWithFile:@"pause_background.jpg"] retain];
+        pauseScreen.position= ccp(s.width/2, s.height/2);
+        pauseScreen.opacity = 0.5f;
+        
+        [self addChild:pauseScreen z:12];
+        
+        CCMenuItem *QuitMenuItem = [CCMenuItemImage
+                                    itemFromNormalImage:@"exit_button.jpg" selectedImage:@"exit_button.jpg"
+                                    target:self selector:@selector(QuitButtonTapped:)];
+        QuitMenuItem.position = ccp(s.width/2-144, s.height/2);
+        
+        CCMenuItem *ResumeMenuItem = [CCMenuItemImage
+                                      itemFromNormalImage:@"resume_button.jpg" selectedImage:@"resume_button.jpg"
+                                      target:self selector:@selector(ResumeButtonTapped:)];
+        ResumeMenuItem.position = ccp(s.width/2-64, s.height/2);
+        
+        CCMenuItem *levelSelectMenuItem = [CCMenuItemImage
+                                           itemFromNormalImage:@"level_select.jpg" selectedImage:@"level_select.jpg"
+                                           target:self selector:@selector(LevelSelectButtonTapped:)];
+        levelSelectMenuItem.position = ccp(s.width/2+16, s.height/2);
+        
+        CCMenuItem *optionMenuItem = [CCMenuItemImage
+                                      itemFromNormalImage:@"option_button.jpg" selectedImage:@"option_button.jpg"
+                                      target:self selector:@selector(OptionButtonTapped:)];
+        optionMenuItem.position = ccp(s.width/2+96, s.height/2);
+        
+        CCMenuItem *restartMenuItem = [CCMenuItemImage
+                                       itemFromNormalImage:@"restart_button.jpg" selectedImage:@"restart_button.jpg"
+                                       target:self selector:@selector(RestartButtonTapped:)];
+        restartMenuItem.position = ccp(s.width/2+176, s.height/2);
+        
+        pauseScreenMenu = [CCMenu menuWithItems:QuitMenuItem,ResumeMenuItem,levelSelectMenuItem,optionMenuItem,restartMenuItem,nil];
+        pauseScreenMenu.position = ccp(0,0);
+        [self addChild:pauseScreenMenu z:13];
+    }
+}
+
+-(void)ResumeButtonTapped:(id)sender{
+    [self removeChild:pauseScreen cleanup:YES];
+    [self removeChild:pauseScreenMenu cleanup:YES];
+    [self removeChild:pauseLayer cleanup:YES];
+    [[CCDirector sharedDirector] resume];
+    pauseScreenUp=FALSE;
+}
+
+-(void)QuitButtonTapped:(id)sender{
+    [self removeChild:pauseScreen cleanup:YES];
+    [self removeChild:pauseScreenMenu cleanup:YES];
+    [self removeChild:pauseLayer cleanup:YES];
+    [[CCDirector sharedDirector] resume];
+    pauseScreenUp=FALSE;
+    [[CCDirector sharedDirector] replaceScene:[MenuItemLayer scene]];
+}
+
+-(void)LevelSelectButtonTapped:(id)sender{
+    [self removeChild:pauseScreen cleanup:YES];
+    [self removeChild:pauseScreenMenu cleanup:YES];
+    [self removeChild:pauseLayer cleanup:YES];
+    [[CCDirector sharedDirector] resume];
+    pauseScreenUp=FALSE;
+    [[CCDirector sharedDirector] replaceScene:[LevelManager scene]];
+}
+
+-(void)OptionButtonTapped:(id)sender{
+    [self removeChild:pauseScreen cleanup:YES];
+    [self removeChild:pauseScreenMenu cleanup:YES];
+    [self removeChild:pauseLayer cleanup:YES];
+    [[CCDirector sharedDirector] resume];
+    pauseScreenUp=FALSE;
+    //[[CCDirector sharedDirector] replaceScene:[LevelManager scene]];
+    //[[CCDirector sharedDirector] pushScene:[PauseScreen scene]];
+    
+    // TODO: Put OPTION Menu code here
+}
+
+-(void)RestartButtonTapped:(id)sender{
+    [self removeChild:pauseScreen cleanup:YES];
+    [self removeChild:pauseScreenMenu cleanup:YES];
+    [self removeChild:pauseLayer cleanup:YES];
+    [[CCDirector sharedDirector] resume];
+    pauseScreenUp=FALSE;
+    [[CCDirector sharedDirector] replaceScene: [GameLayer scene: levelFileName]];
 }
 
 @end

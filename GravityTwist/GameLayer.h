@@ -70,6 +70,11 @@
     GameObject *movingSpike;
     NSMutableArray *movingPlatformObjects;
     NSMutableArray *movingSpikeObjects;
+    
+    bool pauseScreenUp;
+    CCLayer *pauseLayer;
+    CCSprite *pauseScreen;
+    CCMenu *pauseScreenMenu;
     //Changes by Arpit - End
     
     // TODO: make this non-global

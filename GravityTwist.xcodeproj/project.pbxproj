@@ -13,6 +13,12 @@
 		3F11E6271777CF1A0060A7B3 /* Tilesheet.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F11E6261777CF1A0060A7B3 /* Tilesheet.png */; };
 		3F4C2B1D1794C00C002E33AC /* PauseScreen.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3F4C2B1C1794C00C002E33AC /* PauseScreen.mm */; };
 		3F6CD15E178E67D7001A1372 /* Level4.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 3F6CD15D178E67D7001A1372 /* Level4.tmx */; };
+		3F7EA0A817950F190098BC47 /* exit_button.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3F7EA0A417950F190098BC47 /* exit_button.jpg */; };
+		3F7EA0A917950F190098BC47 /* option_button.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3F7EA0A517950F190098BC47 /* option_button.jpg */; };
+		3F7EA0AA17950F190098BC47 /* restart_button.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3F7EA0A617950F190098BC47 /* restart_button.jpg */; };
+		3F7EA0AB17950F190098BC47 /* resume_button.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3F7EA0A717950F190098BC47 /* resume_button.jpg */; };
+		3F7EA0AD179511C20098BC47 /* level_select.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3F7EA0AC179511C20098BC47 /* level_select.jpg */; };
+		3F7EA0AF179514310098BC47 /* pause_background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3F7EA0AE179514310098BC47 /* pause_background.jpg */; };
 		3FA9C32B178F8C04001B5C19 /* LevelManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3FA9C32A178F8C04001B5C19 /* LevelManager.mm */; };
 		3FBAD9DA1766B02000CC4B4C /* MenuItemLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3FBAD9D91766B02000CC4B4C /* MenuItemLayer.mm */; };
 		65156727178FA35E004640E5 /* ButtonData.mm in Sources */ = {isa = PBXBuildFile; fileRef = 65156726178FA35E004640E5 /* ButtonData.mm */; };
@@ -211,6 +217,12 @@
 		3F4C2B1B1794C00C002E33AC /* PauseScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PauseScreen.h; sourceTree = "<group>"; };
 		3F4C2B1C1794C00C002E33AC /* PauseScreen.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PauseScreen.mm; sourceTree = "<group>"; };
 		3F6CD15D178E67D7001A1372 /* Level4.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Level4.tmx; path = Resources/Level4.tmx; sourceTree = "<group>"; };
+		3F7EA0A417950F190098BC47 /* exit_button.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = exit_button.jpg; path = Resources/exit_button.jpg; sourceTree = "<group>"; };
+		3F7EA0A517950F190098BC47 /* option_button.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = option_button.jpg; path = Resources/option_button.jpg; sourceTree = "<group>"; };
+		3F7EA0A617950F190098BC47 /* restart_button.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = restart_button.jpg; path = Resources/restart_button.jpg; sourceTree = "<group>"; };
+		3F7EA0A717950F190098BC47 /* resume_button.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = resume_button.jpg; path = Resources/resume_button.jpg; sourceTree = "<group>"; };
+		3F7EA0AC179511C20098BC47 /* level_select.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = level_select.jpg; path = Resources/level_select.jpg; sourceTree = "<group>"; };
+		3F7EA0AE179514310098BC47 /* pause_background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = pause_background.jpg; path = Resources/pause_background.jpg; sourceTree = "<group>"; };
 		3FA9C329178F8C04001B5C19 /* LevelManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelManager.h; sourceTree = "<group>"; };
 		3FA9C32A178F8C04001B5C19 /* LevelManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LevelManager.mm; sourceTree = "<group>"; };
 		3FBAD9D81766B02000CC4B4C /* MenuItemLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuItemLayer.h; sourceTree = "<group>"; };
@@ -684,6 +696,12 @@
 		C3D9BD29175DD689005BE61F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				3F7EA0AE179514310098BC47 /* pause_background.jpg */,
+				3F7EA0AC179511C20098BC47 /* level_select.jpg */,
+				3F7EA0A417950F190098BC47 /* exit_button.jpg */,
+				3F7EA0A517950F190098BC47 /* option_button.jpg */,
+				3F7EA0A617950F190098BC47 /* restart_button.jpg */,
+				3F7EA0A717950F190098BC47 /* resume_button.jpg */,
 				3F11E6261777CF1A0060A7B3 /* Tilesheet.png */,
 				6559196F1794E3D700DF4D21 /* Level1.tmx */,
 				655919701794E3D700DF4D21 /* Level2.tmx */,
@@ -1297,6 +1315,12 @@
 				655919741794E3D800DF4D21 /* Level2.tmx in Resources */,
 				655919751794E3D800DF4D21 /* Level3.tmx in Resources */,
 				655919761794E3D800DF4D21 /* Level5.tmx in Resources */,
+				3F7EA0A817950F190098BC47 /* exit_button.jpg in Resources */,
+				3F7EA0A917950F190098BC47 /* option_button.jpg in Resources */,
+				3F7EA0AA17950F190098BC47 /* restart_button.jpg in Resources */,
+				3F7EA0AB17950F190098BC47 /* resume_button.jpg in Resources */,
+				3F7EA0AD179511C20098BC47 /* level_select.jpg in Resources */,
+				3F7EA0AF179514310098BC47 /* pause_background.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1491,7 +1515,7 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -1510,7 +1534,7 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -1531,7 +1555,7 @@
 				);
 				HEADER_SEARCH_PATHS = "\"GravityTwist/libs/kazmath/include\"";
 				INFOPLIST_FILE = GravityTwist/Resources/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				OTHER_LDFLAGS = (
 					"-lz",
 					"-lsqlite3",
@@ -1558,7 +1582,7 @@
 				);
 				HEADER_SEARCH_PATHS = "\"GravityTwist/libs/kazmath/include\"";
 				INFOPLIST_FILE = GravityTwist/Resources/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				OTHER_LDFLAGS = (
 					"-lz",
 					"-lsqlite3",
