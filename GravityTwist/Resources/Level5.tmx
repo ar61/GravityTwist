@@ -2,6 +2,16 @@
 <map version="1.0" orientation="orthogonal" width="32" height="24" tilewidth="32" tileheight="32">
  <tileset firstgid="1" name="tiles" tilewidth="32" tileheight="32">
   <image source="Tilesheet.png" width="512" height="256"/>
+  <tile id="24">
+   <properties>
+    <property name="Collectible" value="true"/>
+   </properties>
+  </tile>
+  <tile id="43">
+   <properties>
+    <property name="Collectible" value="true"/>
+   </properties>
+  </tile>
  </tileset>
  <layer name="tiles" width="32" height="24">
   <data encoding="base64" compression="zlib">
@@ -23,6 +33,14 @@
    eJztzTENACAAA8Eu4AAcgAPQjzQqgqQMf8nPL/1rS2e51H/6PYL/7ncL/qvfJfgHAADAexfnpwbt
   </data>
  </layer>
+ <layer name="collectibles" width="32" height="24">
+  <data encoding="base64" compression="zlib">
+   eJztzgENAAAIA6DXsH9RY9w5SEACAHDHtAPw3AJgxAAa
+  </data>
+ </layer>
+ <objectgroup name="collectibles" width="32" height="24">
+  <object x="224" y="544" width="32" height="32"/>
+ </objectgroup>
  <objectgroup name="objects" width="32" height="24">
   <object name="SpawnPoint" x="203" y="672"/>
   <object name="ExitPoint" x="240" y="48" width="32" height="64"/>
@@ -53,4 +71,9 @@
    </properties>
   </object>
  </objectgroup>
+ <layer name="Meta" width="32" height="24" opacity="0.04">
+  <data encoding="base64" compression="zlib">
+   eJztzgENAAAIA6AHsn8+Y9w5SEACAHDHtAPw3AKhMAAt
+  </data>
+ </layer>
 </map>

@@ -72,5 +72,10 @@
   <object x="0" y="480" width="352" height="32"/>
   <object x="320" y="448" width="32" height="96"/>
   <object x="0" y="288" width="448" height="32"/>
+  <object x="32" y="512" width="288" height="19">
+   <properties>
+    <property name="kill" value="true"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>
