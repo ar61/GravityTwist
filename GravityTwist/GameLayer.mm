@@ -445,7 +445,7 @@ CCSpriteBatchNode *parent;
         if (tileGid) {
             NSDictionary *properties = [tiledMap propertiesForGID:tileGid];
             if (properties) {
-                NSString *collision = properties[@"Collectible"];
+                NSString *collision = properties[@"collectible"];
                 if (collision && [collision isEqualToString:@"true"]) {
                     [collectibles removeTileAt:tileCoord];
                     collectedCount++;
