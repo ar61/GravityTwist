@@ -22,6 +22,7 @@
 //to define the ratio so that your most common object type is 1x1 metre.
 #define PTM_RATIO 32
 
+
 //Define a constant for gravity of world
 #define GRAVITY 9.8f
 
@@ -77,6 +78,9 @@
     CCLayer *pauseLayer;
     CCSprite *pauseScreen;
     CCMenu *pauseScreenMenu;
+    float playerImpulse;
+    float gravityRemovalFactor;
+    int levelNumber;
     //Changes by Arpit - End
     
     // TODO: make this non-global

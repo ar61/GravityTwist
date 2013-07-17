@@ -30,7 +30,7 @@ int spikeArrayIndex, platformArrayIndex;
 CCSpriteBatchNode *parent;
 
 +(CCScene *) scene: (NSString*) layerName
-{
+{    
 	// 'scene' is an autorelease object.
 	CCScene *scene = [CCScene node];
     
@@ -60,13 +60,14 @@ CCSpriteBatchNode *parent;
         movingSpikeObjects = [[NSMutableArray alloc] initWithCapacity:50];
         spikeArrayIndex = platformArrayIndex = moveCount = 0;
         movingForward = true;
-                
+        playerImpulse = 0.5f;
+        gravityRemovalFactor = 5.0f;
+        
         spriteTextureName = @"Tilesheet.png";
         
         //CCSpriteBatchNode *parent = [CCSpriteBatchNode batchNodeWithFile:spriteTextureName capacity:100];
         parent = [CCSpriteBatchNode batchNodeWithFile:spriteTextureName capacity:100];
         [self addChild:parent z:0 tag:kTagParentNode];
-
         //Changes by Arpit - End
         
 		self.touchEnabled = YES;
@@ -84,15 +85,12 @@ CCSpriteBatchNode *parent;
 
 -(void) onEnter {
     [super onEnter];
+    levelNumber = [[levelFileName substringWithRange:NSMakeRange(5, 1)] integerValue];
     
     tiledMap = [CCTMXTiledMap tiledMapWithTMXFile:levelFileName];
     
     tile = [tiledMap layerNamed:@"tiles"];
-    
     door = [tiledMap layerNamed:@"Exit"];
-    
-    meta = [tiledMap layerNamed:@"Meta"];
-    meta.visible = NO;
     
     objects = [tiledMap objectGroupNamed:@"objects"];
     NSAssert(objects != nil, @"Tile map doesnt have an objects layer defined");
@@ -443,13 +441,12 @@ CCSpriteBatchNode *parent;
         }
         
         CGPoint tileCoord = [self tileCoordForPosition:player.position];
-        int tileGid = [meta tileGIDAt:tileCoord];
+        int tileGid = [collectibles tileGIDAt:tileCoord];
         if (tileGid) {
             NSDictionary *properties = [tiledMap propertiesForGID:tileGid];
             if (properties) {
                 NSString *collision = properties[@"Collectible"];
                 if (collision && [collision isEqualToString:@"true"]) {
-                    [meta removeTileAt:tileCoord];
                     [collectibles removeTileAt:tileCoord];
                     collectedCount++;
                     coinsLabel.string = [NSString stringWithFormat:@"coins: %d", collectedCount];
@@ -495,7 +492,7 @@ CCSpriteBatchNode *parent;
                     else if (filter.categoryBits == kFilterCategoryExit)
                     {
                         //NSString *path = [[NSBundle mainBundle] pathForResource:@"Level" ofType:@"tmx"];
-                        [[CCDirector sharedDirector] replaceScene:[LevelManager scene]];
+                        [self loadNextLevel:levelNumber+1];
                     }
                 }
                 else if (bodyB->GetType() == b2_staticBody && bodyA->GetType() == b2_dynamicBody) {
@@ -503,13 +500,32 @@ CCSpriteBatchNode *parent;
                     b2Filter filter = fDef->GetFilterData();
                     if (filter.categoryBits == kFilterCategoryExit)
                     {
-                        [[CCDirector sharedDirector] replaceScene:[LevelManager scene]];
+                        //[[CCDirector sharedDirector] replaceScene:[LevelManager scene]];
+                        [self loadNextLevel:levelNumber+1];
                     }
                 }
             }
         }
         
         [self movePlatforms:0.1];
+    }
+}
+
+-(BOOL)doesLevelExist:(int)levelNumber {
+    NSString *pathAndFileName = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"Level%d", levelNumber] ofType:@"tmx"];
+    
+    if (pathAndFileName != NULL)
+        return true;
+    else
+        return false;
+}
+
+-(void)loadNextLevel:(int)levelNumber {
+    if ([self doesLevelExist:levelNumber])
+        [[CCDirector sharedDirector] replaceScene: [GameLayer scene:[NSString stringWithFormat:@"Level%d.tmx", levelNumber]]];
+    else {
+        CCLOG(@"No level exists!!!");
+        [[CCDirector sharedDirector] replaceScene:[MenuItemLayer scene]];
     }
 }
 
@@ -548,6 +564,7 @@ CCSpriteBatchNode *parent;
     if(!playerDead)
     {
         float THRESHOLD = 0.01f;
+        
         player.body->SetAwake(true);
         b2Vec2 worldGravity = world->GetGravity();
         
@@ -556,13 +573,13 @@ CCSpriteBatchNode *parent;
             if(worldGravity.x == 0 && worldGravity.y < 0){
                 if(acceleration.y >= THRESHOLD)
                 {
-                    b2Vec2 impulse = b2Vec2(-0.5f,0.0f);
+                    b2Vec2 impulse = b2Vec2(-playerImpulse,0.0f);
                     player.body->ApplyLinearImpulse(impulse, player.body->GetWorldCenter());
                 }
                 
                 if(acceleration.y <= -THRESHOLD)
                 {
-                    b2Vec2 impulse = b2Vec2(0.5f,0.0f);
+                    b2Vec2 impulse = b2Vec2(playerImpulse,0.0f);
                     player.body->ApplyLinearImpulse(impulse, player.body->GetWorldCenter());
                 }
             }
@@ -570,13 +587,13 @@ CCSpriteBatchNode *parent;
             else if((worldGravity.x == 0 && worldGravity.y > 0)){
                 if(acceleration.y >= THRESHOLD)
                 {
-                    b2Vec2 impulse = b2Vec2(-0.5f,0.0f);
+                    b2Vec2 impulse = b2Vec2(-playerImpulse,0.0f);
                     player.body->ApplyLinearImpulse(impulse, player.body->GetWorldCenter());
                 }
                 
                 if(acceleration.y <= -THRESHOLD)
                 {
-                    b2Vec2 impulse = b2Vec2(0.5f,0.0f);
+                    b2Vec2 impulse = b2Vec2(playerImpulse,0.0f);
                     player.body->ApplyLinearImpulse(impulse, player.body->GetWorldCenter());
                 }
             }
@@ -584,13 +601,13 @@ CCSpriteBatchNode *parent;
             else if(worldGravity.x < 0 && worldGravity.y == 0){
                 if(acceleration.x >= THRESHOLD)
                 {
-                    b2Vec2 impulse = b2Vec2(0.0f,0.f);
+                    b2Vec2 impulse = b2Vec2(0.0f,playerImpulse);
                     player.body->ApplyLinearImpulse(impulse, player.body->GetWorldCenter());
                 }
                 
                 if(acceleration.x <= -THRESHOLD)
                 {
-                    b2Vec2 impulse = b2Vec2(0.0f,-0.5f);
+                    b2Vec2 impulse = b2Vec2(0.0f,-playerImpulse);
                     player.body->ApplyLinearImpulse(impulse, player.body->GetWorldCenter());
                 }
             }
@@ -598,13 +615,13 @@ CCSpriteBatchNode *parent;
             else if(worldGravity.x > 0 && worldGravity.y == 0) {
                 if(acceleration.x >= THRESHOLD)
                 {
-                    b2Vec2 impulse = b2Vec2(0.0f,0.5f);
+                    b2Vec2 impulse = b2Vec2(0.0f,playerImpulse);
                     player.body->ApplyLinearImpulse(impulse, player.body->GetWorldCenter());
                 }
                 
                 if(acceleration.x <= -THRESHOLD)
                 {
-                    b2Vec2 impulse = b2Vec2(0.0f,-0.5f);
+                    b2Vec2 impulse = b2Vec2(0.0f,-playerImpulse);
                     player.body->ApplyLinearImpulse(impulse, player.body->GetWorldCenter());
                 }
             }
@@ -664,12 +681,12 @@ CCSpriteBatchNode *parent;
                     if (firstTouch.x > lastTouch.x)
                     {
                         world->SetGravity(b2Vec2 (-GRAVITY, 0));
-                        player.body->ApplyLinearImpulse(b2Vec2 (-player.body->GetMass()*GRAVITY/4,0), player.body->GetWorldCenter());
+                        player.body->ApplyLinearImpulse(b2Vec2 (-player.body->GetMass()*GRAVITY/gravityRemovalFactor,0), player.body->GetWorldCenter());
                     }
                     else
                     {
                         world->SetGravity(b2Vec2 (GRAVITY, 0));
-                        player.body->ApplyLinearImpulse(b2Vec2 (player.body->GetMass()*GRAVITY/4,0), player.body->GetWorldCenter()); 
+                        player.body->ApplyLinearImpulse(b2Vec2 (player.body->GetMass()*GRAVITY/gravityRemovalFactor,0), player.body->GetWorldCenter());
                     }
                 }
                 else if(ySwipeLength > xSwipeLength)
@@ -678,13 +695,13 @@ CCSpriteBatchNode *parent;
                     if (firstTouch.y > lastTouch.y) 
                     {
                         world->SetGravity(b2Vec2 (0, -GRAVITY));
-                        player.body->ApplyLinearImpulse(b2Vec2 (0,-player.body->GetMass()*GRAVITY/4), player.body->GetWorldCenter());
+                        player.body->ApplyLinearImpulse(b2Vec2 (0,-player.body->GetMass()*GRAVITY/gravityRemovalFactor), player.body->GetWorldCenter());
                     }
                     
                     else  
                     {
                         world->SetGravity(b2Vec2 (0, GRAVITY));
-                        player.body->ApplyLinearImpulse(b2Vec2 (0,player.body->GetMass()*GRAVITY/4), player.body->GetWorldCenter());   
+                        player.body->ApplyLinearImpulse(b2Vec2 (0,player.body->GetMass()*GRAVITY/gravityRemovalFactor), player.body->GetWorldCenter());
                     }  
                 }  
             }
@@ -726,6 +743,7 @@ CCSpriteBatchNode *parent;
     return FALSE;
 }
 
+/*
 -(void) checkContactWithGroundAndJump
 {
     std::vector<MyContact>::iterator position;
@@ -763,6 +781,7 @@ CCSpriteBatchNode *parent;
         }
     }
 }
+*/
 
 
 // Pause Menu - Arpit

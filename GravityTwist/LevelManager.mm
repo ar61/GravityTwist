@@ -46,7 +46,6 @@
     menu = [CCMenu menuWithItems:nil];
     for (int x = 0; x < 2; x++) {
         for (int y = 0; y < 5; y++) {
-            
             menuItem = [CCMenuItemFont itemFromString:[NSString stringWithFormat:@"%d", realIndex] block:^(id sender){ [self loadLevel: realIndex]; }];
             menuItem.tag = realIndex;
             menuItem.position = ccp(y * (menuItem.contentSize.width + 25),-(x * (menuItem.contentSize.height + 25)));
@@ -64,14 +63,14 @@
     
     [self addChild: levelSelectLabel];
     [menu addChild: backLabel];
-    
-    
-    
 }
 
 -(void) loadLevel: (int) levelNumber
-{    
-    [[CCDirector sharedDirector] replaceScene:[GameLayer scene:[NSString stringWithFormat:@"Level%d.tmx", levelNumber]]];
+{
+    NSString *pathAndFileName = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"Level%d", levelNumber] ofType:@"tmx"];
+    
+    if(pathAndFileName != NULL)
+        [[CCDirector sharedDirector] replaceScene:[GameLayer scene:[NSString stringWithFormat:@"Level%d.tmx", levelNumber]]];
 }
 
 -(id) goBack
