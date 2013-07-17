@@ -34,6 +34,8 @@
 // GameLayer
 @interface GameLayer : CCLayer
 {
+    NSString *levelFileName;
+    
     GameObject *player;
     CGSize s;
     CGPoint spawnPoint;
@@ -80,7 +82,7 @@
     // TODO: make this non-global
     NSMutableDictionary *doorCollisions;
     NSMutableArray *boxGameObjects;
-}
+};
 
 // returns a CCScene that contains the HelloWorldLayer as the only child
 +(CCScene *) scene: (NSString*) layerName;

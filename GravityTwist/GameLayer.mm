@@ -20,7 +20,7 @@
 #import "ButtonData.h"
 #import "GameObject.h"
 
-static NSString *levelFileName;
+//static NSString *levelFileName;
 
 @implementation GameLayer
 
@@ -33,12 +33,13 @@ CCSpriteBatchNode *parent;
 {
 	// 'scene' is an autorelease object.
 	CCScene *scene = [CCScene node];
-	
-    levelFileName = layerName;
     
 	// 'layer' is an autorelease object.
 	GameLayer *layer = [GameLayer node];
 	
+    layer->levelFileName = layerName;
+    [layerName retain];
+    
 	// add layer as a child to scene
 	[scene addChild: layer];
 	
@@ -59,10 +60,7 @@ CCSpriteBatchNode *parent;
         movingSpikeObjects = [[NSMutableArray alloc] initWithCapacity:50];
         spikeArrayIndex = platformArrayIndex = moveCount = 0;
         movingForward = true;
-        
-        b2PolygonShape dynamicBox;
-        dynamicBox.SetAsBox(.5f, .5f);
-        
+                
         spriteTextureName = @"Tilesheet.png";
         
         //CCSpriteBatchNode *parent = [CCSpriteBatchNode batchNodeWithFile:spriteTextureName capacity:100];
@@ -71,73 +69,23 @@ CCSpriteBatchNode *parent;
 
         //Changes by Arpit - End
         
-        [self initLevel: levelFileName];
-        
 		self.touchEnabled = YES;
 		self.accelerometerEnabled = YES;
 		s = [CCDirector sharedDirector].winSize;
         
+        [self initPhysics];
         contactListener = new MyContactListener();
         world->SetContactListener(contactListener); 
         
-        player = [[GameObject alloc] initWithOptions:b2_dynamicBody withPosition: spawnPoint withRotation:YES withPolyShape:dynamicBox withDensity:1.1f withFriction:0.3f withRestitution:0.0f withTileIndex:b2Vec2(8,4) withTileLength:b2Vec2(1,1) withWorld:world withBatchNode:parent withZLocation:0];
-        
-        
-        CCTMXObjectGroup *boxes = [tiledMap objectGroupNamed:@"boxes"];
-        
-        boxGameObjects = [[NSMutableArray alloc] initWithCapacity:[[boxes objects] count]];
-
-        for (id box in [boxes objects]) {
-            int boxx = [box[@"x"] intValue];
-            int boxy = [box[@"y"] intValue];
-            //int boxw = [box[@"width"] intValue];
-            //int boxh = [box[@"height"] intValue];
-            b2PolygonShape boxDynamicBox;
-            boxDynamicBox.SetAsBox(.5f, .5f);
-            
-            GameObject *gameBox = [[GameObject alloc] initWithOptions:b2_dynamicBody withPosition:CGPointMake(boxx, boxy) withRotation:YES withPolyShape:boxDynamicBox withDensity:1.0f withFriction:0.3f withRestitution:0.0f withTileIndex:b2Vec2(1, 1) withTileLength:b2Vec2(1, 1) withWorld:world withBatchNode:parent withZLocation:0];
-            
-            [boxGameObjects addObject:gameBox];
-            
-            [gameBox release];
-        }
-        
-        // make buttons
-        NSMutableArray *buttons = [[tiledMap objectGroupNamed:@"buttons"] objects];
-        
-        doorCollisions = [NSMutableDictionary dictionaryWithCapacity:[buttons count]];
-        NSMutableArray *doorCollisionObjects = [[tiledMap objectGroupNamed:@"doorCollisions"] objects];
-        
-        for (id button in buttons) {
-            b2Body* buttonBody = [self createCollisionBody:button bits:6];
-            
-            // add door collision bodies
-            NSMutableArray *doorColBodies = [[NSMutableArray alloc] initWithCapacity:5];
-            [doorCollisions setValue:doorColBodies forKey:button[@"doorLayer"]];
-            
-            for (id doorCol in doorCollisionObjects) {
-                if ([doorCol[@"doorLayer"] isEqualToString:button[@"doorLayer"]]) {
-                    [doorColBodies addObject:[NSValue valueWithPointer:[self createCollisionBody:doorCol bits:1]]];
-                }
-            }
-            ButtonData *bd = [[ButtonData alloc] initWithBodies:doorColBodies withDoorLayer:[tiledMap layerNamed:button[@"doorLayer"]]];
-            buttonBody->GetFixtureList()->SetUserData(bd);
-            
-            [doorColBodies release];
-        }
-        
-        [doorCollisions retain];
-        [self addChild:tiledMap z:-10];
 		[self scheduleUpdate];
 	}
 	return self;
 }
 
--(void)initLevel: (NSString*) fileName
-{
-    [self initPhysics];
+-(void) onEnter {
+    [super onEnter];
     
-    tiledMap = [CCTMXTiledMap tiledMapWithTMXFile:fileName];
+    tiledMap = [CCTMXTiledMap tiledMapWithTMXFile:levelFileName];
     
     tile = [tiledMap layerNamed:@"tiles"];
     
@@ -152,17 +100,17 @@ CCSpriteBatchNode *parent;
     NSDictionary *spawnPointInObject = [objects objectNamed:@"SpawnPoint"];
     spawnPoint.x = [spawnPointInObject[@"x"] integerValue];
     spawnPoint.y = [spawnPointInObject[@"y"] integerValue];
-        
+    
     exitObject = [objects objectNamed:@"ExitPoint"];
     
-    collisionObjects = [tiledMap objectGroupNamed:@"collisions"];	
+    collisionObjects = [tiledMap objectGroupNamed:@"collisions"];
     
     collectibleObjects = [tiledMap objectGroupNamed:@"collectibles"];
     
     collectibles = [tiledMap layerNamed:@"collectibles"];
     collectibles.tag = 1;
     collectedCount = 0;
-
+    
     if([[collectibleObjects objects] count] == 0)
     {
         door.visible = YES;
@@ -175,6 +123,58 @@ CCSpriteBatchNode *parent;
     
     [self createPlatformObjects: collisionObjects withType:1];
     //[self createPlatformObjects: collectibleObjects withType:2];
+    
+    b2PolygonShape dynamicBox;
+    dynamicBox.SetAsBox(.5f, .5f);
+    
+    player = [[GameObject alloc] initWithOptions:b2_dynamicBody withPosition: spawnPoint withRotation:YES withPolyShape:dynamicBox withDensity:1.1f withFriction:0.3f withRestitution:0.0f withTileIndex:b2Vec2(8,4) withTileLength:b2Vec2(1,1) withWorld:world withBatchNode:parent withZLocation:0];
+    CCTMXObjectGroup *boxes = [tiledMap objectGroupNamed:@"boxes"];
+    
+    boxGameObjects = [[NSMutableArray alloc] initWithCapacity:[[boxes objects] count]];
+    
+    for (id box in [boxes objects]) {
+        int boxx = [box[@"x"] intValue];
+        int boxy = [box[@"y"] intValue];
+        //int boxw = [box[@"width"] intValue];
+        //int boxh = [box[@"height"] intValue];
+        b2PolygonShape boxDynamicBox;
+        boxDynamicBox.SetAsBox(.5f, .5f);
+        
+        GameObject *gameBox = [[GameObject alloc] initWithOptions:b2_dynamicBody withPosition:CGPointMake(boxx, boxy) withRotation:YES withPolyShape:boxDynamicBox withDensity:1.0f withFriction:0.3f withRestitution:0.0f withTileIndex:b2Vec2(1, 1) withTileLength:b2Vec2(1, 1) withWorld:world withBatchNode:parent withZLocation:0];
+        
+        [boxGameObjects addObject:gameBox];
+        
+        [gameBox release];
+    }
+    
+    // make buttons
+    NSMutableArray *buttons = [[tiledMap objectGroupNamed:@"buttons"] objects];
+    
+    doorCollisions = [NSMutableDictionary dictionaryWithCapacity:[buttons count]];
+    NSMutableArray *doorCollisionObjects = [[tiledMap objectGroupNamed:@"doorCollisions"] objects];
+    
+    for (id button in buttons) {
+        b2Body* buttonBody = [self createCollisionBody:button bits:6];
+        
+        // add door collision bodies
+        NSMutableArray *doorColBodies = [[NSMutableArray alloc] initWithCapacity:5];
+        [doorCollisions setValue:doorColBodies forKey:button[@"doorLayer"]];
+        
+        for (id doorCol in doorCollisionObjects) {
+            if ([doorCol[@"doorLayer"] isEqualToString:button[@"doorLayer"]]) {
+                [doorColBodies addObject:[NSValue valueWithPointer:[self createCollisionBody:doorCol bits:1]]];
+            }
+        }
+        ButtonData *bd = [[ButtonData alloc] initWithBodies:doorColBodies withDoorLayer:[tiledMap layerNamed:button[@"doorLayer"]]];
+        buttonBody->GetFixtureList()->SetUserData(bd);
+        
+        [doorColBodies release];
+    }
+    
+    [doorCollisions retain];
+    [self addChild:tiledMap z:-10];
+
+
 }
 
 // Add new method
@@ -367,6 +367,7 @@ CCSpriteBatchNode *parent;
     [movingPlatformObjects release];
     [movingSpikeObjects release];
     [boxGameObjects release];
+    [levelFileName release];
     
 	[super dealloc];
 }	
