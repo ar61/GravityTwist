@@ -9,7 +9,11 @@
   <tile id="7" terrain="0,0,0,0"/>
   <tile id="22" terrain="0,0,0,0"/>
   <tile id="23" terrain="0,0,0,0"/>
-  <tile id="24" terrain=",0,,0"/>
+  <tile id="24" terrain=",0,,0">
+   <properties>
+    <property name="collectible" value="true"/>
+   </properties>
+  </tile>
   <tile id="28" terrain="0,0,0,0"/>
   <tile id="38" terrain="0,0,0,0"/>
   <tile id="39" terrain="0,0,0,0"/>
@@ -32,7 +36,7 @@
  </objectgroup>
  <layer name="collectibles" width="32" height="24">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2DwAMmBdsAoGAWjYBSMglFAZTBat42CwQYAOHMAMw==
+   eJxjYBgFo2AUDFYgOdAOGAWjYBSMgiEKRsvPUTAKcAMAK48AMw==
   </data>
  </layer>
  <objectgroup name="collisions" width="32" height="24">
@@ -61,7 +65,7 @@
   </object>
  </objectgroup>
  <objectgroup name="collectibles" width="32" height="24">
-  <object x="128" y="160" width="32" height="32"/>
-  <object x="864" y="576" width="32" height="32"/>
+  <object x="256" y="223" width="32" height="32"/>
+  <object x="767" y="542" width="32" height="32"/>
  </objectgroup>
 </map>

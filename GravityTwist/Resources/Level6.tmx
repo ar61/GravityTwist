@@ -9,7 +9,11 @@
   <tile id="7" terrain="0,0,0,0"/>
   <tile id="22" terrain="0,0,0,0"/>
   <tile id="23" terrain="0,0,0,0"/>
-  <tile id="24" terrain=",0,,0"/>
+  <tile id="24" terrain=",0,,0">
+   <properties>
+    <property name="collectible" value="true"/>
+   </properties>
+  </tile>
   <tile id="28" terrain="0,0,0,0"/>
   <tile id="38" terrain="0,0,0,0"/>
   <tile id="39" terrain="0,0,0,0"/>

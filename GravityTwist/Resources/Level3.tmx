@@ -9,7 +9,11 @@
   <tile id="7" terrain="0,0,0,0"/>
   <tile id="22" terrain="0,0,0,0"/>
   <tile id="23" terrain="0,0,0,0"/>
-  <tile id="24" terrain=",0,,0"/>
+  <tile id="24" terrain=",0,,0">
+   <properties>
+    <property name="collectible" value="true"/>
+   </properties>
+  </tile>
   <tile id="28" terrain="0,0,0,0"/>
   <tile id="38" terrain="0,0,0,0"/>
   <tile id="39" terrain="0,0,0,0"/>
@@ -78,9 +82,4 @@
   <object x="224" y="65" width="32" height="32"/>
   <object x="640" y="63" width="32" height="32"/>
  </objectgroup>
- <layer name="Meta" width="32" height="24" opacity="0.24">
-  <data encoding="base64" compression="zlib">
-   eJxjYBgFuIAOnfSMglEwCkbBUASj5d0oGAWjgNqAWuXKaPmEHwAALhsA3Q==
-  </data>
- </layer>
 </map>
