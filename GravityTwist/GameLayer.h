@@ -89,7 +89,7 @@
 };
 
 // returns a CCScene that contains the HelloWorldLayer as the only child
-+(CCScene *) scene: (NSString*) layerName;
++(CCScene *) scene: (int) levelNum;
 -(void) initPhysics;
 
 @end

@@ -29,7 +29,7 @@ int moveCount;
 int spikeArrayIndex, platformArrayIndex;
 CCSpriteBatchNode *parent;
 
-+(CCScene *) scene: (NSString*) layerName
++(CCScene *) scene: (int) levelNum
 {    
 	// 'scene' is an autorelease object.
 	CCScene *scene = [CCScene node];
@@ -37,8 +37,7 @@ CCSpriteBatchNode *parent;
 	// 'layer' is an autorelease object.
 	GameLayer *layer = [GameLayer node];
 	
-    layer->levelFileName = layerName;
-    [layerName retain];
+    layer->levelNumber = levelNum;
     
 	// add layer as a child to scene
 	[scene addChild: layer];
@@ -85,7 +84,8 @@ CCSpriteBatchNode *parent;
 
 -(void) onEnter {
     [super onEnter];
-    levelNumber = [[levelFileName substringWithRange:NSMakeRange(5, 1)] integerValue];
+    levelFileName = [[NSString alloc] initWithFormat:@"Level%d.tmx", levelNumber];
+    //levelNumber = [[levelFileName substringWithRange:NSMakeRange(5, 1)] integerValue];
     
     tiledMap = [CCTMXTiledMap tiledMapWithTMXFile:levelFileName];
     
@@ -481,7 +481,7 @@ CCSpriteBatchNode *parent;
                     
                     if (filter.categoryBits == kFilterCategoryHarmfulObjects)
                     {
-                        [[CCDirector sharedDirector] replaceScene: [GameLayer scene: levelFileName]];
+                        [[CCDirector sharedDirector] replaceScene: [GameLayer scene: levelNumber]];
                         //remove player fixture
                         /*bodyB->DestroyFixture(bodyB->GetFixtureList());
                         CCNode *parent = [self getChildByTag:kTagParentNode];
@@ -511,8 +511,8 @@ CCSpriteBatchNode *parent;
     }
 }
 
--(BOOL)doesLevelExist:(int)levelNumber {
-    NSString *pathAndFileName = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"Level%d", levelNumber] ofType:@"tmx"];
+-(BOOL)doesLevelExist:(int)levelNum {
+    NSString *pathAndFileName = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"Level%d", levelNum] ofType:@"tmx"];
     
     if (pathAndFileName != NULL)
         return true;
@@ -520,9 +520,9 @@ CCSpriteBatchNode *parent;
         return false;
 }
 
--(void)loadNextLevel:(int)levelNumber {
-    if ([self doesLevelExist:levelNumber])
-        [[CCDirector sharedDirector] replaceScene: [GameLayer scene:[NSString stringWithFormat:@"Level%d.tmx", levelNumber]]];
+-(void)loadNextLevel:(int)levelNum {
+    if ([self doesLevelExist:levelNum])
+        [[CCDirector sharedDirector] replaceScene: [GameLayer scene:levelNum]];
     else {
         CCLOG(@"No level exists!!!");
         [[CCDirector sharedDirector] replaceScene:[MenuItemLayer scene]];
@@ -879,7 +879,7 @@ CCSpriteBatchNode *parent;
     [self removeChild:pauseLayer cleanup:YES];
     [[CCDirector sharedDirector] resume];
     pauseScreenUp=FALSE;
-    [[CCDirector sharedDirector] replaceScene: [GameLayer scene: levelFileName]];
+    [[CCDirector sharedDirector] replaceScene: [GameLayer scene: levelNumber]];
 }
 
 @end

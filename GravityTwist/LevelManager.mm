@@ -70,7 +70,7 @@
     NSString *pathAndFileName = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"Level%d", levelNumber] ofType:@"tmx"];
     
     if(pathAndFileName != NULL)
-        [[CCDirector sharedDirector] replaceScene:[GameLayer scene:[NSString stringWithFormat:@"Level%d.tmx", levelNumber]]];
+        [[CCDirector sharedDirector] replaceScene:[GameLayer scene:levelNumber]];
 }
 
 -(id) goBack
