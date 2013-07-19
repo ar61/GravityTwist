@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="32" height="24" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="tiles" tilewidth="32" tileheight="32">
+  <image source="Tilesheet.png" width="512" height="256"/>
+ </tileset>
+ <layer name="tiles" width="32" height="24">
+  <data encoding="base64" compression="zlib">
+   eJyLZWBgiB3Fo3gUj+JRPIpH8YjEInTWR037qeGGUfsHPv7JxdSwf6RiAEyUDxQ=
+  </data>
+ </layer>
+ <objectgroup name="objects" width="32" height="24">
+  <object name="SpawnPoint" x="128" y="576" width="32" height="32"/>
+ </objectgroup>
+ <objectgroup name="boxes" width="32" height="24">
+  <object x="320" y="480" width="96" height="64"/>
+  <object x="-32" y="480"/>
+ </objectgroup>
+ <objectgroup name="collisions" width="32" height="24">
+  <object x="64" y="512" width="32" height="192"/>
+  <object x="64" y="672" width="480" height="32"/>
+  <object x="512" y="512" width="32" height="160"/>
+ </objectgroup>
+</map>

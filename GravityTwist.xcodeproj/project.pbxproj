@@ -28,6 +28,7 @@
 		655919741794E3D800DF4D21 /* Level2.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 655919701794E3D700DF4D21 /* Level2.tmx */; };
 		655919751794E3D800DF4D21 /* Level3.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 655919711794E3D700DF4D21 /* Level3.tmx */; };
 		655919761794E3D800DF4D21 /* Level5.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 655919721794E3D800DF4D21 /* Level5.tmx */; };
+		6559197817964B5D00DF4D21 /* Level8.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 6559197717964B5D00DF4D21 /* Level8.tmx */; };
 		C3D9BD17175DD688005BE61F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3D9BD16175DD688005BE61F /* QuartzCore.framework */; };
 		C3D9BD19175DD688005BE61F /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3D9BD18175DD688005BE61F /* OpenGLES.framework */; };
 		C3D9BD1B175DD688005BE61F /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3D9BD1A175DD688005BE61F /* OpenAL.framework */; };
@@ -235,6 +236,7 @@
 		655919701794E3D700DF4D21 /* Level2.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Level2.tmx; path = Resources/Level2.tmx; sourceTree = "<group>"; };
 		655919711794E3D700DF4D21 /* Level3.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Level3.tmx; path = Resources/Level3.tmx; sourceTree = "<group>"; };
 		655919721794E3D800DF4D21 /* Level5.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Level5.tmx; path = Resources/Level5.tmx; sourceTree = "<group>"; };
+		6559197717964B5D00DF4D21 /* Level8.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Level8.tmx; path = Resources/Level8.tmx; sourceTree = "<group>"; };
 		C3D9BD12175DD688005BE61F /* GravityTwist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GravityTwist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3D9BD16175DD688005BE61F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		C3D9BD18175DD688005BE61F /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -710,6 +712,7 @@
 				655919721794E3D800DF4D21 /* Level5.tmx */,
 				65156728178FA696004640E5 /* Level6.tmx */,
 				6559196D1794E06200DF4D21 /* Level7.tmx */,
+				6559197717964B5D00DF4D21 /* Level8.tmx */,
 				C3D9BD2A175DD689005BE61F /* Default.png */,
 				C3D9BD2C175DD689005BE61F /* Default@2x.png */,
 				C3D9BD2E175DD689005BE61F /* Default-568h@2x.png */,
@@ -1321,6 +1324,7 @@
 				3F7EA0AB17950F190098BC47 /* resume_button.jpg in Resources */,
 				3F7EA0AD179511C20098BC47 /* level_select.jpg in Resources */,
 				3F7EA0AF179514310098BC47 /* pause_background.jpg in Resources */,
+				6559197817964B5D00DF4D21 /* Level8.tmx in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
