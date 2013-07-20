@@ -324,10 +324,34 @@
 {
     if(!playerDead)
     {
-        float THRESHOLD = 0.01f;
+        float THRESHOLD = 0.05f;
         player.body->SetAwake(true);
         b2Vec2 worldGravity = world->GetGravity();
         b2Vec2 impulse;
+        
+        float xAngle, yAngle, xVal, yVal, zVal;
+        unsigned long x2, y2, z2;
+        
+        // Lets get the deviations from our baseline
+        xVal = acceleration.x;
+        yVal = acceleration.y;
+        zVal = acceleration.z;
+        
+        // Work out the squares
+        x2 = (unsigned long)(xVal * xVal);
+        y2 = (unsigned long)(yVal * yVal);
+        z2 = (unsigned long)(zVal * zVal);
+        
+        //X Axis
+        xAngle = CC_RADIANS_TO_DEGREES(atan2f(xVal, sqrtf(y2 + z2)));
+        xAngle = CC_RADIANS_TO_DEGREES(atan2f(acceleration.x, sqrtf(acceleration.y * acceleration.y + acceleration.z * acceleration.z)));
+        
+        //Y Axis
+        yAngle = CC_RADIANS_TO_DEGREES(atan2f(yVal, sqrtf(x2 + z2)));
+        
+        CCLOG(@"X Angle: %f", xAngle);
+        CCLOG(@"Y Angle: %f", yAngle);
+        
         
         if([self checkContactWithGround])
         {
@@ -337,10 +361,12 @@
                 if(acceleration.y >= THRESHOLD)
                 {
                     impulse = b2Vec2(-0.7f,0.0f);
+                    player.body->ApplyLinearImpulse(impulse, player.body->GetWorldCenter());
                 }
                 if(acceleration.y <= -THRESHOLD)
                 {
                     impulse = b2Vec2(0.7f,0.0f);
+                    player.body->ApplyLinearImpulse(impulse, player.body->GetWorldCenter());
                 }
                 
             }
@@ -350,10 +376,12 @@
                 if(acceleration.y >= THRESHOLD)
                 {
                     impulse = b2Vec2(-0.7f,0.0f);
+                    player.body->ApplyLinearImpulse(impulse, player.body->GetWorldCenter());
                 }
                 else if(acceleration.y <= -THRESHOLD)
                 {
                     impulse = b2Vec2(0.7f,0.0f);
+                    player.body->ApplyLinearImpulse(impulse, player.body->GetWorldCenter());
                 }
             }
             else if(worldGravity.x < 0 && worldGravity.y == 0)
@@ -362,10 +390,12 @@
                 if(acceleration.x >= THRESHOLD)
                 {
                     impulse = b2Vec2(0.0f,0.7f);
+                    player.body->ApplyLinearImpulse(impulse, player.body->GetWorldCenter());
                 }
                 else if(acceleration.x <= -THRESHOLD)
                 {
                     impulse = b2Vec2(0.0f,-0.7f);
+                    player.body->ApplyLinearImpulse(impulse, player.body->GetWorldCenter());
                 }
                 
             }
@@ -375,14 +405,16 @@
                 if(acceleration.x >= THRESHOLD)
                 {
                     impulse = b2Vec2(0.0f,0.7f);
+                    player.body->ApplyLinearImpulse(impulse, player.body->GetWorldCenter());
                 }
                 else if(acceleration.x <= -THRESHOLD)
                 {
                     impulse = b2Vec2(0.0f,-0.7f);
+                    player.body->ApplyLinearImpulse(impulse, player.body->GetWorldCenter());
                 }
                 
             }
-            player.body->ApplyLinearImpulse(impulse, player.body->GetWorldCenter());
+            
             
         }
         /*else if(player.isTouching){
@@ -402,6 +434,20 @@
                 world->SetGravity(b2Vec2 (0, -GRAVITY));
             }
         }*/
+        else if(player.isTouching)
+        {
+            if(worldGravity.x == 0 && worldGravity.y < 0)
+            {
+                if(xAngle > prevXAngle)
+                {
+                    world->SetGravity(b2Vec2(GRAVITY, 0));
+                }
+            }
+        }
+        
+        
+        prevXAngle = xAngle;
+        prevYAngle = yAngle;
     }
 }
 
@@ -469,11 +515,6 @@
         }
     }
     return FALSE;
-}
-
--(void) playerMove: (b2Vec2) impulse
-{
-    player.body->ApplyLinearImpulse(impulse, player.body->GetWorldCenter());
 }
 
 @end
