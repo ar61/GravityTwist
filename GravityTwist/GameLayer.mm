@@ -19,7 +19,7 @@
 #import "AppDelegate.h"
 #import "ButtonData.h"
 #import "GameObject.h"
-
+ 
 //static NSString *levelFileName;
 
 @implementation GameLayer
@@ -62,7 +62,7 @@ CCSpriteBatchNode *parent;
         playerImpulse = 0.5f;
         gravityRemovalFactor = GRAVITY;
         
-        spriteTextureName = @"Tilesheet_v1.png";
+        spriteTextureName = @"Tilesheet.png";
         
         //CCSpriteBatchNode *parent = [CCSpriteBatchNode batchNodeWithFile:spriteTextureName capacity:100];
         parent = [CCSpriteBatchNode batchNodeWithFile:spriteTextureName capacity:100];
