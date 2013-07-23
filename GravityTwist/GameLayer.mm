@@ -60,9 +60,9 @@ CCSpriteBatchNode *parent;
         spikeArrayIndex = platformArrayIndex = moveCount = 0;
         movingForward = true;
         playerImpulse = 0.5f;
-        gravityRemovalFactor = 5.0f;
+        gravityRemovalFactor = GRAVITY;
         
-        spriteTextureName = @"Tilesheet.png";
+        spriteTextureName = @"Tilesheet_v1.png";
         
         //CCSpriteBatchNode *parent = [CCSpriteBatchNode batchNodeWithFile:spriteTextureName capacity:100];
         parent = [CCSpriteBatchNode batchNodeWithFile:spriteTextureName capacity:100];
@@ -125,7 +125,7 @@ CCSpriteBatchNode *parent;
     b2PolygonShape dynamicBox;
     dynamicBox.SetAsBox(.5f, .5f);
     
-    player = [[GameObject alloc] initWithOptions:b2_dynamicBody withPosition: spawnPoint withRotation:YES withPolyShape:dynamicBox withDensity:1.1f withFriction:0.3f withRestitution:0.0f withTileIndex:b2Vec2(8,4) withTileLength:b2Vec2(1,1) withWorld:world withBatchNode:parent withZLocation:0];
+    player = [[GameObject alloc] initWithOptions:b2_dynamicBody withPosition: spawnPoint withRotation:YES withPolyShape:dynamicBox withDensity:1.1f withFriction:0.3f withRestitution:0.0f withTileIndex:b2Vec2(12,5) withTileLength:b2Vec2(1,1) withWorld:world withBatchNode:parent withZLocation:0];
     CCTMXObjectGroup *boxes = [tiledMap objectGroupNamed:@"boxes"];
     
     boxGameObjects = [[NSMutableArray alloc] initWithCapacity:[[boxes objects] count]];
@@ -256,7 +256,7 @@ CCSpriteBatchNode *parent;
         if ([[object valueForKey:@"isHorizontal"] isEqual:@"true"])
             tilePosition = b2Vec2(10,4);
         else if ([[object valueForKey:@"isVertical"] isEqual:@"true"])
-            tilePosition = b2Vec2(4,1);
+            tilePosition = b2Vec2(0,3);
         
         movingPlatform = [[GameObject alloc] init];
         [self addNewSpriteAtPosition:_point withSize:size withTilePosition:tilePosition withObject:movingPlatform];
@@ -272,14 +272,30 @@ CCSpriteBatchNode *parent;
     else if (isMovingSpikes) {
         b2Vec2 tilePosition;
         
-        if ([[object valueForKey:@"topSpike"] isEqual:@"true"])
-            tilePosition = b2Vec2(11,1);
-        else if ([[object valueForKey:@"leftSpike"] isEqual:@"true"])
-            tilePosition = b2Vec2(9,3);
-        else if ([[object valueForKey:@"bottomSpike"] isEqual:@"true"])
-            tilePosition = b2Vec2(10,2);
-        else if ([[object valueForKey:@"rightSpike"] isEqual:@"true"])
-            tilePosition = b2Vec2(12,0);
+        if ([[object valueForKey:@"topSpike"] isEqual:@"true"]) {
+            if ([[object valueForKey:@"isFire"] isEqual:@"true"])
+                tilePosition = b2Vec2(10,5);
+            else
+                tilePosition = b2Vec2(11,1);
+        }
+        else if ([[object valueForKey:@"leftSpike"] isEqual:@"true"]) {
+            if ([[object valueForKey:@"isFire"] isEqual:@"true"])
+                tilePosition = b2Vec2(11,6);
+            else
+                tilePosition = b2Vec2(9,3);
+        }
+        else if ([[object valueForKey:@"bottomSpike"] isEqual:@"true"]) {
+            if ([[object valueForKey:@"isFire"] isEqual:@"true"])
+                tilePosition = b2Vec2(10,6);
+            else
+                tilePosition = b2Vec2(10,2);
+        }
+        else if ([[object valueForKey:@"rightSpike"] isEqual:@"true"]) {
+            if ([[object valueForKey:@"isFire"] isEqual:@"true"])
+                tilePosition = b2Vec2(11,5);
+            else
+                tilePosition = b2Vec2(12,0);
+        }
         
         movingSpike = [[GameObject alloc] init];
         [self addNewSpriteAtPosition:_point withSize:size withTilePosition:tilePosition withObject:movingSpike];
@@ -677,33 +693,43 @@ CCSpriteBatchNode *parent;
             {                
                 if(xSwipeLength > ySwipeLength)
                 {
-                    //CCLOG(@"XSwipeLength: %f", xSwipeLength);
+                    /*b2Vec2 currentGravity = world->GetGravity();
+                    if ( [self isPlayerOnGround] && ((currentGravity.y == GRAVITY) || (currentGravity.y == -GRAVITY)) ) { }
+                    else {*/
                     if (firstTouch.x > lastTouch.x)
                     {
+                        [player setTextureRect:CGRectMake(32*13, 32*5, 32*1, 32*1)];
                         world->SetGravity(b2Vec2 (-GRAVITY, 0));
                         player.body->ApplyLinearImpulse(b2Vec2 (-player.body->GetMass()*GRAVITY/gravityRemovalFactor,0), player.body->GetWorldCenter());
                     }
                     else
                     {
+                        [player setTextureRect:CGRectMake(32*13, 32*6, 32*1, 32*1)];
                         world->SetGravity(b2Vec2 (GRAVITY, 0));
                         player.body->ApplyLinearImpulse(b2Vec2 (player.body->GetMass()*GRAVITY/gravityRemovalFactor,0), player.body->GetWorldCenter());
                     }
+                    //}
                 }
                 else if(ySwipeLength > xSwipeLength)
                 {
-                    //CCLOG(@"YSwipeLength: %f", ySwipeLength);
+                    /*b2Vec2 currentGravity = world->GetGravity();
+                    if ( [self isPlayerOnGround] && ((currentGravity.x == GRAVITY) || (currentGravity.x == -GRAVITY)) ) { }
+                    else {*/
                     if (firstTouch.y > lastTouch.y) 
                     {
+                        [player setTextureRect:CGRectMake(32*12, 32*5, 32*1, 32*1)];
                         world->SetGravity(b2Vec2 (0, -GRAVITY));
                         player.body->ApplyLinearImpulse(b2Vec2 (0,-player.body->GetMass()*GRAVITY/gravityRemovalFactor), player.body->GetWorldCenter());
                     }
                     
                     else  
                     {
+                        [player setTextureRect:CGRectMake(32*12, 32*6, 32*1, 32*1)];
                         world->SetGravity(b2Vec2 (0, GRAVITY));
                         player.body->ApplyLinearImpulse(b2Vec2 (0,player.body->GetMass()*GRAVITY/gravityRemovalFactor), player.body->GetWorldCenter());
-                    }  
-                }  
+                    }
+                    //}
+                }
             }
         }  
     }

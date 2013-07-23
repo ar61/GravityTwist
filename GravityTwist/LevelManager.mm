@@ -41,10 +41,10 @@
 
 -(void) createLevelSelectScreen
 {
-    [CCMenuItemFont setFontSize:150];
+    [CCMenuItemFont setFontSize:50];
     int realIndex = 1;
     menu = [CCMenu menuWithItems:nil];
-    for (int x = 0; x < 2; x++) {
+    for (int x = 0; x < 3; x++) {
         for (int y = 0; y < 5; y++) {
             menuItem = [CCMenuItemFont itemFromString:[NSString stringWithFormat:@"%d", realIndex] block:^(id sender){ [self loadLevel: realIndex]; }];
             menuItem.tag = realIndex;

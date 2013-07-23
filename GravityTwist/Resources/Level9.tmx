@@ -27,59 +27,71 @@
  </tileset>
  <layer name="tiles" width="32" height="24">
   <data encoding="base64" compression="zlib">
-   eJzVljsOwkAMBd2FKhJQQEEDFCBRggQ9iAvADfjkmhwtY7FFQESr/YBJMU0SZ+SNn5VKRCoPK4fvuba6mNompSO2zldbGvGv/rnIYwZTsPAP8Q6gb+RPZQ2bH/rvnNOtcVZ7OBj2f4Kzof8C10z+YyJd97+zY862gbkkx0KeNdfJ/iXuRaCfPSbsM91rQX4ypdl6uTbGPcq0l2L67+EuDP056br/03zk9BfP723WP3Ou827mJ+ea96/7c/yDxrwzhIkj9n4bNa8rdz4=
+   eJxLZ2BgSB/FgwrLMDAcAGFZKJZBwuh8EMZlTiQWTIz92PThw9Syn1R7CZk9WOxPY2BIGEj7U5HsB2FgmknAZ38qxM00CX9i7CfXXHSzR+0fXvYD9S0YyPQ3HOwnp/wZLPZTo5ykpv3AMvIAsKw8gM8+dDXDyf/Utn8U0x8DAHjrLk8=
   </data>
  </layer>
  <layer name="Exit" width="32" height="24">
   <data encoding="base64" compression="zlib">
-   eJztzTERACAUw9Au4AAcgIOPfqRRFXTJu8scCT8d6ZZL/bffK/iffo/gv/vdgn8AAIC0ByvsBu0=
+   eJxjYBgFwxmwMTAkiAGxGhCbATG97WcF2ikKxKpAbDoA9o+CUTAKRsEoGAWjYBSMAlQAAKayA+0=
   </data>
  </layer>
  <objectgroup name="objects" width="32" height="24">
-  <object name="SpawnPoint" x="100" y="642" width="79" height="37"/>
-  <object name="ExitPoint" x="897" y="62" width="59" height="99"/>
+  <object name="SpawnPoint" x="128" y="635" width="64" height="32"/>
+  <object name="ExitPoint" x="864" y="96" width="32" height="64"/>
  </objectgroup>
  <layer name="collectibles" width="32" height="24">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFuIAknfSMglEwCkbBUATDobzjG2gHjIJBCdiBmGMA7RcHYokBtF8diDUGyG5QuWIOxBZUMGcU4AYABf8BiA==
+   eJxjYBgFo2AUEAKSA+2AQQ5Gw2fkgKEW10PNvUMRjIbxKBgFQw8AABfdAH4=
   </data>
  </layer>
  <objectgroup name="collisions" width="32" height="24">
   <object x="0" y="32" width="32" height="704"/>
-  <object x="0" y="704" width="320" height="64"/>
+  <object x="0" y="736" width="1024" height="32"/>
   <object x="992" y="32" width="32" height="704"/>
-  <object x="256" y="320" width="512" height="64"/>
-  <object x="640" y="704" width="384" height="64"/>
-  <object x="352" y="0" width="384" height="64"/>
-  <object x="0" y="0" width="288" height="64"/>
-  <object x="832" y="0" width="192" height="64"/>
-  <object x="384" y="704" width="192" height="64"/>
-  <object name="Spikes_bottom_left" x="336" y="736" width="32" height="32">
+  <object x="96" y="32" width="800" height="64"/>
+  <object x="32" y="32" width="64" height="704"/>
+  <object x="0" y="0" width="1024" height="32"/>
+  <object x="352" y="288" width="64" height="128"/>
+  <object x="288" y="288" width="64" height="384"/>
+  <object x="896" y="32" width="96" height="192"/>
+  <object x="96" y="672" width="800" height="64"/>
+  <object name="Spikes_top_left" x="160" y="96" width="384" height="32">
    <properties>
     <property name="kill" value="true"/>
    </properties>
   </object>
-  <object name="Spikes_bottom_right" x="592" y="736" width="32" height="32">
+  <object x="352" y="544" width="64" height="128"/>
+  <object x="96" y="96" width="64" height="64"/>
+  <object x="672" y="96" width="64" height="448"/>
+  <object x="608" y="160" width="64" height="128"/>
+  <object x="544" y="96" width="128" height="64"/>
+  <object x="608" y="416" width="64" height="128"/>
+  <object name="Spikes_top_left" x="640" y="288" width="32" height="128">
    <properties>
     <property name="kill" value="true"/>
    </properties>
   </object>
-  <object name="Spikes_top_right" x="752" y="0" width="64" height="32">
+  <object name="Spikes_top_left" x="352" y="416" width="32" height="128">
    <properties>
     <property name="kill" value="true"/>
    </properties>
   </object>
-  <object name="Spikes_top_left" x="304" y="0" width="32" height="32">
+  <object x="896" y="480" width="96" height="256"/>
+  <object name="Spikes_top_left" x="928" y="224" width="32" height="256">
    <properties>
     <property name="kill" value="true"/>
    </properties>
   </object>
+  <object x="960" y="224" width="32" height="256"/>
  </objectgroup>
  <objectgroup name="collectibles" width="32" height="24">
-  <object x="768" y="671" width="32" height="32"/>
-  <object x="191" y="669" width="32" height="32"/>
-  <object x="511" y="384" width="32" height="32"/>
-  <object x="224" y="65" width="32" height="32"/>
-  <object x="640" y="63" width="32" height="32"/>
+  <properties>
+   <property name="Collectible" value="true"/>
+  </properties>
+  <object x="320" y="192" width="32" height="32"/>
+  <object x="416" y="384" width="32" height="32"/>
+  <object x="576" y="256" width="32" height="32"/>
+  <object x="576" y="512" width="32" height="32"/>
+  <object x="800" y="416" width="32" height="32"/>
  </objectgroup>
 </map>

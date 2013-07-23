@@ -5,7 +5,7 @@
  </tileset>
  <layer name="tiles" width="32" height="24">
   <data encoding="base64" compression="zlib">
-   eJxzZWBgcANi1wGiQ4E4bADpgfI3pf4XIYBp7X+QHdE4sAid/I/P/lH/Dw3/E0rH+DA++7FhUsMRHyZFnzVUPb5wZAViNhrbj8//okAsNoD+VwViNRLtJxXj878pEJvhsU8Fh/+tkTCt0z+x4U9KeIBoWyC2g9K2SHx7JD7I/3Fkxj8uNxIqR6iV/nDpp1f+p6b/Y2ng/4HCo+2/gfc/ADJw1NA=
+   eJxzZWBgcANi1wGiQ4E4bADpgfI3pf4XIYBp7X+QHXw4sAid/I/P/lH/Dw3/E0rH+DA++7FhUsMRHyZFnzVUPb5wZAViNhrbj8//okAsNoD+VwViNRLtJxXj878pEJvhsU8Fh/+tkTCt0z+x4U9KeIBoWyC2g9K2SHx7JD4u/5OLYemBHvkPl3565f/B7v+BwqPtv4H3PwDSto3P
   </data>
  </layer>
  <objectgroup name="boxes" width="32" height="24">
@@ -30,7 +30,7 @@
   </data>
  </layer>
  <objectgroup name="doorCollisions" width="32" height="24">
-  <object x="352" y="480" width="96" height="13">
+  <object x="352" y="480" width="96" height="16">
    <properties>
     <property name="doorLayer" value="door1"/>
    </properties>
@@ -45,8 +45,6 @@
     <property name="doorLayer" value="door2"/>
    </properties>
   </object>
-  <object x="-100" y="585"/>
-  <object x="-100" y="167"/>
  </objectgroup>
  <layer name="door2" width="32" height="24">
   <data encoding="base64" compression="zlib">

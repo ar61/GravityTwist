@@ -93,6 +93,7 @@
   </object>
   <object name="movingSpikes" x="640" y="288" width="32" height="32">
    <properties>
+    <property name="isFire" value="true"/>
     <property name="kill" value="true"/>
     <property name="leftSpike" value="true"/>
     <property name="speedX" value="1.5"/>

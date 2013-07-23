@@ -49,8 +49,8 @@
   <object x="0" y="32" width="32" height="704"/>
   <object x="0" y="736" width="1024"/>
   <object x="992" y="32" width="32" height="704"/>
-  <object x="162" y="387" width="475" height="58"/>
-  <object x="834" y="259" width="156" height="60"/>
+  <object x="160" y="384" width="480" height="64"/>
+  <object x="832" y="256" width="160" height="64"/>
  </objectgroup>
  <objectgroup name="collectibles" width="32" height="24">
   <object x="673" y="703" width="32" height="32"/>

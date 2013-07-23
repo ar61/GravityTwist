@@ -4,7 +4,7 @@
   <image source="Tilesheet.png" width="512" height="256"/>
   <tile id="24">
    <properties>
-    <property name="Collectible" value="true"/>
+    <property name="collectible" value="true"/>
    </properties>
   </tile>
   <tile id="43">

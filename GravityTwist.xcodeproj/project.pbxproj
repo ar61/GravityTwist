@@ -8,6 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		3F0495671762EA8C008B1A78 /* GameLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3F0495661762EA8C008B1A78 /* GameLayer.mm */; };
+		3F0AEDA8179E14E6007A146C /* Level8.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 3F0AEDA3179E14E6007A146C /* Level8.tmx */; };
+		3F0AEDA9179E14E6007A146C /* Level9.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 3F0AEDA4179E14E6007A146C /* Level9.tmx */; };
+		3F0AEDAA179E14E6007A146C /* Level10.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 3F0AEDA5179E14E6007A146C /* Level10.tmx */; };
+		3F0AEDAB179E14E6007A146C /* Level11.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 3F0AEDA6179E14E6007A146C /* Level11.tmx */; };
+		3F0AEDB1179E2CE7007A146C /* Tilesheet_Old_v1.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F0AEDAF179E2CE7007A146C /* Tilesheet_Old_v1.png */; };
+		3F0AEDB2179E2CE7007A146C /* Tilesheet_Old_v2.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F0AEDB0179E2CE7007A146C /* Tilesheet_Old_v2.png */; };
 		3F11E6181777ACD10060A7B3 /* GameObject.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3F11E6171777ACD10060A7B3 /* GameObject.mm */; };
 		3F11E61B1777BF090060A7B3 /* MyContactListener.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3F11E61A1777BF090060A7B3 /* MyContactListener.mm */; };
 		3F11E6271777CF1A0060A7B3 /* Tilesheet.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F11E6261777CF1A0060A7B3 /* Tilesheet.png */; };
@@ -209,6 +215,12 @@
 
 /* Begin PBXFileReference section */
 		3F0495661762EA8C008B1A78 /* GameLayer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GameLayer.mm; sourceTree = "<group>"; };
+		3F0AEDA3179E14E6007A146C /* Level8.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Level8.tmx; path = Resources/Level8.tmx; sourceTree = "<group>"; };
+		3F0AEDA4179E14E6007A146C /* Level9.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Level9.tmx; path = Resources/Level9.tmx; sourceTree = "<group>"; };
+		3F0AEDA5179E14E6007A146C /* Level10.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Level10.tmx; path = Resources/Level10.tmx; sourceTree = "<group>"; };
+		3F0AEDA6179E14E6007A146C /* Level11.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Level11.tmx; path = Resources/Level11.tmx; sourceTree = "<group>"; };
+		3F0AEDAF179E2CE7007A146C /* Tilesheet_Old_v1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Tilesheet_Old_v1.png; path = Resources/Tilesheet_Old_v1.png; sourceTree = "<group>"; };
+		3F0AEDB0179E2CE7007A146C /* Tilesheet_Old_v2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Tilesheet_Old_v2.png; path = Resources/Tilesheet_Old_v2.png; sourceTree = "<group>"; };
 		3F11E6161777ACD10060A7B3 /* GameObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameObject.h; sourceTree = "<group>"; };
 		3F11E6171777ACD10060A7B3 /* GameObject.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GameObject.mm; sourceTree = "<group>"; };
 		3F11E6191777BF090060A7B3 /* MyContactListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyContactListener.h; sourceTree = "<group>"; };
@@ -696,6 +708,12 @@
 		C3D9BD29175DD689005BE61F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				3F0AEDAF179E2CE7007A146C /* Tilesheet_Old_v1.png */,
+				3F0AEDB0179E2CE7007A146C /* Tilesheet_Old_v2.png */,
+				3F0AEDA3179E14E6007A146C /* Level8.tmx */,
+				3F0AEDA4179E14E6007A146C /* Level9.tmx */,
+				3F0AEDA5179E14E6007A146C /* Level10.tmx */,
+				3F0AEDA6179E14E6007A146C /* Level11.tmx */,
 				3F7EA0AE179514310098BC47 /* pause_background.jpg */,
 				3F7EA0AC179511C20098BC47 /* level_select.jpg */,
 				3F7EA0A417950F190098BC47 /* exit_button.jpg */,
@@ -1321,6 +1339,12 @@
 				3F7EA0AB17950F190098BC47 /* resume_button.jpg in Resources */,
 				3F7EA0AD179511C20098BC47 /* level_select.jpg in Resources */,
 				3F7EA0AF179514310098BC47 /* pause_background.jpg in Resources */,
+				3F0AEDA8179E14E6007A146C /* Level8.tmx in Resources */,
+				3F0AEDA9179E14E6007A146C /* Level9.tmx in Resources */,
+				3F0AEDAA179E14E6007A146C /* Level10.tmx in Resources */,
+				3F0AEDAB179E14E6007A146C /* Level11.tmx in Resources */,
+				3F0AEDB1179E2CE7007A146C /* Tilesheet_Old_v1.png in Resources */,
+				3F0AEDB2179E2CE7007A146C /* Tilesheet_Old_v2.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
