@@ -16,7 +16,10 @@
     CCMenuItemFont *levelSelectLabel;
     CCMenuItemFont *backLabel;
     CCMenu *menu;
-    
+    CCMenu *menu2;
+    CCMenu *menu3;
+    CCMenu *menu4;
+    CCMenu *menu5;
 }
 
 +(CCScene *) scene;
