@@ -8,7 +8,7 @@
  </tileset>
  <layer name="tiles" width="32" height="24">
   <data encoding="base64" compression="zlib">
-   eJzdlD0OAiEQRqfRTmKxmngAbay12XiQLbybRxVMNBOGj+F3SSxeMgGWBzOzTEQ0DWa2GKJXBD7/+cYwEvcQ1PifDHamYf5cd62fU+vP5eqB1hmSfYLuj3Dzu8La+nlBfm2fxv7feG+/VpPe/odHaf6/8QJ63a3Zy/Fm9ddykeMHNVnFz2ufU/8CPwF/sEe1NSfvfwmReP8if+xNMyv4Uf8m+OG+jfxa//2tf2PjrXzHRV+kEPK6t27x5nl8sPFR/nPw7Cn3C50B+c82vnT2x/J/s/G9kX8kb9RhS/Q=
+   eJzdlDsOwjAMhr3ARsVQkDgALMywVBykA4cpr16Do5JKRDKO7cTpS2L4JTeJ/cWPtASAcmZVTgXAWxG0SCXznRAjkIWP7c7niuTX+vBbRU0C38q25P9i+Fh9+VYdiaRzBRHtEc5fUre/knuh5kbrIvG1mns+14ubMjP0jfi1Bt0rh/9A8Z7KrKb0JIevzGXgdyGy1N/nydXR645Y66+N7tSr/5yPVAsLX+jJJHzuPY7EB4Ef+KXwd5GZNuSfxdf+acUEfGl+E/hi3IH4sfn7W/7C2Usyl9xcpIjj1m69JvvY3jh7++sbxInlFjuj8ffOPozM1+p/cvZ5IP6c+gD+7kgX
   </data>
  </layer>
  <layer name="door1" width="32" height="24">
