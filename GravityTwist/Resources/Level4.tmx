@@ -22,7 +22,7 @@
  </tileset>
  <layer name="tiles" width="32" height="24">
   <data encoding="base64" compression="zlib">
-   eJztlssJgDAQRKeCgHr1oqnDcuK2aWnOYgP5IKMhh3dcHhmYIQbAxBwN+H2oxBrvQ6f+CFw72YjCv9A7k0nkV+dfysmcUkZWb/nV7x/+b/vZY7DP3muJnzsG7pnvWpGfnfJu/T7/nv3K/U1iv/r9w//cr5Wo/93ODcWkX4M=
+   eJztlsENgCAQBLcCEvXrR63DcpA2Lc292IBwIavIY57HwCW7IQFIYnYHNh8KSc750Kh/A86VLEThn+gdySDyq/efe8bBPcUHu6rh9969+9v3M8dgni3XEj97DOwz67UsPzNl2fr8/mv639B/Kn/8+fu7/56fC1H/u40L8eBgNQ==
   </data>
  </layer>
  <layer name="Exit" width="32" height="24">
@@ -54,13 +54,13 @@
     <property name="kill" value="true"/>
    </properties>
   </object>
-  <object x="512" y="32" width="32" height="192"/>
-  <object x="512" y="544" width="32" height="192"/>
-  <object name="movingPlatform" x="512" y="352" width="32" height="128">
+  <object x="512" y="32" width="32" height="224"/>
+  <object x="512" y="512" width="32" height="224"/>
+  <object name="movingPlatform" x="512" y="352" width="32" height="160">
    <properties>
     <property name="isVertical" value="true"/>
     <property name="speedX" value="0"/>
-    <property name="speedY" value="1.5"/>
+    <property name="speedY" value="1.8"/>
    </properties>
   </object>
  </objectgroup>
