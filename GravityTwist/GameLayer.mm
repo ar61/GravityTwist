@@ -624,6 +624,7 @@ CCSpriteBatchNode *parent;
                 {
                     b2Vec2 impulse = b2Vec2(playerImpulse,0.0f);
                     player.body->ApplyLinearImpulse(impulse, player.body->GetWorldCenter());
+                    
                 }
             }
             
@@ -720,6 +721,7 @@ CCSpriteBatchNode *parent;
             {                
                 if(xSwipeLength > ySwipeLength)
                 {
+                    
                     /*b2Vec2 currentGravity = world->GetGravity();
                     if ( [self isPlayerOnGround] && ((currentGravity.y == GRAVITY) || (currentGravity.y == -GRAVITY)) ) { }
                     else {*/
