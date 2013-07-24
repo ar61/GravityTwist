@@ -56,11 +56,27 @@
   </object>
   <object x="512" y="32" width="32" height="192"/>
   <object x="512" y="544" width="32" height="192"/>
-  <object name="movingPlatform" x="512" y="352" width="32" height="128">
+  <object name="movingPlatform" x="512" y="384" width="32" height="128">
    <properties>
     <property name="isVertical" value="true"/>
     <property name="speedX" value="0"/>
-    <property name="speedY" value="1.5"/>
+    <property name="speedY" value="2.4"/>
+   </properties>
+  </object>
+  <object name="movingSpikes" x="512" y="512" width="32" height="32">
+   <properties>
+    <property name="bottomSpike" value="true"/>
+    <property name="kill" value="true"/>
+    <property name="speedX" value="0"/>
+    <property name="speedY" value="2.4"/>
+   </properties>
+  </object>
+  <object name="movingSpikes" x="512" y="352" width="32" height="32">
+   <properties>
+    <property name="kill" value="true"/>
+    <property name="speedX" value="0"/>
+    <property name="speedY" value="2.4"/>
+    <property name="topSpike" value="true"/>
    </properties>
   </object>
  </objectgroup>

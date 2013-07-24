@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="32" height="24" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="Tilesheet" tilewidth="32" tileheight="32">
+  <image source="Tilesheet.png" width="512" height="256"/>
+  <terraintypes>
+   <terrain name="New Terrain" tile="-1"/>
+  </terraintypes>
+  <tile id="6" terrain="0,0,0,0"/>
+  <tile id="7" terrain="0,0,0,0"/>
+  <tile id="22" terrain="0,0,0,0"/>
+  <tile id="23" terrain="0,0,0,0"/>
+  <tile id="24" terrain=",0,,0">
+   <properties>
+    <property name="collectible" value="true"/>
+   </properties>
+  </tile>
+  <tile id="28" terrain="0,0,0,0"/>
+  <tile id="38" terrain="0,0,0,0"/>
+  <tile id="39" terrain="0,0,0,0"/>
+  <tile id="54" terrain="0,0,0,0"/>
+  <tile id="55" terrain="0,0,0,0"/>
+ </tileset>
+ <layer name="tiles" width="32" height="24">
+  <data encoding="base64" compression="zlib">
+   eJzVls0NwCAIhZmgJ7boHLpB3X+U2qsp+CpQ2sMLiRHxA/wpRFS7SpI9ulqizeL24mdAkfzX+rsifoF/UyTlxKt+s/jSnqx1Rfml+Ja6Mvnxa4yov4U/0j+yfmieIvrXu88j4/+R/8lZiOAf+9sSf5V/vB+y+Vdl5UfeIWls5ovwI++wNIb4InmrN9aDH53z5f+f1Z6KXJQv
+  </data>
+ </layer>
+ <layer name="Exit" width="32" height="24">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AU0BqwAjHbANovCsRiA2i/KhCrDaD9pkBsNoD2j4JRMApGwSgYBYMJAAD1mgDt
+  </data>
+ </layer>
+ <objectgroup name="objects" width="32" height="24">
+  <object name="SpawnPoint" x="64" y="605" width="32" height="32"/>
+  <object name="ExitPoint" x="832" y="288" width="64" height="32"/>
+ </objectgroup>
+ <layer name="collectibles" width="32" height="24">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUDBcgOdAOGAVDFuBLO6PpahSMglEwCoYXAAD/qwBM
+  </data>
+ </layer>
+ <objectgroup name="collisions" width="32" height="24">
+  <object x="0" y="32" width="32" height="704">
+   <properties>
+    <property name="" value=""/>
+   </properties>
+  </object>
+  <object x="0" y="736" width="1024" height="32"/>
+  <object x="992" y="32" width="32" height="704"/>
+  <object x="0" y="0" width="1024" height="32"/>
+  <object name="movingSpikes" x="32" y="512" width="32" height="32">
+   <properties>
+    <property name="isFire" value="true"/>
+    <property name="kill" value="true"/>
+    <property name="speedX" value="1.7"/>
+    <property name="speedY" value="0"/>
+    <property name="topSpike" value="true"/>
+   </properties>
+  </object>
+  <object x="32" y="32" width="507" height="221"/>
+  <object x="32" y="256" width="192" height="64"/>
+  <object name="left_spike" x="224" y="256" width="192" height="32">
+   <properties>
+    <property name="kill" value="true"/>
+   </properties>
+  </object>
+  <object x="416" y="256" width="128" height="128"/>
+  <object x="32" y="672" width="128" height="64">
+   <properties>
+    <property name="" value=""/>
+   </properties>
+  </object>
+  <object x="160" y="480" width="160" height="256"/>
+  <object name="movingSpikes" x="192" y="320" width="32" height="32">
+   <properties>
+    <property name="isFire" value="true"/>
+    <property name="kill" value="true"/>
+    <property name="speedX" value="0"/>
+    <property name="speedY" value="-2.3"/>
+    <property name="topSpike" value="true"/>
+   </properties>
+  </object>
+  <object x="320" y="576" width="416" height="160"/>
+  <object name="movingSpikes" x="544" y="352" width="32" height="32">
+   <properties>
+    <property name="isFire" value="true"/>
+    <property name="kill" value="true"/>
+    <property name="speedX" value="2.8"/>
+    <property name="speedY" value="0"/>
+    <property name="topSpike" value="true"/>
+   </properties>
+  </object>
+  <object x="544" y="32" width="224" height="96"/>
+  <object x="768" y="32" width="224" height="160"/>
+  <object x="928" y="192" width="64" height="544"/>
+  <object x="736" y="320" width="192" height="416"/>
+  <object name="right_spike" x="544" y="128" width="224" height="32">
+   <properties>
+    <property name="kill" value="true"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="collectibles" width="32" height="24">
+  <object x="96" y="385" width="32" height="32"/>
+  <object x="321" y="384" width="32" height="32"/>
+  <object x="641" y="224" width="32" height="32"/>
+ </objectgroup>
+</map>

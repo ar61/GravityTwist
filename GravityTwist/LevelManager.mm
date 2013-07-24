@@ -48,7 +48,7 @@
     int realIndex = 1;
     menu = [CCMenu menuWithItems:nil];
     
-    for(int i = 1; i <= 16; i += 5)
+    for(int i = 1; i <= 11; i += 5)
     {
         menuItem = [CCMenuItemFont itemFromString:[NSString stringWithFormat:@"%d", realIndex] block:^(id sender){ [self loadLevel: realIndex]; }];
         menuItem.tag = realIndex;
@@ -60,7 +60,7 @@
     
     realIndex = 2;
     menu2 = [CCMenu menuWithItems:nil];
-    for(int i = 2; i <= 17; i += 5)
+    for(int i = 2; i <= 12; i += 5)
     {
         menuItem = [CCMenuItemFont itemFromString:[NSString stringWithFormat:@"%d", realIndex] block:^(id sender){ [self loadLevel: realIndex]; }];
         menuItem.tag = realIndex;
@@ -72,7 +72,7 @@
     
     realIndex = 3;
     menu3 = [CCMenu menuWithItems:nil];
-    for(int i = 3; i <= 18; i += 5)
+    for(int i = 3; i <= 13; i += 5)
     {
         menuItem = [CCMenuItemFont itemFromString:[NSString stringWithFormat:@"%d", realIndex] block:^(id sender){ [self loadLevel: realIndex]; }];
         menuItem.tag = realIndex;
@@ -84,7 +84,7 @@
     
     realIndex = 4;
     menu4 = [CCMenu menuWithItems:nil];
-    for(int i = 4; i <= 19; i += 5)
+    for(int i = 4; i <= 14; i += 5)
     {
         menuItem = [CCMenuItemFont itemFromString:[NSString stringWithFormat:@"%d", realIndex] block:^(id sender){ [self loadLevel: realIndex]; }];
         menuItem.tag = realIndex;
@@ -96,7 +96,7 @@
     
     realIndex = 5;
     menu5 = [CCMenu menuWithItems:nil];
-    for(int i = 4; i <= 20; i += 5)
+    for(int i = 4; i <= 15; i += 5)
     {
         menuItem = [CCMenuItemFont itemFromString:[NSString stringWithFormat:@"%d", realIndex] block:^(id sender){ [self loadLevel: realIndex]; }];
         menuItem.tag = realIndex;
