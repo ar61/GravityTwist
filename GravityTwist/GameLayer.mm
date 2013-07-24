@@ -584,7 +584,7 @@ CCSpriteBatchNode *parent;
         player.body->SetAwake(true);
         b2Vec2 worldGravity = world->GetGravity();
         
-        //if([self isPlayerOnGround]){
+        if([self isPlayerOnGround]){
             
             if(worldGravity.x == 0 && worldGravity.y < 0){
                 if(acceleration.y >= THRESHOLD)
@@ -641,7 +641,7 @@ CCSpriteBatchNode *parent;
                     player.body->ApplyLinearImpulse(impulse, player.body->GetWorldCenter());
                 }
             }
-        //}
+        }
     } 
 }
 

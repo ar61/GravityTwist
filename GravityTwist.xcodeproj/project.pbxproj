@@ -707,10 +707,6 @@
 			isa = PBXGroup;
 			children = (
 				3F0AEDAF179E2CE7007A146C /* Tilesheet_Old_v1.png */,
-				3F0AEDA3179E14E6007A146C /* Level8.tmx */,
-				3F0AEDA4179E14E6007A146C /* Level9.tmx */,
-				3F0AEDA5179E14E6007A146C /* Level10.tmx */,
-				3F0AEDA6179E14E6007A146C /* Level11.tmx */,
 				3F7EA0AE179514310098BC47 /* pause_background.jpg */,
 				3F7EA0AC179511C20098BC47 /* level_select.jpg */,
 				3F7EA0A417950F190098BC47 /* exit_button.jpg */,
@@ -725,6 +721,10 @@
 				655919721794E3D800DF4D21 /* Level5.tmx */,
 				65156728178FA696004640E5 /* Level6.tmx */,
 				6559196D1794E06200DF4D21 /* Level7.tmx */,
+				3F0AEDA3179E14E6007A146C /* Level8.tmx */,
+				3F0AEDA4179E14E6007A146C /* Level9.tmx */,
+				3F0AEDA5179E14E6007A146C /* Level10.tmx */,
+				3F0AEDA6179E14E6007A146C /* Level11.tmx */,
 				C3D9BD2A175DD689005BE61F /* Default.png */,
 				C3D9BD2C175DD689005BE61F /* Default@2x.png */,
 				C3D9BD2E175DD689005BE61F /* Default-568h@2x.png */,
