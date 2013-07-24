@@ -19,6 +19,8 @@
 #import "AppDelegate.h"
 #import "ButtonData.h"
 #import "GameObject.h"
+
+#import "GLES-Render.h"
  
 //static NSString *levelFileName;
 
@@ -427,6 +429,7 @@ CCSpriteBatchNode *parent;
 	world->DrawDebugData();	
 	
 	kmGLPopMatrix();*/
+    
 }
 
 
@@ -458,15 +461,15 @@ CCSpriteBatchNode *parent;
         
         CGPoint pPos = player.position;
         CGPoint cPos;
-        CGRect pRect = CGRectMake(pPos.x, pPos.y, 0.5f, 0.5f);
-    
+        CGRect pRect = CGRectMake(pPos.x - 16, pPos.y - 16, 32, 32);        
+        
         for(NSMutableDictionary *obj in [collectibleObjects objects])
         {
             cPos = ccp([[obj valueForKey:@"x"] floatValue], [[obj valueForKey:@"y"] floatValue]);
             CGRect cRect = CGRectMake(cPos.x, cPos.y, 32, 32);
             if(CGRectIntersectsRect(pRect, cRect))
             {
-                cPos = [self tileCoordForPosition:cPos];
+                cPos = [self tileCoordForPosition:ccp(cPos.x + 16, cPos.y + 16)];
                 int tileGid = [collectibles tileGIDAt:cPos];
                 if(tileGid)
                 {
