@@ -3,9 +3,12 @@
  <tileset firstgid="1" name="tiles" tilewidth="32" tileheight="32">
   <image source="Tilesheet.png" width="512" height="256"/>
  </tileset>
+ <tileset firstgid="129" name="paths" tilewidth="32" tileheight="32">
+  <image source="ConnectingPaths.png" width="512" height="256"/>
+ </tileset>
  <layer name="tiles" width="32" height="24">
   <data encoding="base64" compression="zlib">
-   eJzVlc0NgCAMhbuAxIMXZ3AE4iAe3M1RlUSIKS2F+gMeXoKlvk9ahAEAhsqyhwzAllCYd/kToQyPSFr+imQa4JeyW+KXyiChePCm8ii+f7ZnLSzy6ZS9xXWR+JzPw/wQf5sv9e5t/oykrb8fL0y+i/Vx/LH+c+9r+ExPPuFfe1/SfwUfGD65R6WcEf0vlDLXr+Jfx3hPe33F5/IYPuv7R37KszY/dS9m3KeRnzvriPMu9a3RnLQ2Kac2v6T+d/g1tQPRUV0z
+   eJzdlD0OAiEQRqfRTmKxmngAbay12XiQLbybRxVMNBOGj+F3SSxeMgGWBzOzTEQ0DWa2GKJXBD7/+cYwEvcQ1PifDHamYf5cd62fU+vP5eqB1hmSfYLuj3Dzu8La+nlBfm2fxv7feG+/VpPe/odHaf6/8QJ63a3Zy/Fm9ddykeMHNVnFz2ufU/8CPwF/sEe1NSfvfwmReP8if+xNMyv4Uf8m+OG+jfxa//2tf2PjrXzHRV+kEPK6t27x5nl8sPFR/nPw7Cn3C50B+c82vnT2x/J/s/G9kX8kb9RhS/Q=
   </data>
  </layer>
  <layer name="door1" width="32" height="24">
@@ -15,54 +18,44 @@
  </layer>
  <layer name="door2" width="32" height="24">
   <data encoding="base64" compression="zlib">
-   eJxjYBj8QIuBYcGo/SPX/lEwCoYaAOaZhFH7R8EoGAWjYBQMVgAAdLUExw==
+   eJxjYBgaQIuBYcGo/SPX/lEwCoYSAOaXhFH7R8EoGAWjYBQMVgAAaBUExw==
   </data>
  </layer>
  <layer name="door3" width="32" height="24">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjIJRMApGwSgYBbiAFgPDgsFsvxYaprf9tAYj3X5aAACnsASb
+   eJztw7EJAAAIA7De4/8HundxFhJIAgDAV1Phsno/AKk=
   </data>
  </layer>
  <objectgroup name="objects" width="32" height="24">
   <object name="SpawnPoint" x="480" y="416" width="32" height="32"/>
+  <object name="ExitPoint" x="448" y="640" width="64" height="96"/>
  </objectgroup>
  <objectgroup name="boxes" width="32" height="24">
   <object x="128" y="672" width="32" height="32"/>
   <object x="928" y="288" width="32" height="32"/>
-  <object x="320" y="64" width="32" height="32"/>
+  <object x="352" y="64" width="32" height="32"/>
  </objectgroup>
  <objectgroup name="collisions" width="32" height="24">
   <object x="0" y="160" width="416" height="32"/>
-  <object x="384" y="320" width="32" height="32"/>
   <object x="384" y="448" width="192" height="32"/>
   <object x="256" y="192" width="32" height="544"/>
   <object x="0" y="0" width="1024" height="32"/>
-  <object x="992" y="32" width="32" height="608"/>
+  <object x="992" y="0" width="32" height="640"/>
   <object x="736" y="608" width="256" height="32"/>
   <object x="736" y="640" width="32" height="96"/>
   <object x="0" y="736" width="1024" height="32"/>
   <object x="0" y="0" width="32" height="736"/>
-  <object x="384" y="32" width="32" height="128"/>
+  <object x="416" y="32" width="32" height="128"/>
   <object x="864" y="352" width="128" height="32"/>
   <object x="864" y="160" width="32" height="192"/>
-  <object x="352" y="352" width="32" height="224"/>
-  <object x="544" y="320" width="32" height="128"/>
-  <object x="384" y="480" width="192" height="32">
-   <properties>
-    <property name="kill" value="true"/>
-   </properties>
-  </object>
+  <object x="352" y="352" width="32" height="384"/>
+  <object x="544" y="320" width="32" height="320"/>
   <object x="288" y="192" width="19" height="117">
    <properties>
     <property name="kill" value="true"/>
    </properties>
   </object>
-  <object x="416" y="32" width="160" height="32">
-   <properties>
-    <property name="kill" value="true"/>
-   </properties>
-  </object>
-  <object x="576" y="320" width="32" height="288">
+  <object x="576" y="326" width="22" height="282">
    <properties>
     <property name="kill" value="true"/>
    </properties>
@@ -75,15 +68,29 @@
   </object>
   <object x="704" y="160" width="32" height="160"/>
   <object x="576" y="608" width="32" height="32"/>
-  <object x="544" y="160" width="64" height="32"/>
+  <object x="544" y="160" width="160" height="32"/>
+  <object x="419" y="163" width="125" height="22">
+   <properties>
+    <property name="kill" value="true"/>
+   </properties>
+  </object>
+  <object x="576" y="64" width="32" height="32"/>
+  <object x="544" y="32" width="32" height="32"/>
+  <object x="416" y="128" width="128" height="32"/>
+  <object x="384" y="352" width="26" height="96">
+   <properties>
+    <property name="kill" value="true"/>
+   </properties>
+  </object>
+  <object x="288" y="480" width="64" height="32"/>
  </objectgroup>
  <objectgroup name="buttons" width="32" height="24">
-  <object x="96" y="192" width="96" height="32">
+  <object x="32" y="192" width="224" height="32">
    <properties>
     <property name="doorLayer" value="door1"/>
    </properties>
   </object>
-  <object x="576" y="32" width="32" height="64">
+  <object x="582" y="32" width="26" height="26">
    <properties>
     <property name="doorLayer" value="door2"/>
    </properties>
@@ -100,7 +107,7 @@
     <property name="doorLayer" value="door1"/>
    </properties>
   </object>
-  <object x="304" y="32" width="16" height="128">
+  <object x="336" y="32" width="16" height="128">
    <properties>
     <property name="doorLayer" value="door2"/>
    </properties>
@@ -108,11 +115,6 @@
   <object x="704" y="320" width="16" height="96">
    <properties>
     <property name="doorLayer" value="door2"/>
-   </properties>
-  </object>
-  <object x="368" y="576" width="16" height="160">
-   <properties>
-    <property name="doorLayer" value="door3"/>
    </properties>
   </object>
   <object x="608" y="608" width="128" height="16">
