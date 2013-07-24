@@ -26,6 +26,7 @@
 		3F7EA0AF179514310098BC47 /* pause_background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3F7EA0AE179514310098BC47 /* pause_background.jpg */; };
 		3FA9C32B178F8C04001B5C19 /* LevelManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3FA9C32A178F8C04001B5C19 /* LevelManager.mm */; };
 		3FBAD9DA1766B02000CC4B4C /* MenuItemLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3FBAD9D91766B02000CC4B4C /* MenuItemLayer.mm */; };
+		3FE8A522179F8003008A8D56 /* Level12.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 3FE8A521179F8003008A8D56 /* Level12.tmx */; };
 		65156727178FA35E004640E5 /* ButtonData.mm in Sources */ = {isa = PBXBuildFile; fileRef = 65156726178FA35E004640E5 /* ButtonData.mm */; };
 		65156729178FA696004640E5 /* Level6.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 65156728178FA696004640E5 /* Level6.tmx */; };
 		6559196E1794E06200DF4D21 /* Level7.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 6559196D1794E06200DF4D21 /* Level7.tmx */; };
@@ -237,6 +238,7 @@
 		3FA9C32A178F8C04001B5C19 /* LevelManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LevelManager.mm; sourceTree = "<group>"; };
 		3FBAD9D81766B02000CC4B4C /* MenuItemLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuItemLayer.h; sourceTree = "<group>"; };
 		3FBAD9D91766B02000CC4B4C /* MenuItemLayer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MenuItemLayer.mm; sourceTree = "<group>"; };
+		3FE8A521179F8003008A8D56 /* Level12.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Level12.tmx; path = Resources/Level12.tmx; sourceTree = "<group>"; };
 		65156725178FA35E004640E5 /* ButtonData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ButtonData.h; sourceTree = "<group>"; };
 		65156726178FA35E004640E5 /* ButtonData.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ButtonData.mm; sourceTree = "<group>"; };
 		65156728178FA696004640E5 /* Level6.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Level6.tmx; path = Resources/Level6.tmx; sourceTree = "<group>"; };
@@ -706,6 +708,7 @@
 		C3D9BD29175DD689005BE61F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				3FE8A521179F8003008A8D56 /* Level12.tmx */,
 				3F0AEDAF179E2CE7007A146C /* Tilesheet_Old_v1.png */,
 				3F7EA0AE179514310098BC47 /* pause_background.jpg */,
 				3F7EA0AC179511C20098BC47 /* level_select.jpg */,
@@ -1341,6 +1344,7 @@
 				3F0AEDAA179E14E6007A146C /* Level10.tmx in Resources */,
 				3F0AEDAB179E14E6007A146C /* Level11.tmx in Resources */,
 				3F0AEDB1179E2CE7007A146C /* Tilesheet_Old_v1.png in Resources */,
+				3FE8A522179F8003008A8D56 /* Level12.tmx in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
