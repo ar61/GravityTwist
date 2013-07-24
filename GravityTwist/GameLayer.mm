@@ -460,7 +460,7 @@ CCSpriteBatchNode *parent;
         CGPoint cPos;
         CGRect pRect = CGRectMake(pPos.x, pPos.y, 0.5f, 0.5f);
     
-        for(NSMutableDictionary *obj in [collectibleObjects objects])
+        /*for(NSMutableDictionary *obj in [collectibleObjects objects])
         {
             cPos = ccp([[obj valueForKey:@"x"] floatValue], [[obj valueForKey:@"y"] floatValue]);
             CGRect cRect = CGRectMake(cPos.x, cPos.y, 32, 32);
@@ -480,10 +480,10 @@ CCSpriteBatchNode *parent;
                     }
                 }
             }
-        }
+        }*/
         
         
-        /*CGPoint tileCoord = [self tileCoordForPosition:player.position];
+        CGPoint tileCoord = [self tileCoordForPosition:player.position];
         int tileGid = [collectibles tileGIDAt:tileCoord];
         if (tileGid) {
             NSDictionary *properties = [tiledMap propertiesForGID:tileGid];
@@ -500,7 +500,7 @@ CCSpriteBatchNode *parent;
                     }
                 }
             }
-        }*/
+        }
         
         // Instruct the world to perform a single step of simulation. It is
         // generally best to keep the time step and iterations fixed.
