@@ -152,7 +152,7 @@ CCSpriteBatchNode *parent;
     NSMutableArray *doorCollisionObjects = [[tiledMap objectGroupNamed:@"doorCollisions"] objects];
     
     for (id button in buttons) {
-        b2Body* buttonBody = [self createCollisionBody:button bits:6];
+        b2Body* buttonBody = [self createCollisionBody:button bits:6];	
         
         // add door collision bodies
         NSMutableArray *doorColBodies = [[NSMutableArray alloc] initWithCapacity:5];
@@ -456,7 +456,34 @@ CCSpriteBatchNode *parent;
             }
         }
         
-        CGPoint tileCoord = [self tileCoordForPosition:player.position];
+        CGPoint pPos = player.position;
+        CGPoint cPos;
+        CGRect pRect = CGRectMake(pPos.x, pPos.y, 0.5f, 0.5f);
+    
+        for(NSMutableDictionary *obj in [collectibleObjects objects])
+        {
+            cPos = ccp([[obj valueForKey:@"x"] floatValue], [[obj valueForKey:@"y"] floatValue]);
+            CGRect cRect = CGRectMake(cPos.x, cPos.y, 32, 32);
+            if(CGRectIntersectsRect(pRect, cRect))
+            {
+                cPos = [self tileCoordForPosition:cPos];
+                int tileGid = [collectibles tileGIDAt:cPos];
+                if(tileGid)
+                {
+                    [collectibles removeTileAt:cPos];
+                    collectedCount++;
+                    coinsLabel.string = [NSString stringWithFormat:@"coins: %d", collectedCount];
+                    if(collectedCount == [[collectibleObjects objects] count])
+                    {
+                        door.visible = YES;
+                        [self createCollisionTiles: exitObject withType:5];
+                    }
+                }
+            }
+        }
+        
+        
+        /*CGPoint tileCoord = [self tileCoordForPosition:player.position];
         int tileGid = [collectibles tileGIDAt:tileCoord];
         if (tileGid) {
             NSDictionary *properties = [tiledMap propertiesForGID:tileGid];
@@ -473,7 +500,7 @@ CCSpriteBatchNode *parent;
                     }
                 }
             }
-        }
+        }*/
         
         // Instruct the world to perform a single step of simulation. It is
         // generally best to keep the time step and iterations fixed.
