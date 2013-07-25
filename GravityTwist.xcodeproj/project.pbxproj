@@ -41,7 +41,6 @@
 		3F7EA0AD179511C20098BC47 /* level_select.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3F7EA0AC179511C20098BC47 /* level_select.jpg */; };
 		3F7EA0AF179514310098BC47 /* pause_background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3F7EA0AE179514310098BC47 /* pause_background.jpg */; };
 		3FA1FDC617A0E346006030B5 /* Level-Select.png in Resources */ = {isa = PBXBuildFile; fileRef = 3FA1FDC417A0E346006030B5 /* Level-Select.png */; };
-		3FA1FDC717A0E346006030B5 /* MainMenu.png in Resources */ = {isa = PBXBuildFile; fileRef = 3FA1FDC517A0E346006030B5 /* MainMenu.png */; };
 		3FA9C32B178F8C04001B5C19 /* LevelManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3FA9C32A178F8C04001B5C19 /* LevelManager.mm */; };
 		3FBAD9DA1766B02000CC4B4C /* MenuItemLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3FBAD9D91766B02000CC4B4C /* MenuItemLayer.mm */; };
 		65156727178FA35E004640E5 /* ButtonData.mm in Sources */ = {isa = PBXBuildFile; fileRef = 65156726178FA35E004640E5 /* ButtonData.mm */; };
@@ -263,7 +262,6 @@
 		3F7EA0AC179511C20098BC47 /* level_select.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = level_select.jpg; path = Resources/level_select.jpg; sourceTree = "<group>"; };
 		3F7EA0AE179514310098BC47 /* pause_background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = pause_background.jpg; path = Resources/pause_background.jpg; sourceTree = "<group>"; };
 		3FA1FDC417A0E346006030B5 /* Level-Select.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Level-Select.png"; sourceTree = "<group>"; };
-		3FA1FDC517A0E346006030B5 /* MainMenu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MainMenu.png; sourceTree = "<group>"; };
 		3FA9C329178F8C04001B5C19 /* LevelManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelManager.h; sourceTree = "<group>"; };
 		3FA9C32A178F8C04001B5C19 /* LevelManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LevelManager.mm; sourceTree = "<group>"; };
 		3FBAD9D81766B02000CC4B4C /* MenuItemLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuItemLayer.h; sourceTree = "<group>"; };
@@ -758,7 +756,6 @@
 				3F7EA0AE179514310098BC47 /* pause_background.jpg */,
 				3F7EA0AC179511C20098BC47 /* level_select.jpg */,
 				3FA1FDC417A0E346006030B5 /* Level-Select.png */,
-				3FA1FDC517A0E346006030B5 /* MainMenu.png */,
 				3F7EA0A417950F190098BC47 /* exit_button.jpg */,
 				3F7EA0A517950F190098BC47 /* option_button.jpg */,
 				3F7EA0A617950F190098BC47 /* restart_button.jpg */,
@@ -1371,7 +1368,6 @@
 				3F0AEDB1179E2CE7007A146C /* Tilesheet_Old_v1.png in Resources */,
 				6584698D179F8736004AA962 /* ConnectingPaths.png in Resources */,
 				3FA1FDC617A0E346006030B5 /* Level-Select.png in Resources */,
-				3FA1FDC717A0E346006030B5 /* MainMenu.png in Resources */,
 				3F5D008417A0D3A0006E00F3 /* Level-Select.png in Resources */,
 				3F5D008617A0D65B006E00F3 /* MainMenu.png in Resources */,
 				3F4EC76517A0F9CD00B284DA /* coin.wav in Resources */,
