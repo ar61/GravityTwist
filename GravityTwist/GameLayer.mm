@@ -80,7 +80,7 @@ CCSpriteBatchNode *parent;
         contactListener = new MyContactListener();
         world->SetContactListener(contactListener); 
         
-        [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"background.mp3" loop:YES];
+        //[[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"background.mp3" loop:YES];
         [[SimpleAudioEngine sharedEngine] preloadEffect:@"coin.wav"];
         [[SimpleAudioEngine sharedEngine] preloadEffect:@"gravity.mp3"];
         [[SimpleAudioEngine sharedEngine] preloadEffect:@"death.wav"];

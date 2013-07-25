@@ -13,7 +13,7 @@
 #import "AppDelegate.h"
 #import "LevelManager.h"
 #import "GameLayer.h"
-
+#import "SimpleAudioEngine.h"
 
 #pragma mark - MenuItemLayer
 
@@ -47,7 +47,7 @@
 		// create menu
 		[self createMenu];
         
-        
+        [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"background.mp3" loop:YES];
         
 	}
 	return self;
