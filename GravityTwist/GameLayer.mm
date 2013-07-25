@@ -11,7 +11,8 @@
 #import "LevelManager.h"
 #import "PauseScreen.h"
 #import "MenuItemLayer.h"
-
+#import "SimpleAudioEngine.h"
+#import "CCTransition.h"
 // Not included in "cocos2d.h"
 #import "CCPhysicsSprite.h"
 
@@ -32,7 +33,7 @@ int spikeArrayIndex, platformArrayIndex;
 CCSpriteBatchNode *parent;
 
 +(CCScene *) scene: (int) levelNum
-{    
+{
 	// 'scene' is an autorelease object.
 	CCScene *scene = [CCScene node];
     
@@ -78,6 +79,11 @@ CCSpriteBatchNode *parent;
         [self initPhysics];
         contactListener = new MyContactListener();
         world->SetContactListener(contactListener); 
+        
+        [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"background.mp3" loop:YES];
+        [[SimpleAudioEngine sharedEngine] preloadEffect:@"coin.wav"];
+        [[SimpleAudioEngine sharedEngine] preloadEffect:@"gravity.mp3"];
+        [[SimpleAudioEngine sharedEngine] preloadEffect:@"death.wav"];
         
 		[self scheduleUpdate];
 	}
@@ -474,6 +480,7 @@ CCSpriteBatchNode *parent;
                 if(tileGid)
                 {
                     [collectibles removeTileAt:cPos];
+                    [[SimpleAudioEngine sharedEngine] playEffect:@"coin.wav" pitch:3.0f pan:0.0f gain:3.0f];
                     collectedCount++;
                     coinsLabel.string = [NSString stringWithFormat:@"coins: %d", collectedCount];
                     if(collectedCount == [[collectibleObjects objects] count])
@@ -527,7 +534,8 @@ CCSpriteBatchNode *parent;
                     
                     if (filter.categoryBits == kFilterCategoryHarmfulObjects)
                     {
-                        [[CCDirector sharedDirector] replaceScene: [GameLayer scene: levelNumber]];
+                        [[SimpleAudioEngine sharedEngine] playEffect:@"death.wav" pitch:1.5f pan:0.0 gain:1.5f];
+                        [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.01 scene:[GameLayer scene:levelNumber]]];
                         //remove player fixture
                         /*bodyB->DestroyFixture(bodyB->GetFixtureList());
                         CCNode *parent = [self getChildByTag:kTagParentNode];
@@ -568,10 +576,10 @@ CCSpriteBatchNode *parent;
 
 -(void)loadNextLevel:(int)levelNum {
     if ([self doesLevelExist:levelNum])
-        [[CCDirector sharedDirector] replaceScene: [GameLayer scene:levelNum]];
+        [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.5 scene:[GameLayer scene:levelNum]]];
     else {
         CCLOG(@"No level exists!!!");
-        [[CCDirector sharedDirector] replaceScene:[MenuItemLayer scene]];
+        [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.5 scene:[MenuItemLayer scene]]];
     }
 }
 
@@ -763,7 +771,8 @@ CCSpriteBatchNode *parent;
                     //}
                 }
             }
-        }  
+            [[SimpleAudioEngine sharedEngine] playEffect:@"gravity.mp3" pitch:1.5f pan:0.0f gain:1.5f];
+        }
     }
 }
 
@@ -907,6 +916,7 @@ CCSpriteBatchNode *parent;
     [self removeChild:pauseLayer cleanup:YES];
     [[CCDirector sharedDirector] resume];
     pauseScreenUp=FALSE;
+    [[SimpleAudioEngine sharedEngine] stopBackgroundMusic];
     [[CCDirector sharedDirector] replaceScene:[MenuItemLayer scene]];
 }
 
@@ -916,6 +926,7 @@ CCSpriteBatchNode *parent;
     [self removeChild:pauseLayer cleanup:YES];
     [[CCDirector sharedDirector] resume];
     pauseScreenUp=FALSE;
+    [[SimpleAudioEngine sharedEngine] stopBackgroundMusic];
     [[CCDirector sharedDirector] replaceScene:[LevelManager scene]];
 }
 

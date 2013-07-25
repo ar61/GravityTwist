@@ -17,6 +17,10 @@
 		3F11E61B1777BF090060A7B3 /* MyContactListener.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3F11E61A1777BF090060A7B3 /* MyContactListener.mm */; };
 		3F11E6271777CF1A0060A7B3 /* Tilesheet.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F11E6261777CF1A0060A7B3 /* Tilesheet.png */; };
 		3F4C2B1D1794C00C002E33AC /* PauseScreen.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3F4C2B1C1794C00C002E33AC /* PauseScreen.mm */; };
+		3F4EC76517A0F9CD00B284DA /* coin.wav in Resources */ = {isa = PBXBuildFile; fileRef = 3F4EC76217A0F9CD00B284DA /* coin.wav */; };
+		3F4EC76617A0F9CD00B284DA /* gravity.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 3F4EC76317A0F9CD00B284DA /* gravity.mp3 */; };
+		3F4EC76817A1007D00B284DA /* background.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 3F4EC76717A1007D00B284DA /* background.mp3 */; };
+		3F4EC76A17A103C000B284DA /* death.wav in Resources */ = {isa = PBXBuildFile; fileRef = 3F4EC76917A103C000B284DA /* death.wav */; };
 		3F5D008417A0D3A0006E00F3 /* Level-Select.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F5D008317A0D3A0006E00F3 /* Level-Select.png */; };
 		3F5D008617A0D65B006E00F3 /* MainMenu.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F5D008517A0D65B006E00F3 /* MainMenu.png */; };
 		3F6CD15E178E67D7001A1372 /* Level4.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 3F6CD15D178E67D7001A1372 /* Level4.tmx */; };
@@ -233,6 +237,10 @@
 		3F11E6261777CF1A0060A7B3 /* Tilesheet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Tilesheet.png; path = Resources/Tilesheet.png; sourceTree = "<group>"; };
 		3F4C2B1B1794C00C002E33AC /* PauseScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PauseScreen.h; sourceTree = "<group>"; };
 		3F4C2B1C1794C00C002E33AC /* PauseScreen.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PauseScreen.mm; sourceTree = "<group>"; };
+		3F4EC76217A0F9CD00B284DA /* coin.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = coin.wav; path = Resources/coin.wav; sourceTree = "<group>"; };
+		3F4EC76317A0F9CD00B284DA /* gravity.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = gravity.mp3; path = Resources/gravity.mp3; sourceTree = "<group>"; };
+		3F4EC76717A1007D00B284DA /* background.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = background.mp3; path = Resources/background.mp3; sourceTree = "<group>"; };
+		3F4EC76917A103C000B284DA /* death.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = death.wav; path = Resources/death.wav; sourceTree = "<group>"; };
 		3F5D008317A0D3A0006E00F3 /* Level-Select.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Level-Select.png"; path = "Resources/Level-Select.png"; sourceTree = "<group>"; };
 		3F5D008517A0D65B006E00F3 /* MainMenu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = MainMenu.png; path = Resources/MainMenu.png; sourceTree = "<group>"; };
 		3F6CD15D178E67D7001A1372 /* Level4.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Level4.tmx; path = Resources/Level4.tmx; sourceTree = "<group>"; };
@@ -720,6 +728,10 @@
 		C3D9BD29175DD689005BE61F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				3F4EC76917A103C000B284DA /* death.wav */,
+				3F4EC76717A1007D00B284DA /* background.mp3 */,
+				3F4EC76217A0F9CD00B284DA /* coin.wav */,
+				3F4EC76317A0F9CD00B284DA /* gravity.mp3 */,
 				3F5D008517A0D65B006E00F3 /* MainMenu.png */,
 				3F5D008317A0D3A0006E00F3 /* Level-Select.png */,
 				3F0AEDAF179E2CE7007A146C /* Tilesheet_Old_v1.png */,
@@ -1369,6 +1381,10 @@
 				3FA1FDC717A0E346006030B5 /* MainMenu.png in Resources */,
 				3F5D008417A0D3A0006E00F3 /* Level-Select.png in Resources */,
 				3F5D008617A0D65B006E00F3 /* MainMenu.png in Resources */,
+				3F4EC76517A0F9CD00B284DA /* coin.wav in Resources */,
+				3F4EC76617A0F9CD00B284DA /* gravity.mp3 in Resources */,
+				3F4EC76817A1007D00B284DA /* background.mp3 in Resources */,
+				3F4EC76A17A103C000B284DA /* death.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
