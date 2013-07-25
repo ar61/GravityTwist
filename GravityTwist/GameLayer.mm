@@ -371,7 +371,7 @@ CCSpriteBatchNode *parent;
     //object.spriteTexture = player.spriteTexture;
     
     object = [object initWithOptions:b2_kinematicBody withPosition: position withRotation:YES withPolyShape:dynamicBox withDensity:1.0f
-                        withFriction:1.0f withRestitution:0.0f withTileIndex:tilePosition withTileLength:b2Vec2(size.x/PTM_RATIO, size.y/PTM_RATIO)
+                        withFriction:5.0f withRestitution:0.0f withTileIndex:tilePosition withTileLength:b2Vec2(size.x/PTM_RATIO, size.y/PTM_RATIO)
                            withWorld:world withBatchNode:parent withZLocation:1];
 }
 
@@ -578,7 +578,7 @@ CCSpriteBatchNode *parent;
     if ([self doesLevelExist:levelNum])
         [[CCDirector sharedDirector] replaceScene:[GameLayer scene:levelNum]];
     else {
-        CCLOG(@"No level exists!!!");
+        CCLOG(@"No level exists. Loading the Credits scene!!!");
         [[CCDirector sharedDirector] replaceScene:[MenuItemLayer scene]];
     }
 }
@@ -874,6 +874,27 @@ CCSpriteBatchNode *parent;
         CCMenuItem *QuitMenuItem = [CCMenuItemImage
                                     itemFromNormalImage:@"exit_button.jpg" selectedImage:@"exit_button.jpg"
                                     target:self selector:@selector(QuitButtonTapped:)];
+        QuitMenuItem.position = ccp(s.width/2-112, s.height/2);
+        
+        CCMenuItem *ResumeMenuItem = [CCMenuItemImage
+                                      itemFromNormalImage:@"resume_button.jpg" selectedImage:@"resume_button.jpg"
+                                      target:self selector:@selector(ResumeButtonTapped:)];
+        ResumeMenuItem.position = ccp(s.width/2-32, s.height/2);
+        
+        CCMenuItem *levelSelectMenuItem = [CCMenuItemImage
+                                           itemFromNormalImage:@"level_select.jpg" selectedImage:@"level_select.jpg"
+                                           target:self selector:@selector(LevelSelectButtonTapped:)];
+        levelSelectMenuItem.position = ccp(s.width/2+48, s.height/2);
+        
+        CCMenuItem *restartMenuItem = [CCMenuItemImage
+                                       itemFromNormalImage:@"restart_button.jpg" selectedImage:@"restart_button.jpg"
+                                       target:self selector:@selector(RestartButtonTapped:)];
+        restartMenuItem.position = ccp(s.width/2+128, s.height/2);
+        
+        /*
+        CCMenuItem *QuitMenuItem = [CCMenuItemImage
+                                    itemFromNormalImage:@"exit_button.jpg" selectedImage:@"exit_button.jpg"
+                                    target:self selector:@selector(QuitButtonTapped:)];
         QuitMenuItem.position = ccp(s.width/2-144, s.height/2);
         
         CCMenuItem *ResumeMenuItem = [CCMenuItemImage
@@ -895,8 +916,9 @@ CCSpriteBatchNode *parent;
                                        itemFromNormalImage:@"restart_button.jpg" selectedImage:@"restart_button.jpg"
                                        target:self selector:@selector(RestartButtonTapped:)];
         restartMenuItem.position = ccp(s.width/2+176, s.height/2);
+        */
         
-        pauseScreenMenu = [CCMenu menuWithItems:QuitMenuItem,ResumeMenuItem,levelSelectMenuItem,optionMenuItem,restartMenuItem,nil];
+        pauseScreenMenu = [CCMenu menuWithItems:QuitMenuItem,ResumeMenuItem,levelSelectMenuItem,restartMenuItem,nil];
         pauseScreenMenu.position = ccp(0,0);
         [self addChild:pauseScreenMenu z:13];
     }
@@ -916,7 +938,7 @@ CCSpriteBatchNode *parent;
     [self removeChild:pauseLayer cleanup:YES];
     [[CCDirector sharedDirector] resume];
     pauseScreenUp=FALSE;
-    [[SimpleAudioEngine sharedEngine] stopBackgroundMusic];
+    //[[SimpleAudioEngine sharedEngine] stopBackgroundMusic];
     [[CCDirector sharedDirector] replaceScene:[MenuItemLayer scene]];
 }
 
@@ -926,10 +948,11 @@ CCSpriteBatchNode *parent;
     [self removeChild:pauseLayer cleanup:YES];
     [[CCDirector sharedDirector] resume];
     pauseScreenUp=FALSE;
-    [[SimpleAudioEngine sharedEngine] stopBackgroundMusic];
+    //[[SimpleAudioEngine sharedEngine] stopBackgroundMusic];
     [[CCDirector sharedDirector] replaceScene:[LevelManager scene]];
 }
 
+/*
 -(void)OptionButtonTapped:(id)sender{
     [self removeChild:pauseScreen cleanup:YES];
     [self removeChild:pauseScreenMenu cleanup:YES];
@@ -940,7 +963,7 @@ CCSpriteBatchNode *parent;
     //[[CCDirector sharedDirector] pushScene:[PauseScreen scene]];
     
     // TODO: Put OPTION Menu code here
-}
+}*/
 
 -(void)RestartButtonTapped:(id)sender{
     [self removeChild:pauseScreen cleanup:YES];

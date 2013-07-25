@@ -64,13 +64,15 @@
     CCMenuItemLabel *start = [CCMenuItemFont itemWithString:@"Start Game" target:self selector:@selector(selectLevel)];
     start.color = ccBLACK;
     
+    /*
     CCMenuItemLabel *options = [CCMenuItemFont itemWithString:@"Options"];
     options.color = ccBLACK;
+     */
     
-    CCMenuItemLabel *credits = [CCMenuItemFont itemWithString:@"Credits"];
+    CCMenuItemLabel *credits = [CCMenuItemFont itemWithString:@"Credits" target:self selector:@selector(displayCredits)];
     credits.color = ccBLACK;
     
-    CCMenu *menu = [CCMenu menuWithItems:start, options, credits, nil];
+    CCMenu *menu = [CCMenu menuWithItems:start, credits, nil];
 	[menu alignItemsVertically];
 	
     
@@ -94,6 +96,10 @@
     [[CCDirector sharedDirector] replaceScene:[LevelManager scene]];
 }
 
+
+-(void) displayCredits {
+    //[[CCDirector sharedDirector] replaceScene:[Credits scene]];
+}
 
 
 @end

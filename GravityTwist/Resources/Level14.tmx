@@ -22,113 +22,103 @@
  </tileset>
  <layer name="tiles" width="32" height="24">
   <data encoding="base64" compression="zlib">
-   eJwTYWBgEBlgzMvAsAAX5gPKwzA+deSoh9nPN0B4MNovCMRCQCw8QPYrArESECtTwXxCfqF1+KP7BVf6p2d8uwGx6wDaP5D+H075nxphSKleUDpyG0D7Q4E4jMr2E1v+keN/YJpLQMaUlH/kxP9A5z96lT+44pBe/ic1DukV/qP2Y7cfPV8Sg5HNIUc/cv4fSAwAJKVNpQ==
+   eJztlE0KgCAQRucE0o9LN9Utgo5T5+xofYJCRAuHSSesxVsI4nOG+cYSkVWmAUsBTCCez35TmPnF/oloH8EANPw9vB1olfza/eeyoU8rs1c11S/1l3ZHvuJHjgl59rlW8WOPEfaZ32ssPzLls5XlT9rz9/vlfsl81FD/U/4UtP0ucH3H3ZByxzH9uTgA1PE+Dw==
   </data>
  </layer>
  <layer name="Exit" width="32" height="24">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjIJRMNwBGwNDghgQqwGxGRDT235WoJ2iQKwKxKYDYP8oGAWjYBSMAgQAAMayA+0=
+   eJztzTERACAUw9Au4AAcgIOPfqRRFx3Iu8sc6R9HuuVS/+33Cv6n3yP473634B8AAADSA73JBu0=
   </data>
  </layer>
  <objectgroup name="objects" width="32" height="24">
-  <object name="SpawnPoint" x="480" y="320" width="32" height="32"/>
-  <object name="ExitPoint" x="931" y="361" width="56" height="32"/>
+  <object name="SpawnPoint" x="96" y="606" width="32" height="32"/>
+  <object name="ExitPoint" x="880" y="48" width="32" height="64"/>
  </objectgroup>
  <layer name="collectibles" width="32" height="24">
   <data encoding="base64" compression="zlib">
-   eJxjYBj8QJLG6kfBKBgFo2AUjIJRMApGwSggBgyHdiYAUooATA==
+   eJxjYBgFo2AUjIJRMAroByQH2gGjYBSMglFAJiCm/BoKZRwAudQATA==
   </data>
  </layer>
  <objectgroup name="collisions" width="32" height="24">
-  <object x="0" y="32" width="32" height="704">
-   <properties>
-    <property name="" value=""/>
-   </properties>
-  </object>
-  <object x="0" y="736" width="1024" height="32"/>
+  <object x="0" y="32" width="32" height="704"/>
+  <object x="0" y="672" width="320" height="96"/>
   <object x="992" y="32" width="32" height="704"/>
   <object x="0" y="0" width="1024" height="32"/>
-  <object name="movingSpikes" x="256" y="576" width="32" height="32">
+  <object x="320" y="736" width="704" height="32"/>
+  <object name="movingPlatform" x="384" y="512" width="128" height="32">
    <properties>
-    <property name="isFire" value="true"/>
+    <property name="isHorizontal" value="true"/>
+    <property name="speedX" value="-2"/>
+    <property name="speedY" value="1"/>
+   </properties>
+  </object>
+  <object name="movingSpikes" x="384" y="480" width="128" height="32">
+   <properties>
     <property name="kill" value="true"/>
-    <property name="speedX" value="1.7"/>
+    <property name="speedX" value="-2"/>
+    <property name="speedY" value="1"/>
+    <property name="topSpike" value="true"/>
+   </properties>
+  </object>
+  <object name="movingPlatform" x="672" y="288" width="128" height="32">
+   <properties>
+    <property name="isHorizontal" value="true"/>
+    <property name="speedX" value="1.5"/>
+    <property name="speedY" value="0"/>
+   </properties>
+  </object>
+  <object name="movingSpikes" x="672" y="256" width="128" height="32">
+   <properties>
+    <property name="kill" value="true"/>
+    <property name="speedX" value="1.5"/>
     <property name="speedY" value="0"/>
     <property name="topSpike" value="true"/>
    </properties>
   </object>
-  <object name="top_left_spike" x="36" y="32" width="216" height="24">
+  <object x="32" y="36" width="24" height="280">
    <properties>
     <property name="kill" value="true"/>
    </properties>
   </object>
-  <object x="448" y="352" width="128" height="160">
-   <properties>
-    <property name="" value=""/>
-   </properties>
-  </object>
-  <object name="movingSpikes" x="256" y="288" width="32" height="32">
-   <properties>
-    <property name="isFire" value="true"/>
-    <property name="kill" value="true"/>
-    <property name="speedX" value="0"/>
-    <property name="speedY" value="-2.3"/>
-    <property name="topSpike" value="true"/>
-   </properties>
-  </object>
-  <object name="movingSpikes" x="736" y="288" width="32" height="32">
-   <properties>
-    <property name="isFire" value="true"/>
-    <property name="kill" value="true"/>
-    <property name="speedX" value="2.8"/>
-    <property name="speedY" value="0"/>
-    <property name="topSpike" value="true"/>
-   </properties>
-  </object>
-  <object name="top_right_spike" x="740" y="32" width="248" height="24">
+  <object x="64" y="32" width="800" height="24">
    <properties>
     <property name="kill" value="true"/>
    </properties>
   </object>
-  <object name="top_middle_spike" x="356" y="32" width="280" height="24">
+  <object x="932" y="32" width="56" height="24">
    <properties>
     <property name="kill" value="true"/>
    </properties>
   </object>
-  <object name="bottom_right_spike" x="548" y="712" width="440" height="24">
+  <object x="968" y="68" width="24" height="248">
    <properties>
     <property name="kill" value="true"/>
    </properties>
   </object>
-  <object name="bottom_left_spike" x="36" y="712" width="408" height="24">
+  <object x="968" y="452" width="24" height="248">
    <properties>
     <property name="kill" value="true"/>
    </properties>
   </object>
-  <object x="864" y="192" width="128" height="96">
-   <properties>
-    <property name="" value=""/>
-   </properties>
-  </object>
-  <object x="864" y="480" width="128" height="96">
-   <properties>
-    <property name="" value=""/>
-   </properties>
-  </object>
-  <object name="top_right_spike" x="868" y="288" width="120" height="24">
+  <object x="804" y="712" width="184" height="24">
    <properties>
     <property name="kill" value="true"/>
    </properties>
   </object>
-  <object name="top_right_spike" x="868" y="456" width="120" height="24">
+  <object x="516" y="712" width="152" height="24">
+   <properties>
+    <property name="kill" value="true"/>
+   </properties>
+  </object>
+  <object x="324" y="712" width="56" height="24">
    <properties>
     <property name="kill" value="true"/>
    </properties>
   </object>
  </objectgroup>
  <objectgroup name="collectibles" width="32" height="24">
-  <object x="288" y="32" width="32" height="32"/>
-  <object x="480" y="704" width="32" height="32"/>
-  <object x="672" y="32" width="32" height="32"/>
+  <object x="448" y="704" width="32" height="32"/>
+  <object x="734" y="703" width="32" height="32"/>
+  <object x="960" y="384" width="32" height="32"/>
  </objectgroup>
 </map>
