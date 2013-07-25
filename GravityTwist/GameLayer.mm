@@ -480,7 +480,7 @@ CCSpriteBatchNode *parent;
                 if(tileGid)
                 {
                     [collectibles removeTileAt:cPos];
-                    [[SimpleAudioEngine sharedEngine] playEffect:@"coin.wav" pitch:3.0f pan:0.0f gain:3.0f];
+                    [[SimpleAudioEngine sharedEngine] playEffect:@"coin.wav"];
                     collectedCount++;
                     coinsLabel.string = [NSString stringWithFormat:@"coins: %d", collectedCount];
                     if(collectedCount == [[collectibleObjects objects] count])
@@ -535,7 +535,7 @@ CCSpriteBatchNode *parent;
                     if (filter.categoryBits == kFilterCategoryHarmfulObjects)
                     {
                         [[SimpleAudioEngine sharedEngine] playEffect:@"death.wav" pitch:1.5f pan:0.0 gain:1.5f];
-                        [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.01 scene:[GameLayer scene:levelNumber]]];
+                        [[CCDirector sharedDirector] replaceScene:[GameLayer scene:levelNumber]];
                         //remove player fixture
                         /*bodyB->DestroyFixture(bodyB->GetFixtureList());
                         CCNode *parent = [self getChildByTag:kTagParentNode];
@@ -576,10 +576,10 @@ CCSpriteBatchNode *parent;
 
 -(void)loadNextLevel:(int)levelNum {
     if ([self doesLevelExist:levelNum])
-        [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.5 scene:[GameLayer scene:levelNum]]];
+        [[CCDirector sharedDirector] replaceScene:[GameLayer scene:levelNum]];
     else {
         CCLOG(@"No level exists!!!");
-        [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.5 scene:[MenuItemLayer scene]]];
+        [[CCDirector sharedDirector] replaceScene:[MenuItemLayer scene]];
     }
 }
 
