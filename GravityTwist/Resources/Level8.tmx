@@ -27,7 +27,7 @@
  </tileset>
  <layer name="tiles" width="32" height="24">
   <data encoding="base64" compression="zlib">
-   eJzVlT0OgzAMRrO1E1LboV2hQ3sDEEfoDdi8IW7Vo/YLAslC+XFCQtThLRHhJZH9eVRKjYWZIjiBc8S+YWFi/mrhAq7gxtZs3MHDsM5dpn0ufw0a8BT4X+At+M7mrwx+6R00LegO8ueuP9+Z/9X/UYpcSP2h+Gpne6+j/MgLQs8S+oY6wf1jcmkL/x8yi5AbhN6lVvj+Kf2x77+3rm3nYXX6dbHXr/MGmU7IVSrR19qPuUJNIb8Gs43qgv6Q+kOfzLM9dS5I/ets57PK15sSnzR/kA/zbPf5Q5HmzzrbU/tT5Urq+svF4CG3v0d2utDf/AAEUdEm
+   eJzVlT0OgzAMRrO1E1JbJDp0gQ7tDeAMvQGbV27Vo/aLRCQL5ccJCVGHt0SEl0T251Yp1VZmSeAEzgn75pWF+ZuVC7iCG1tz0YG7ZZ27bPt8/h4M4Cnwv8Bb8J3L31j80jtoRjAd5C9df6Ez/6v/oxT5kPpjCdXO9l5H+ZEXhJ4l9A1Ngvun5NIW/j9kFiE3CL1Lo/D9c/pT339vXbvOw+r062OvX+cNMp2Qq1Sjr7Ufc4WGSn4NZhv1Ff0x9Wdme+5ckPrNbOezKtSbEp80f8xsD/ljkeaPme25/blyJXf9leIRoLRfwg9ZeGkW
   </data>
  </layer>
  <layer name="Exit" width="32" height="24">
@@ -58,7 +58,7 @@
     <property name="kill" value="true"/>
    </properties>
   </object>
-  <object name="Spikes_bottom_right" x="736" y="736" width="256" height="32">
+  <object name="Spikes_bottom_right" x="736" y="704" width="256" height="32">
    <properties>
     <property name="kill" value="true"/>
    </properties>
@@ -68,6 +68,7 @@
     <property name="kill" value="true"/>
    </properties>
   </object>
+  <object x="736" y="736" width="256" height="32"/>
  </objectgroup>
  <objectgroup name="collectibles" width="32" height="24">
   <properties>

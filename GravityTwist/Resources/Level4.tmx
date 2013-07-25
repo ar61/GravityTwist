@@ -22,7 +22,7 @@
  </tileset>
  <layer name="tiles" width="32" height="24">
   <data encoding="base64" compression="zlib">
-   eJztlssJgDAQRKeCgHr1oqnDcuK2aWnOYgP5IKMhh3dcHhmYIQbAxBwN+H2oxBrvQ6f+CFw72YjCv9A7k0nkV+dfysmcUkZWb/nV7x/+b/vZY7DP3muJnzsG7pnvWpGfnfJu/T7/nv3K/U1iv/r9w//cr5Wo/93ODcWkX4M=
+   eJztlsEJgDAUQzNBwfqPXrRzOE6d09HMxwVsi0RLD+/4eTSQUANgYvYG/D5UYo33oVN/As6NrEThn+mNZBL51fmXcjCn/CCrt/zq9w//t/3sMdhn77XEzx0D98x3rcjPTnm3fp9/z37l/maxX/3+4b/vl0rU/27nAgH1OJs=
   </data>
  </layer>
  <layer name="Exit" width="32" height="24">
@@ -44,12 +44,12 @@
   <object x="0" y="736" width="1024" height="32"/>
   <object x="992" y="32" width="32" height="704"/>
   <object x="0" y="0" width="1024" height="32"/>
-  <object x="544" y="704" width="448" height="32">
+  <object x="544" y="712" width="448" height="24">
    <properties>
     <property name="kill" value="true"/>
    </properties>
   </object>
-  <object x="32" y="32" width="480" height="32">
+  <object x="32" y="32" width="480" height="24">
    <properties>
     <property name="kill" value="true"/>
    </properties>

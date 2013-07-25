@@ -27,7 +27,7 @@
  </tileset>
  <layer name="tiles" width="32" height="24">
   <data encoding="base64" compression="zlib">
-   eJzVljsOwkAMBd2FKhJQQEEDFCBRggQ9iAvADfjkmhwtY7FFQESr/YBJMU0SZ+SNn5VKRCoPK4fvuba6mNompSO2zldbGvGv/rnIYwZTsPAP8Q6gb+RPZQ2bH/rvnNOtcVZ7OBj2f4Kzof8C10z+YyJd97+zY862gbkkx0KeNdfJ/iXuRaCfPSbsM91rQX4ypdl6uTbGPcq0l2L67+EuDP056br/03zk9BfP723WP3Ou827mJ+ea96/7c/yDxrwzhIkj9n4bNa8rdz4=
+   eJzFlk0KwjAQhWdXV4Ja0IUbdaHQpYLutb2A2gv402t6NF8wgRiahKT5WXwEmoTHm8kb2hLRHTSg1qwVx3Smb60Md1tJt7Qw5tjO6e7p7tYc9WwKSqkGufRFL1T9DdFnDVYgh/8ZdKdgEllf538oe3BI2P836vSSanUGl4z+r+CW0L/KAzwD+XedOaYZ5OM/pr5P/094Z0fHXCLHhDyzXA/u/w7aW0d9zDHCPGNzzck/MsWy9fdtAe15gLnk638E7SKQfqz8u/jvMuo3HvW3vY+Q/S9+/Y7q39R/vHP23qP23+QfOWd5T+J/6D+obb8P+b9b1EK3Ljm++2LtFN0vHiVXsw==
   </data>
  </layer>
  <layer name="Exit" width="32" height="24">
@@ -41,13 +41,13 @@
  </objectgroup>
  <layer name="collectibles" width="32" height="24">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFuIAknfSMglEwCkbBUATDobzjG2gHjIJBCdiBmGMA7RcHYokBtF8diDUGyG5QuWIOxBZUMGcU4AYABf8BiA==
+   eJxjYBgFuIAknfSMglEwCkbBUASj5d0oGK6AHYg5BtB+cSCWGED71YFYY4DsBpUr5kBsQQVzRgFuAADAKAF6
   </data>
  </layer>
  <objectgroup name="collisions" width="32" height="24">
-  <object x="0" y="32" width="32" height="704"/>
+  <object x="0" y="32" width="64" height="704"/>
   <object x="0" y="704" width="320" height="64"/>
-  <object x="992" y="32" width="32" height="704"/>
+  <object x="960" y="32" width="64" height="704"/>
   <object x="256" y="320" width="512" height="64"/>
   <object x="640" y="704" width="384" height="64"/>
   <object x="352" y="0" width="384" height="64"/>

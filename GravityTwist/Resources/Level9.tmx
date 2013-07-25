@@ -27,7 +27,7 @@
  </tileset>
  <layer name="tiles" width="32" height="24">
   <data encoding="base64" compression="zlib">
-   eJxLZ2BgSB/FgwrLMDAcAGFZKJZBwuh8EMZlTiQWTIz92PThw9Syn1R7CZk9WOxPY2BIGEj7U5HsB2FgmknAZ38qxM00CX9i7CfXXHSzR+0fXvYD9S0YyPQ3HOwnp/wZLPZTo5ykpv3AMvIAsKw8gM8+dDXDyf/Utn8U0x8DAHjrLk8=
+   eJztls0JwzAMhTWEj+k47QYt5JZL6rU6ikeLTBoQQpb/lBhKDw8R5Ojpc4SIB4A76pGIWs4ietQT9UpELWcReT+uUTV1PDnH+4n5CSBE3b6aiPhzlEvUmQUd/pyf9ie9p0m6h5w/52/xlWr38Fv4S/XeAIt0V1fxr8Q/CmdmcQr/uvfcNQcaz+Ffyl9al9Yu8S/9/mf5//nr+PG9j+X81fJb+4/gp/kR/C37v2b+cmrZ/yl/3JEBd2XQ/PiZX+Lv8Zf4r5LEPyqe/X+bixvur+Gi
   </data>
  </layer>
  <layer name="Exit" width="32" height="24">
@@ -37,7 +37,7 @@
  </layer>
  <objectgroup name="objects" width="32" height="24">
   <object name="SpawnPoint" x="128" y="635" width="64" height="32"/>
-  <object name="ExitPoint" x="864" y="96" width="32" height="64"/>
+  <object name="ExitPoint" x="816" y="112" width="56" height="32"/>
  </objectgroup>
  <layer name="collectibles" width="32" height="24">
   <data encoding="base64" compression="zlib">
