@@ -15,7 +15,7 @@
  </tileset>
  <layer name="tiles" width="32" height="24">
   <data encoding="base64" compression="zlib">
-   eJxTYWBgUCETi1CgFxlHkolFcIhbY8HY1NHKfmLxqP2j9o/aP2r/QNufjoZxqUdXN1z8P2r/qP2j9o/aP1D2D2T7GwDAk+5x
+   eJxTYWBgUCETi1CgFxlHkoiLgbgCan8FFmyNBWMzh1z7y6G0CBl6R+0ftX/U/lH7SbUfVuaBcAmV7U9Hw7jUo6sbqPCH4VH7R+0ftX/U/qFu/0C2vwEuLfDG
   </data>
  </layer>
  <layer name="collisions" width="32" height="24">
