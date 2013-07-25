@@ -1,131 +1,89 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="32" height="24" tilewidth="32" tileheight="32">
- <tileset firstgid="1" name="tiles" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="Tilesheet" tilewidth="32" tileheight="32">
   <image source="Tilesheet.png" width="512" height="256"/>
- </tileset>
- <tileset firstgid="129" name="paths" tilewidth="32" tileheight="32">
-  <image source="ConnectingPaths.png" width="512" height="256"/>
+  <terraintypes>
+   <terrain name="New Terrain" tile="-1"/>
+  </terraintypes>
+  <tile id="6" terrain="0,0,0,0"/>
+  <tile id="7" terrain="0,0,0,0"/>
+  <tile id="22" terrain="0,0,0,0"/>
+  <tile id="23" terrain="0,0,0,0"/>
+  <tile id="24" terrain=",0,,0">
+   <properties>
+    <property name="collectible" value="true"/>
+   </properties>
+  </tile>
+  <tile id="28" terrain="0,0,0,0"/>
+  <tile id="38" terrain="0,0,0,0"/>
+  <tile id="39" terrain="0,0,0,0"/>
+  <tile id="43">
+   <properties>
+    <property name="Collectible" value="true"/>
+   </properties>
+  </tile>
+  <tile id="54" terrain="0,0,0,0"/>
+  <tile id="55" terrain="0,0,0,0"/>
  </tileset>
  <layer name="tiles" width="32" height="24">
   <data encoding="base64" compression="zlib">
-   eJzdlDsOwjAMhr3ARsQQkDgALMywIA7SgfNwDY6KC0K4jh95tFRi+FWrsf3FDyUCQJxZF1QAeBiC+9vnpUjskJ8jUQmf2n3MjYjcqYXvyeSXslvrp2rll+rIpPnxHvIZ0fo19ecrfRZmbdxX41s9J3xxFpqM+oHmruS7u5ozk0q+tpdJ3JWpov9iH6Va19889Ns6/8G51osSvjITiZ/cuZUv7eNEfFD4SVwOf+fsdEH9VXzrTQs/4Gv7m8FX847E9+b/t/wF2ku2l9Je5Ejidvi/E96fj71BezuMTfJ4tXk+Fn+P9mFivtX/E9rnkfhz6gmARSiC
+   eJzVlT0OgzAMRrO1E1LboV2hQ3sDEEfoDdi8IW7Vo/YLAslC+XFCQtThLRHhJZH9eVRKjYWZIjiBc8S+YWFi/mrhAq7gxtZs3MHDsM5dpn0ufw0a8BT4X+At+M7mrwx+6R00LegO8ueuP9+Z/9X/UYpcSP2h+Gpne6+j/MgLQs8S+oY6wf1jcmkL/x8yi5AbhN6lVvj+Kf2x77+3rm3nYXX6dbHXr/MGmU7IVSrR19qPuUJNIb8Gs43qgv6Q+kOfzLM9dS5I/ets57PK15sSnzR/kA/zbPf5Q5HmzzrbU/tT5Urq+svF4CG3v0d2utDf/AAEUdEm
   </data>
  </layer>
- <layer name="paths" width="32" height="24">
+ <layer name="Exit" width="32" height="24">
   <data encoding="base64" compression="zlib">
-   eJxjYBg6oB2KkdntuJXTDbQNA/vb8eBGOtg/2AG+cKGV/7GZ24RkfysajZ4nsIkRiktC9rdhYbcwEJ9WSAHE2k9ID7mgBUojh2EzAbtgYUEPMND5bqTbP9BgoP0/0u0H5XVqlnfkgMEQBujl4igYOgAAFMokmQ==
-  </data>
- </layer>
- <layer name="door1" width="32" height="24">
-  <data encoding="base64" compression="zlib">
-   eJztwzENAAAIA7Dpwb9A3imAp02aANyYCgD8WMMVAH8=
-  </data>
- </layer>
- <layer name="door2" width="32" height="24">
-  <data encoding="base64" compression="zlib">
-   eJxjYBgaQIuBYcGo/SPX/lEwCoYSAOaXhFH7R8EoGAWjYBQMVgAAaBUExw==
-  </data>
- </layer>
- <layer name="door3" width="32" height="24">
-  <data encoding="base64" compression="zlib">
-   eJztw7EJAAAIA7De4/8HundxFhJIAgDAV1Phsno/AKk=
+   eJxjYBhZgBWI2QbQflEgFhtA+1WBWG0A7TcFYrMBtH8UjIJRMApGwSgYBaNgpAMAPGcA7Q==
   </data>
  </layer>
  <objectgroup name="objects" width="32" height="24">
-  <object name="SpawnPoint" x="480" y="416" width="32" height="32"/>
-  <object name="ExitPoint" x="448" y="640" width="64" height="96"/>
+  <object name="SpawnPoint" x="70" y="631" width="79" height="37"/>
+  <object name="ExitPoint" x="896" y="128" width="64" height="32"/>
  </objectgroup>
- <objectgroup name="boxes" width="32" height="24">
-  <object x="128" y="672" width="32" height="32"/>
-  <object x="928" y="288" width="32" height="32"/>
-  <object x="352" y="64" width="32" height="32"/>
- </objectgroup>
+ <layer name="collectibles" width="32" height="24">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2BkA8mBdsAgB6SGz2h40geMhvPQBaNxRzwYLX8GJxgN56EPAE54AMk=
+  </data>
+ </layer>
  <objectgroup name="collisions" width="32" height="24">
-  <object x="0" y="160" width="416" height="32"/>
-  <object x="384" y="448" width="192" height="32"/>
-  <object x="256" y="192" width="32" height="544"/>
+  <object x="0" y="32" width="32" height="640"/>
+  <object x="0" y="672" width="736" height="96"/>
+  <object x="992" y="32" width="32" height="736"/>
+  <object x="288" y="160" width="704" height="64"/>
+  <object x="288" y="384" width="448" height="64"/>
   <object x="0" y="0" width="1024" height="32"/>
-  <object x="992" y="0" width="32" height="640"/>
-  <object x="736" y="608" width="256" height="32"/>
-  <object x="736" y="640" width="32" height="96"/>
-  <object x="0" y="736" width="1024" height="32"/>
-  <object x="0" y="0" width="32" height="736"/>
-  <object x="416" y="32" width="32" height="128"/>
-  <object x="864" y="352" width="128" height="32"/>
-  <object x="864" y="160" width="32" height="192"/>
-  <object x="352" y="352" width="32" height="384"/>
-  <object x="544" y="320" width="32" height="320"/>
-  <object x="288" y="192" width="19" height="117">
+  <object x="288" y="224" width="448" height="32"/>
+  <object x="32" y="448" width="704" height="96"/>
+  <object name="Spikes_bottom_left" x="32" y="416" width="256" height="32">
    <properties>
     <property name="kill" value="true"/>
    </properties>
   </object>
-  <object x="576" y="326" width="22" height="282">
+  <object name="Spikes_bottom_right" x="736" y="736" width="256" height="32">
    <properties>
     <property name="kill" value="true"/>
    </properties>
   </object>
-  <object x="736" y="256" width="128" height="32"/>
-  <object x="736" y="288" width="128" height="22">
+  <object name="Spikes_top_right" x="735" y="225" width="256" height="32">
    <properties>
     <property name="kill" value="true"/>
-   </properties>
-  </object>
-  <object x="704" y="160" width="32" height="160"/>
-  <object x="576" y="608" width="32" height="32"/>
-  <object x="544" y="160" width="160" height="32"/>
-  <object x="419" y="163" width="125" height="22">
-   <properties>
-    <property name="kill" value="true"/>
-   </properties>
-  </object>
-  <object x="576" y="64" width="32" height="32"/>
-  <object x="544" y="32" width="32" height="32"/>
-  <object x="416" y="128" width="128" height="32"/>
-  <object x="384" y="352" width="26" height="96">
-   <properties>
-    <property name="kill" value="true"/>
-   </properties>
-  </object>
-  <object x="288" y="480" width="64" height="32"/>
- </objectgroup>
- <objectgroup name="buttons" width="32" height="24">
-  <object x="32" y="192" width="224" height="32">
-   <properties>
-    <property name="doorLayer" value="door1"/>
-   </properties>
-  </object>
-  <object x="582" y="32" width="26" height="26">
-   <properties>
-    <property name="doorLayer" value="door2"/>
-   </properties>
-  </object>
-  <object x="32" y="32" width="32" height="128">
-   <properties>
-    <property name="doorLayer" value="door3"/>
    </properties>
   </object>
  </objectgroup>
- <objectgroup name="doorCollisions" width="32" height="24">
-  <object x="896" y="256" width="96" height="16">
+ <objectgroup name="collectibles" width="32" height="24">
+  <properties>
+   <property name="Collectible" value="true"/>
+  </properties>
+  <object x="288" y="544" width="32" height="32">
    <properties>
-    <property name="doorLayer" value="door1"/>
+    <property name="Collectible" value="true"/>
    </properties>
   </object>
-  <object x="336" y="32" width="16" height="128">
-   <properties>
-    <property name="doorLayer" value="door2"/>
-   </properties>
-  </object>
-  <object x="704" y="320" width="16" height="96">
-   <properties>
-    <property name="doorLayer" value="door2"/>
-   </properties>
-  </object>
-  <object x="608" y="608" width="128" height="16">
-   <properties>
-    <property name="doorLayer" value="door3"/>
-   </properties>
-  </object>
+  <object x="480" y="640" width="32" height="32"/>
+  <object x="673" y="546" width="31" height="30"/>
+  <object x="960" y="448" width="32" height="32"/>
+  <object x="672" y="256" width="32" height="32"/>
+  <object x="480" y="352" width="32" height="32"/>
+  <object x="288" y="256" width="32" height="32"/>
+  <object x="32" y="192" width="32" height="32"/>
  </objectgroup>
 </map>
