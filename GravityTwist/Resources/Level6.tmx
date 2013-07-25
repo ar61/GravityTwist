@@ -22,7 +22,7 @@
  </tileset>
  <layer name="tiles" width="32" height="24">
   <data encoding="base64" compression="zlib">
-   eJztlD0OgCAMRnsC4g8jizp6A+N15JwezY8EEmMcaBBq0OEthPBo06+aiLQwDVgzMwPlCWdnvyrM8mL/RLSPYAAS/h7eDrRCfun+c7Ho08bsVU31p/pLuwNf8SPHhDy7XIv4sccI+8ztNZYfmXLZyvIn6fn7/en+lPmoof6n/DFI+43n+o65IeaOYfpzcQDoHz3j
+   eJztlE0KgCAQRucE0o9LN9Utgo5T5+xofYJCRAuHSSesxVsI4nOG+cYSkVWmAUsBTCCez35TmPnF/oloH8EANPw9vB1olfza/eeyoU8rs1c11S/1l3ZHvuJHjgl59rlW8WOPEfaZ32ssPzLls5XlT9rz9/vlfsl81FD/U/4UtP0ucH3H3ZByxzH9uTgA1PE+Dw==
   </data>
  </layer>
  <layer name="Exit" width="32" height="24">

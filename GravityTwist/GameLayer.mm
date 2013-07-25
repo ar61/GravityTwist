@@ -140,7 +140,7 @@ CCSpriteBatchNode *parent;
         b2PolygonShape boxDynamicBox;
         boxDynamicBox.SetAsBox(.5f, .5f);
         
-        GameObject *gameBox = [[GameObject alloc] initWithOptions:b2_dynamicBody withPosition:CGPointMake(boxx, boxy) withRotation:YES withPolyShape:boxDynamicBox withDensity:1.0f withFriction:0.3f withRestitution:0.0f withTileIndex:b2Vec2(1, 1) withTileLength:b2Vec2(1, 1) withWorld:world withBatchNode:parent withZLocation:0];
+        GameObject *gameBox = [[GameObject alloc] initWithOptions:b2_dynamicBody withPosition:CGPointMake(boxx, boxy) withRotation:YES withPolyShape:boxDynamicBox withDensity:1.0f withFriction:0.3f withRestitution:0.0f withTileIndex:b2Vec2(3,2) withTileLength:b2Vec2(1, 1) withWorld:world withBatchNode:parent withZLocation:0];
         
         [boxGameObjects addObject:gameBox];
         

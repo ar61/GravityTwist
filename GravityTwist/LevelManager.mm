@@ -23,6 +23,8 @@
     // add layer as a child to scene
     [scene addChild: layer];
     
+    
+    
     // return the scene
     return scene;
 }
@@ -31,6 +33,8 @@
 {
     if( (self=[super init]))
     {
+        image = [CCMenuItemImage itemWithNormalImage:@"Level-Select.png" selectedImage:@"Level-Select.png"];
+        image.anchorPoint = CGPointMake(0, 0);
         // create menu
         [self createLevelSelectScreen];
         [self addChild:menu];
@@ -38,6 +42,7 @@
         [self addChild:menu3];
         [self addChild:menu4];
         [self addChild:menu5];
+        [self addChild:image z:-1];
         
     }
     return self;
@@ -45,18 +50,23 @@
 -(void) createLevelSelectScreen
 {
     [CCMenuItemFont setFontSize:50];
-    int realIndex = 1;
+    
     menu = [CCMenu menuWithItems:nil];
     
+    float padding = 60;
+    int realIndex = 1;
     for(int i = 1; i <= 11; i += 5)
     {
+        
         menuItem = [CCMenuItemFont itemFromString:[NSString stringWithFormat:@"%d", realIndex] block:^(id sender){ [self loadLevel: realIndex]; }];
         menuItem.tag = realIndex;
-        [menu addChild:menuItem];
+        menuItem.color = ccBLACK;
+        [menu addChild:menuItem z:1];
         realIndex += 5;
     }
-    menu.position = ccp(300,425);
-    [menu alignItemsVertically];
+    menu.position = ccp(225,350);
+    [menu alignItemsVerticallyWithPadding:padding];
+    
     
     realIndex = 2;
     menu2 = [CCMenu menuWithItems:nil];
@@ -64,11 +74,12 @@
     {
         menuItem = [CCMenuItemFont itemFromString:[NSString stringWithFormat:@"%d", realIndex] block:^(id sender){ [self loadLevel: realIndex]; }];
         menuItem.tag = realIndex;
+        menuItem.color = ccBLACK;
         [menu2 addChild:menuItem];
         realIndex += 5;
     }
-    menu2.position = ccp(400,425);
-    [menu2 alignItemsVertically];
+    menu2.position = ccp(375,350);
+    [menu2 alignItemsVerticallyWithPadding:padding];
     
     realIndex = 3;
     menu3 = [CCMenu menuWithItems:nil];
@@ -76,11 +87,12 @@
     {
         menuItem = [CCMenuItemFont itemFromString:[NSString stringWithFormat:@"%d", realIndex] block:^(id sender){ [self loadLevel: realIndex]; }];
         menuItem.tag = realIndex;
+        menuItem.color = ccBLACK;
         [menu3 addChild:menuItem];
         realIndex += 5;
     }
-    menu3.position = ccp(500,425);
-    [menu3 alignItemsVertically];
+    menu3.position = ccp(525,350);
+    [menu3 alignItemsVerticallyWithPadding:padding];
     
     realIndex = 4;
     menu4 = [CCMenu menuWithItems:nil];
@@ -88,11 +100,12 @@
     {
         menuItem = [CCMenuItemFont itemFromString:[NSString stringWithFormat:@"%d", realIndex] block:^(id sender){ [self loadLevel: realIndex]; }];
         menuItem.tag = realIndex;
+        menuItem.color = ccBLACK;
         [menu4 addChild:menuItem];
         realIndex += 5;
     }
-    menu4.position = ccp(600,425);
-    [menu4 alignItemsVertically];
+    menu4.position = ccp(675,350);
+    [menu4 alignItemsVerticallyWithPadding:padding];
     
     realIndex = 5;
     menu5 = [CCMenu menuWithItems:nil];
@@ -100,21 +113,26 @@
     {
         menuItem = [CCMenuItemFont itemFromString:[NSString stringWithFormat:@"%d", realIndex] block:^(id sender){ [self loadLevel: realIndex]; }];
         menuItem.tag = realIndex;
+        menuItem.color = ccBLACK;
         [menu5 addChild:menuItem];
         realIndex += 5;
     }
-    menu5.position = ccp(700,425);
-    [menu5 alignItemsVertically];
+    menu5.position = ccp(825,350);
+    [menu5 alignItemsVerticallyWithPadding:padding];
+    
+    
     
     
     levelSelectLabel = [CCMenuItemFont itemFromString:@"Select Level"];
     levelSelectLabel.position = ccp(500,600);
+    levelSelectLabel.color = ccBLACK;
     
     backLabel = [CCMenuItemFont itemFromString:@"Back" block:^(id sender) { [self goBack]; }];
-    backLabel.position = ccp(-150,-350);
+    backLabel.position = ccp(-100,-250);
+    backLabel.color = ccBLACK;
     
     [self addChild: levelSelectLabel];
-    [menu addChild: backLabel];
+    [menu addChild: backLabel z:1];
 }
 
 -(void) loadLevel: (int) levelNumber
@@ -125,7 +143,7 @@
         [[CCDirector sharedDirector] replaceScene:[GameLayer scene:levelNumber]];
 }
 
--(id) goBack
+-(void) goBack
 {
     [[CCDirector sharedDirector] replaceScene:[MenuItemLayer scene]];
 }
@@ -133,9 +151,3 @@
 
 
 @end
-
-
-
-
-
-

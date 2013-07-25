@@ -49,7 +49,7 @@
   <object name="box1" type="box" x="696" y="347" width="64" height="64"/>
  </objectgroup>
  <objectgroup name="buttons" width="32" height="24">
-  <object name="button1" type="button" x="676" y="33" width="153" height="23">
+  <object name="button1" type="button" x="672" y="32" width="160" height="32">
    <properties>
     <property name="doorLayer" value="door1"/>
    </properties>

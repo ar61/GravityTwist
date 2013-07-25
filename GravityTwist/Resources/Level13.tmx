@@ -5,7 +5,7 @@
  </tileset>
  <layer name="tiles" width="32" height="24">
   <data encoding="base64" compression="zlib">
-   eJzdlEsOgjAQhrvRncRFNfEAunGtG+NBuAZa4Tge1aKUTIeZdiivRJI/+YG2H/NCK6X0wrpZZUq9A/peVSMNfCU/o6M+fOj1796THsivAioE/HLC+EuCDzWU31dnJG5drEYwfk71+w1fi1YGrQF8j0fxQzl3fKoWD6ZfXsSMuDkpwHel8A3iUL1aCmuSwg/0ZfvM8e9IffLv4qTy6PQE37htfM02fpxJ9af2cLnAfDenFJ+pySx8ah4n4pP5p/ZJ+Ac0L5SE8SfxQ/+0bAY+178CPnvuSPxY//0tf2X9GvUl1RcSUdzcPs/Re+h31u/9vZ1zYrHF1oT4R+tPE/ND+b9Yfx2Jv6Q++ulAHA==
+   eJztlTsOwjAMQLPABmII3AAWZlhQL1UIyfExEpYsYydxP0QIhidVbeIXf6J655xvzAVYV5BeePKcjDEoVj/dV/PO4k8Z+gpXnDF/Hpv3b6zfypGhrSv1iOav8fy+yvQCCWyNxZ+rOfqlXlydPC93935H8J70I/2BeaRZjZU9GeIvzXwk/o5h8WOeUh2RG4mzIf6gxLT4pT1aLbjfet8+5dfO801+jTn9pV79/b/nXwDLQpza/+kQ/xbYGfdO6d8Dh4b+E3CeyN+SB+gdULM=
   </data>
  </layer>
  <layer name="door1" width="32" height="24">
@@ -24,7 +24,7 @@
   </data>
  </layer>
  <objectgroup name="objects" width="32" height="24">
-  <object name="SpawnPoint" x="480" y="416" width="32" height="32"/>
+  <object name="SpawnPoint" x="480" y="384" width="32" height="32"/>
   <object name="ExitPoint" x="448" y="640" width="64" height="96"/>
  </objectgroup>
  <objectgroup name="boxes" width="32" height="24">

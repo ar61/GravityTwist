@@ -32,6 +32,7 @@
 	// 'layer' is an autorelease object.
 	MenuItemLayer *layer = [MenuItemLayer node];
 	
+    
 	// add layer as a child to scene
 	[scene addChild: layer];
 	
@@ -46,6 +47,8 @@
 		// create menu
 		[self createMenu];
         
+        
+        
 	}
 	return self;
 }
@@ -59,26 +62,31 @@
     // Start Button
     
     CCMenuItemLabel *start = [CCMenuItemFont itemWithString:@"Start Game" target:self selector:@selector(selectLevel)];
-    
-    
-    /* CCMenuItemLabel *start = [CCMenuItemFont itemWithString:@"Start Game" block:^(id sender){
-     +		[[CCDirector sharedDirector] replaceScene: [GameLayer scene]];
-     +	}]; */
+    start.color = ccBLACK;
     
     CCMenuItemLabel *options = [CCMenuItemFont itemWithString:@"Options"];
+    options.color = ccBLACK;
     
     CCMenuItemLabel *credits = [CCMenuItemFont itemWithString:@"Credits"];
+    credits.color = ccBLACK;
     
     CCMenu *menu = [CCMenu menuWithItems:start, options, credits, nil];
-    
-	
 	[menu alignItemsVertically];
 	
+    
 	CGSize size = [[CCDirector sharedDirector] winSize];
 	[menu setPosition:ccp( size.width/2, size.height/2)];
 	
+    [self addChild: menu];
+    
+    
+    CCMenuItemImage *image = [CCMenuItemImage itemWithNormalImage:@"MainMenu.png" selectedImage:@"Mainmenu.png"];
+    image.anchorPoint = CGPointMake(0,0);
+    
+    [self addChild:image z:-1];
+    
+    
 	
-	[self addChild: menu z:-1];
 }
 
 -(void) selectLevel
