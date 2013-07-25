@@ -3,12 +3,9 @@
  <tileset firstgid="1" name="tiles" tilewidth="32" tileheight="32">
   <image source="Tilesheet.png" width="512" height="256"/>
  </tileset>
- <tileset firstgid="129" name="paths" tilewidth="32" tileheight="32">
-  <image source="ConnectingPaths.png" width="512" height="256"/>
- </tileset>
  <layer name="tiles" width="32" height="24">
   <data encoding="base64" compression="zlib">
-   eJzdlDsOwjAMhr3ARsVQkDgALMywVBykA4cpr16Do5JKRDKO7cTpS2L4JTeJ/cWPtASAcmZVTgXAWxG0SCXznRAjkIWP7c7niuTX+vBbRU0C38q25P9i+Fh9+VYdiaRzBRHtEc5fUre/knuh5kbrIvG1mns+14ubMjP0jfi1Bt0rh/9A8Z7KrKb0JIevzGXgdyGy1N/nydXR645Y66+N7tSr/5yPVAsLX+jJJHzuPY7EB4Ef+KXwd5GZNuSfxdf+acUEfGl+E/hi3IH4sfn7W/7C2Usyl9xcpIjj1m69JvvY3jh7++sbxInlFjuj8ffOPozM1+p/cvZ5IP6c+gD+7kgX
+   eJzdlEsOgjAQhrvRncRFNfEAunGtG+NBuAZa4Tge1aKUTIeZdiivRJI/+YG2H/NCK6X0wrpZZUq9A/peVSMNfCU/o6M+fOj1796THsivAioE/HLC+EuCDzWU31dnJG5drEYwfk71+w1fi1YGrQF8j0fxQzl3fKoWD6ZfXsSMuDkpwHel8A3iUL1aCmuSwg/0ZfvM8e9IffLv4qTy6PQE37htfM02fpxJ9af2cLnAfDenFJ+pySx8ah4n4pP5p/ZJ+Ac0L5SE8SfxQ/+0bAY+178CPnvuSPxY//0tf2X9GvUl1RcSUdzcPs/Re+h31u/9vZ1zYrHF1oT4R+tPE/ND+b9Yfx2Jv6Q++ulAHA==
   </data>
  </layer>
  <layer name="door1" width="32" height="24">
