@@ -10,7 +10,12 @@
  </tileset>
  <layer name="tiles" width="32" height="24">
   <data encoding="base64" compression="zlib">
-   eJxzZWBgcANi1wGiQ4E4bADpgfI3pf4XIYBp7X+QHXw4sAid/I/P/lH/Dw3/E0rH+DA++7FhUsMRHyZFnzVUPb5wZAViNjR9FXiwCB45dL0w+/H5XxSIxSjwfzGa/aT6XxWI1Ui0n1SMz/+mQGyGxz4VNL/Cwt8aCdM6/ROb/kgJDxBtC8R2UNoWiW+PxFchwX5i449QOUKt/IdLP73y/2D3/0Dh0fbfwPsfAChVlnc=
+   eJxzZWBgcANi1wGiQ4E4bADpgfI3pf4XIYBp7X+QHXw4sAid/I/P/lH/Dw3/E0rH+DA++7FhUsMRHyZFnzVUPanhWIEHi+CRQ9cLs5+W/i9Gs58a/idkP6mYEv+roPkVFv7WSJjW6Z/Y9EdKeIBoWyC2g9K2SHx7JL4KCfYTG3+Uxj+l9tMr/w92/w8UHm3/Dbz/AbQIlfs=
+  </data>
+ </layer>
+ <layer name="Exit" width="32" height="24">
+  <data encoding="base64" compression="zlib">
+   eJztzTERACAQxMBvwAE4AAfgXxqngjTZmdSpkiSRWurgf6QJ/lfa4P+kC/4l6bcHAAsA7Q==
   </data>
  </layer>
  <objectgroup name="boxes" width="32" height="24">
