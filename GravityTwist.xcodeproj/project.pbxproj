@@ -43,6 +43,7 @@
 		3FA1FDC617A0E346006030B5 /* Level-Select.png in Resources */ = {isa = PBXBuildFile; fileRef = 3FA1FDC417A0E346006030B5 /* Level-Select.png */; };
 		3FA9C32B178F8C04001B5C19 /* LevelManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3FA9C32A178F8C04001B5C19 /* LevelManager.mm */; };
 		3FBAD9DA1766B02000CC4B4C /* MenuItemLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3FBAD9D91766B02000CC4B4C /* MenuItemLayer.mm */; };
+		3FCD6EB117A1EF2000FF473D /* Credits.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3FCD6EB017A1EF2000FF473D /* Credits.mm */; };
 		65156727178FA35E004640E5 /* ButtonData.mm in Sources */ = {isa = PBXBuildFile; fileRef = 65156726178FA35E004640E5 /* ButtonData.mm */; };
 		6584698D179F8736004AA962 /* ConnectingPaths.png in Resources */ = {isa = PBXBuildFile; fileRef = 6584698C179F8736004AA962 /* ConnectingPaths.png */; };
 		C3D9BD17175DD688005BE61F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3D9BD16175DD688005BE61F /* QuartzCore.framework */; };
@@ -266,6 +267,8 @@
 		3FA9C32A178F8C04001B5C19 /* LevelManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LevelManager.mm; sourceTree = "<group>"; };
 		3FBAD9D81766B02000CC4B4C /* MenuItemLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuItemLayer.h; sourceTree = "<group>"; };
 		3FBAD9D91766B02000CC4B4C /* MenuItemLayer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MenuItemLayer.mm; sourceTree = "<group>"; };
+		3FCD6EAF17A1EF2000FF473D /* Credits.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Credits.h; sourceTree = "<group>"; };
+		3FCD6EB017A1EF2000FF473D /* Credits.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Credits.mm; sourceTree = "<group>"; };
 		65156725178FA35E004640E5 /* ButtonData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ButtonData.h; sourceTree = "<group>"; };
 		65156726178FA35E004640E5 /* ButtonData.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ButtonData.mm; sourceTree = "<group>"; };
 		6584698C179F8736004AA962 /* ConnectingPaths.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ConnectingPaths.png; path = Resources/ConnectingPaths.png; sourceTree = "<group>"; };
@@ -723,6 +726,8 @@
 				C3D9BD29175DD689005BE61F /* Resources */,
 				C3D9BD41175DD689005BE61F /* libs */,
 				C3D9BF45175DD690005BE61F /* Supporting Files */,
+				3FCD6EAF17A1EF2000FF473D /* Credits.h */,
+				3FCD6EB017A1EF2000FF473D /* Credits.mm */,
 			);
 			path = GravityTwist;
 			sourceTree = "<group>";
@@ -1562,6 +1567,7 @@
 				3FA9C32B178F8C04001B5C19 /* LevelManager.mm in Sources */,
 				65156727178FA35E004640E5 /* ButtonData.mm in Sources */,
 				3F4C2B1D1794C00C002E33AC /* PauseScreen.mm in Sources */,
+				3FCD6EB117A1EF2000FF473D /* Credits.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

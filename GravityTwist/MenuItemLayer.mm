@@ -14,6 +14,7 @@
 #import "LevelManager.h"
 #import "GameLayer.h"
 #import "SimpleAudioEngine.h"
+#import "Credits.h"
 
 #pragma mark - MenuItemLayer
 
@@ -98,7 +99,7 @@
 
 
 -(void) displayCredits {
-    //[[CCDirector sharedDirector] replaceScene:[Credits scene]];
+    [[CCDirector sharedDirector] replaceScene:[Credits scene]];
 }
 
 
