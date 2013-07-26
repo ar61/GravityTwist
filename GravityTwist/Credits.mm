@@ -35,8 +35,6 @@
 		// create menu
 		[self createCredits];
         
-        [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"background.mp3" loop:YES];
-        
 	}
 	return self;
 }

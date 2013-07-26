@@ -20,7 +20,7 @@
 #import "AppDelegate.h"
 #import "ButtonData.h"
 #import "GameObject.h"
-
+#import "Credits.h"
 #import "GLES-Render.h"
  
 //static NSString *levelFileName;
@@ -579,7 +579,7 @@ CCSpriteBatchNode *parent;
         [[CCDirector sharedDirector] replaceScene:[GameLayer scene:levelNum]];
     else {
         CCLOG(@"No level exists. Loading the Credits scene!!!");
-        [[CCDirector sharedDirector] replaceScene:[MenuItemLayer scene]];
+        [[CCDirector sharedDirector] replaceScene:[Credits scene]];
     }
 }
 
